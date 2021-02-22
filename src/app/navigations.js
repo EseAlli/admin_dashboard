@@ -5,196 +5,138 @@ export const navigations = [
     icon: "dashboard"
   },
   {
-    name: "Forms",
-    icon: "description",
+    name: "Orders",
+    path: "/orders/",
+    icon: "description"
+  },
+  {
+    name: "Products",
+    icon: "local_grocery_store",
     children: [
       {
-        name: "Basic",
+        name: "Products List",
+        path: "/products",
+        iconText: "B"
+      },
+      {
+        name: "New Products",
+        path: "/products/details",
+        iconText: "E"
+      }
+    ]
+  },
+  {
+    name: "Customers",
+    icon: "group",
+    children: [
+      {
+        name: "Customer List",
         path: "/forms/basic",
         iconText: "B"
       },
       {
-        name: "Editor",
+        name: "New Customer",
         path: "/forms/editor",
         iconText: "E"
       }
     ]
   },
   {
-    name: "Drag and Drop",
-    icon: "control_camera",
-    path: "/others/drag-and-drop"
-  },
-  {
-    name: "Multilevel",
-    icon: "trending_up",
+    name: "Sellers",
+    icon: "wc",
     children: [
       {
-        name: "Level 1",
-        icon: "list",
-        children: [
-          {
-            name: "Item 1",
-            path: "/charts/victory-charts",
-            iconText: "1"
-          },
-          {
-            name: "Item 2",
-            path: "/charts/react-vis",
-            iconText: "2"
-          },
-          {
-            name: "Item 3",
-            path: "/charts/recharts",
-            iconText: "3"
-          },
-          {
-            name: "Item 4",
-            path: "/charts/echarts",
-            iconText: "4"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    name: "Utilities",
-    icon: "format_list_bulleted",
-    children: [
-      {
-        name: "Color",
-        path: "/utilities/color",
-        iconText: "C"
-      },
-      {
-        name: "Spacing",
-        path: "/utilities/spacing",
-        iconText: "S"
-      },
-      {
-        name: "Typography",
-        path: "/utilities/typography",
-        iconText: "T"
-      },
-      {
-        name: "Display",
-        path: "/utilities/display",
-        iconText: "D"
-      }
-    ]
-  },
-  {
-    name: "Sessions",
-    icon: "trending_up",
-    children: [
-      {
-        name: "Sign in",
-        iconText: "SI",
-        path: "/session/signin"
-      },
-      {
-        name: "Sign up",
-        iconText: "SU",
-        path: "/session/signup"
-      },
-      {
-        name: "Forgot password",
-        iconText: "FP",
-        path: "/session/forgot-password"
-      },
-      {
-        name: "Error",
-        iconText: "404",
-        path: "/session/404"
-      }
-    ]
-  },
-  
-  
-
-  {
-    name: "UI Kits",
-    icon: "favorite",
-    badge: { value: "50+", color: "secondary" },
-    children: [
-      {
-        name: "Auto Complete",
-        path: "/material/autocomplete",
-        iconText: "A"
-      },
-      {
-        name: "Buttons",
-        path: "/material/buttons",
+        name: "Sellers List",
+        path: "/forms/basic",
         iconText: "B"
       },
       {
-        name: "Checkbox",
-        path: "/material/checkbox",
-        iconText: "C"
-      },
-      {
-        name: "Dialog",
-        path: "/material/dialog",
-        iconText: "D"
-      },
-      {
-        name: "Expansion Panel",
-        path: "/material/expansion-panel",
+        name: "New Sellers",
+        path: "/forms/editor",
         iconText: "E"
-      },
-      {
-        name: "Form",
-        path: "/material/form",
-        iconText: "F"
-      },
-      {
-        name: "Icons",
-        path: "/material/icons",
-        iconText: "I"
-      },
-      {
-        name: "Menu",
-        path: "/material/menu",
-        iconText: "M"
-      },
-      {
-        name: "Progress",
-        path: "/material/progress",
-        iconText: "P"
-      },
-      {
-        name: "Radio",
-        path: "/material/radio",
-        iconText: "R"
-      },
-      {
-        name: "Switch",
-        path: "/material/switch",
-        iconText: "S"
-      },
-      {
-        name: "Slider",
-        path: "/material/slider",
-        iconText: "S"
-      },
-      {
-        name: "Snackbar",
-        path: "/material/snackbar",
-        iconText: "S"
-      },
-      {
-        name: "Table",
-        path: "/material/table",
-        iconText: "T"
       }
     ]
   },
-  
   {
-    name: "Map",
-    icon: "add_location",
-    path: "/map"
+    name: "Tags",
+    icon: "local_offer",
+    children: [
+      {
+        name: "Tags List",
+        path: "/forms/basic",
+        iconText: "B"
+      },
+      {
+        name: "New Tags",
+        path: "/forms/editor",
+        iconText: "E"
+      }
+    ]
   },
-  
+  {
+    name: "Inventory Management",
+    icon: "store",
+    path: "/others/drag-and-drop"
+  },
+{
+    name: "User Management",
+    icon: "group_add",
+    children: [
+      {
+        name: "Staff",
+        path: "/staff",
+        iconText: "B"
+      },
+      {
+        name: "Manager",
+        path: "/managers",
+        iconText: "E"
+      },
+      {
+        name: "Group",
+        path: "/groups",
+        iconText: "E"
+      },
+      {
+        name: "Membership",
+        path: "/membership",
+        iconText: "E"
+      }
+    ]
+  },
+
+  {
+    name: "Shipping",
+    icon: "local_shipping",
+    children: [
+      {
+        name: "Users List",
+        path: "/forms/basic",
+        iconText: "B"
+      },
+      {
+        name: "New User",
+        path: "/forms/editor",
+        iconText: "E"
+      }
+    ]
+  },
+
+   {
+    name: "Draft Orders",
+    icon: "border_color",
+    children: [
+      {
+        name: "Users List",
+        path: "/forms/basic",
+        iconText: "B"
+      },
+      {
+        name: "New User",
+        path: "/forms/editor",
+        iconText: "E"
+      }
+    ]
+  },
   
 ];

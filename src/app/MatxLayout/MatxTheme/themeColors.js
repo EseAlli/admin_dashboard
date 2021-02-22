@@ -45,7 +45,7 @@ export const themeColors = {
         contrastText: "#ffffff"
       },
       secondary: {
-        main: "#ff9e43",
+        main: "#fffff",
         contrastText: textLight.primary
       },
       background: {
