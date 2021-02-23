@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Breadcrumb, SimpleCard } from "matx";
 import CustomersList from "./CustomersList";
-// import http from "../../services/api"
+import http from "../../services/api"
 
 class Customers extends Component {
     constructor(props) {
@@ -10,18 +10,18 @@ class Customers extends Component {
             customers : []
         }
 
-       
+       this.getCustomers()
        
     }
 
-    // getCustomers = () =>{
-    //     http.get(`/afrimash/users`)
-    //     .then((response)=> {
-    //         this.setState({
-    //             customer: response.data.data
-    //         })
-    //     })
-    // }
+    getCustomers = () =>{
+        http.get(`/afrimash/customers`)
+        .then((response)=> {
+            this.setState({
+                customers: response.data.object
+            })
+        })
+    }
 
   render() {
     return (
@@ -35,7 +35,7 @@ class Customers extends Component {
           />
         </div>
         <SimpleCard title="Customers">
-        <CustomersList />
+        <CustomersList customers={this.state.customers}/>
         </SimpleCard>
       </div>
     );

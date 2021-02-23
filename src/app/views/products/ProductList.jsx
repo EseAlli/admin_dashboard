@@ -11,58 +11,9 @@ import {
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import Checkbox from "@material-ui/core/Checkbox";
 
-const subscribarList = [
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  }
-];
 
-const OrderList = () => {
+const ProductList = ({products}) => {
+
   return (
     <div className="w-100 overflow-auto">
       <Table style={{ whiteSpace: "pre" }}>
@@ -91,7 +42,7 @@ const OrderList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList.map((subscriber, index) => (
+          {products.map((product, index) => (
             <TableRow key={index}>
               <TableCell>
               <Checkbox
@@ -102,31 +53,31 @@ const OrderList = () => {
               />
             </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                <img style={{width: "50%"}} src={subscriber.image} alt="Product Image"/>
+                <img style={{width: "50%"}} src={product.image} alt="Product Image"/>
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.name}
+                {product.name}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.company}
+                {product.sku}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {product.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {product.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                ${subscriber.amount}
+                ₦{product.price}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                <p>Brand: {product.brandId.name}</p>
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {product.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {product.storeId.sellerId.name}
               </TableCell>
               <TableCell className="px-0">
               <IconButton>
@@ -156,4 +107,4 @@ const OrderList = () => {
   );
 };
 
-export default OrderList;
+export default ProductList;
