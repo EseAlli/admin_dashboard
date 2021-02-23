@@ -9,6 +9,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { Breadcrumb, SimpleCard } from "matx";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const subscribarList = [
@@ -62,48 +63,36 @@ const subscribarList = [
   }
 ];
 
-const OrderList = () => {
+const Withdrawal = () => {
   return (
+    <div className="m-sm-30">
+    <div  className="mb-sm-30">
+          <Breadcrumb
+            routeSegments={[
+              { name: "Withdrawal", path: "/withdrawal" },
+              { name: "Withdrawal" }
+            ]}
+          />
+    </div>
+    <SimpleCard title="Withdrawals">
     <div className="w-100 overflow-auto">
+      
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
-            <TableCell>
-              <Checkbox
-                value="checked"
-                inputProps={{
-                  "aria-label": "primary checkbox"
-                }}
-              />
-            </TableCell>
-            <TableCell className="px-0">
-              <Icon color="success">photo</Icon>
-            </TableCell>
-            <TableCell className="px-0">Name</TableCell>
-            <TableCell className="px-0">SKU</TableCell>
-            <TableCell className="px-0">Status</TableCell>
-            <TableCell className="px-0">Stock</TableCell>
-            <TableCell className="px-0">Price</TableCell>
-            <TableCell className="px-0">Taxonomies</TableCell>
-            <TableCell className="px-0">Date</TableCell>
+            <TableCell className="px-0">Invoice ID</TableCell>
+            <TableCell className="px-0">Order IDs</TableCell>
             <TableCell className="px-0">Seller</TableCell>
-            <TableCell className="px-0"></TableCell>
+            <TableCell className="px-0">Amount</TableCell>
+            <TableCell className="px-0">Charges</TableCell>
+            <TableCell className="px-0">Payment</TableCell>
+            <TableCell className="px-0">Note</TableCell>
+            <TableCell className="px-0">Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {subscribarList.map((subscriber, index) => (
             <TableRow key={index}>
-              <TableCell>
-              <Checkbox
-                value="checked"
-                inputProps={{
-                  "aria-label": "primary checkbox"
-                }}
-              />
-            </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                <img style={{width: "50%"}} src={subscriber.image} alt="Product Image"/>
-              </TableCell>
               <TableCell className="px-0 capitalize">
                 {subscriber.name}
               </TableCell>
@@ -128,32 +117,14 @@ const OrderList = () => {
               <TableCell className="px-0 capitalize">
                 {subscriber.status}
               </TableCell>
-              <TableCell className="px-0">
-              <IconButton>
-                  <Icon color="success">create</Icon>
-                </IconButton>    
-              <Link
-                to={{
-                  pathname: '/product/details',
-                  state: {
-                    direct: 'product',
-                    }
-                  }}
-              >
-                <IconButton>
-                  <Icon color="success">open_in_new</Icon>
-                </IconButton>                    
-              </Link>
-                <IconButton>
-                  <Icon color="success">delete</Icon>
-                </IconButton>     
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </div>
+    </SimpleCard>
+</div>
   );
 };
 
-export default OrderList;
+export default Withdrawal;

@@ -9,6 +9,10 @@ import orderRoutes from "./views/orders/OrderRoutes";
 
 import productRoutes from "./views/products/ProductRoutes";
 
+import customerRoutes from "./views/customers/CustomerRoutes"
+
+import paymentAndFulfilmentRoutes from "./views/Payment&Fulfilment/PaymentAndFulfilmentRoutes"
+
 import userRoutes from "./views/user-management/UserRoutes"
 
 import materialRoutes from "./views/material-kit/MaterialRoutes";
@@ -36,7 +40,9 @@ const routes = [
   ...dashboardRoutes,
   ...orderRoutes,
   ...productRoutes,
+  ...paymentAndFulfilmentRoutes,
   ...userRoutes,
+  ...customerRoutes,
   ...materialRoutes,
   ...utilitiesRoutes,
   ...dragAndDropRoute,

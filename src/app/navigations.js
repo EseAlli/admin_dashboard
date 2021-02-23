@@ -20,10 +20,25 @@ export const navigations = [
       },
       {
         name: "New Products",
-        path: "/products/details",
+        path: "/product/details",
         iconText: "E"
       }
     ]
+  },
+  {
+    name: "Withdrawal",
+    icon: "local_grocery_store",
+    path: "/withdrawal"
+  },
+  {
+    name: "Coupons",
+    icon: "local_grocery_store",
+    path: "/coupons"
+  },
+  {
+    name: "Sellers",
+    icon: "wc",
+    path: '/vendors'
   },
   {
     name: "Customers",
@@ -31,7 +46,7 @@ export const navigations = [
     children: [
       {
         name: "Customer List",
-        path: "/forms/basic",
+        path: "/customers",
         iconText: "B"
       },
       {
@@ -42,43 +57,6 @@ export const navigations = [
     ]
   },
   {
-    name: "Sellers",
-    icon: "wc",
-    children: [
-      {
-        name: "Sellers List",
-        path: "/forms/basic",
-        iconText: "B"
-      },
-      {
-        name: "New Sellers",
-        path: "/forms/editor",
-        iconText: "E"
-      }
-    ]
-  },
-  {
-    name: "Tags",
-    icon: "local_offer",
-    children: [
-      {
-        name: "Tags List",
-        path: "/forms/basic",
-        iconText: "B"
-      },
-      {
-        name: "New Tags",
-        path: "/forms/editor",
-        iconText: "E"
-      }
-    ]
-  },
-  {
-    name: "Inventory Management",
-    icon: "store",
-    path: "/others/drag-and-drop"
-  },
-{
     name: "User Management",
     icon: "group_add",
     children: [
@@ -101,29 +79,78 @@ export const navigations = [
         name: "Membership",
         path: "/membership",
         iconText: "E"
-      }
-    ]
-  },
-
-  {
-    name: "Shipping",
-    icon: "local_shipping",
-    children: [
-      {
-        name: "Users List",
-        path: "/forms/basic",
-        iconText: "B"
       },
       {
-        name: "New User",
-        path: "/forms/editor",
+        name: "Followers",
+        path: "/followers",
         iconText: "E"
       }
     ]
   },
+  {
+    name: "Refund",
+    icon: "local_grocery_store",
+    path: '/refund_requests'
+  },
 
-   {
-    name: "Draft Orders",
+
+  // {
+  //   name: "Tags",
+  //   icon: "local_offer",
+  //   children: [
+  //     {
+  //       name: "Tags List",
+  //       path: "/forms/basic",
+  //       iconText: "B"
+  //     },
+  //     {
+  //       name: "New Tags",
+  //       path: "/forms/editor",
+  //       iconText: "E"
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: "Inventory Management",
+  //   icon: "store",
+  //   path: "/others/drag-and-drop"
+  // },  
+
+  // {
+  //   name: "Shipping",
+  //   icon: "local_shipping",
+  //   children: [
+  //     {
+  //       name: "Users List",
+  //       path: "/forms/basic",
+  //       iconText: "B"
+  //     },
+  //     {
+  //       name: "New User",
+  //       path: "/forms/editor",
+  //       iconText: "E"
+  //     }
+  //   ]
+  // },
+
+  //  {
+  //   name: "Draft Orders",
+  //   icon: "border_color",
+  //   children: [
+  //     {
+  //       name: "Users List",
+  //       path: "/forms/basic",
+  //       iconText: "B"
+  //     },
+  //     {
+  //       name: "New User",
+  //       path: "/forms/editor",
+  //       iconText: "E"
+  //     }
+  //   ]
+  // },
+  {
+    name: "Reviews",
     icon: "border_color",
     children: [
       {
@@ -138,5 +165,39 @@ export const navigations = [
       }
     ]
   },
+
+  // {
+  //   name: "Reports",
+  //   icon: "border_color",
+  //   children: [
+  //     {
+  //       name: "Users List",
+  //       path: "/forms/basic",
+  //       iconText: "B"
+  //     },
+  //     {
+  //       name: "New User",
+  //       path: "/forms/editor",
+  //       iconText: "E"
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   name: "Support",
+  //   icon: "border_color",
+  //   children: [
+  //     {
+  //       name: "Users List",
+  //       path: "/forms/basic",
+  //       iconText: "B"
+  //     },
+  //     {
+  //       name: "New User",
+  //       path: "/forms/editor",
+  //       iconText: "E"
+  //     }
+  //   ]
+  // },
   
 ];

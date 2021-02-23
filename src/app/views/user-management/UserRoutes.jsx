@@ -15,6 +15,14 @@ const Groups = MatxLoadable({
   loader: () =>  import("./Groups")
 })
 
+const Sellers = MatxLoadable({
+  loader: () => import("./Sellers")
+})
+
+const Followers = MatxLoadable({
+  loader: () => import("./Followers")
+})
+
 const userRoutes = [
   {
     path: "/membership",
@@ -31,7 +39,16 @@ const userRoutes = [
   {
     path: "/groups/",
     component: Groups
+  },
+  {
+    path: "/vendors",
+    component: Sellers
+  },
+  {
+    path: "/followers",
+    component: Followers
   }
+
 ];
 
 export default userRoutes;

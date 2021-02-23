@@ -61,14 +61,14 @@ const OrderList = () => {
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
-            <TableCell className="px-0">Order No.</TableCell>
-            <TableCell className="px-0">Customer</TableCell>
-            <TableCell className="px-0">Product</TableCell>
+            <TableCell className="px-0">Order</TableCell>
+            <TableCell className="px-0">Purchased</TableCell>
+            <TableCell className="px-0">Billing Address</TableCell>
+            <TableCell className="px-0">Shipping Address</TableCell>
+            <TableCell className="px-0">Gross Sales</TableCell>
+            <TableCell className="px-0">Admin Fee</TableCell>
             <TableCell className="px-0">Date</TableCell>
-            <TableCell className="px-0">Status</TableCell>
-            <TableCell className="px-0">Method</TableCell>
-            <TableCell className="px-0">Total</TableCell>
-            <TableCell className="px-0">View</TableCell>
+            <TableCell className="px-0">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -106,7 +106,16 @@ const OrderList = () => {
               >
                 <IconButton>
                   <Icon color="success">open_in_new</Icon>
-                </IconButton>                    
+                </IconButton> 
+                <IconButton>
+                  <Icon color="success">create</Icon>
+                </IconButton>
+                <IconButton>
+                  <Icon color="success">check</Icon>
+                </IconButton>
+                <IconButton>
+                  <Icon color="success">insert_drive_file</Icon>
+                </IconButton>                               
               </Link>
                 
               </TableCell>
