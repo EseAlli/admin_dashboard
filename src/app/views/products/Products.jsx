@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Breadcrumb, SimpleCard } from "matx";
 import ProductList from "./ProductList";
-import http from "../../services/api"
+import http from "../../services/api";
+import {
+  IconButton,
+  Icon,
+  Button
+} from "@material-ui/core"
 
 class Products extends Component {
   constructor(props){
@@ -36,6 +41,7 @@ class Products extends Component {
           />
         </div>
         <SimpleCard title="All Products">
+        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}>Create New Product<Icon>add</Icon></Button></IconButton>
         <ProductList products={this.state.products}/>
         </SimpleCard>
       </div>

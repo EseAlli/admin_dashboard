@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Breadcrumb, SimpleCard } from "matx";
 import GroupList from "./GroupList";
+import {
+  IconButton,
+  Icon,
+  Button
+} from "@material-ui/core"
 
 class Groups extends Component {
   render() {
@@ -15,6 +20,7 @@ class Groups extends Component {
           />
         </div>
         <SimpleCard title="Groups">
+         <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
         <GroupList/>
         </SimpleCard>
       </div>

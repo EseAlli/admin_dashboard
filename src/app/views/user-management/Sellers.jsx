@@ -6,6 +6,7 @@ import {
   TableBody,
   IconButton,
   Icon,
+  Button,
   TableRow
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
@@ -75,6 +76,7 @@ const Sellers = () => {
           />
     </div>
     <SimpleCard title="Sellers">
+    <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
     <div className="w-100 overflow-auto">
       
       <Table style={{ whiteSpace: "pre" }}>

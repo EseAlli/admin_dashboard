@@ -71,7 +71,7 @@ const ProductList = ({products}) => {
                 ₦{product.price}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                <p>Brand: {product.brandId.name}</p>
+                <p>Brand: {product.brandId.name }</p>
               </TableCell>
               <TableCell className="px-0 capitalize">
                 {product.status}

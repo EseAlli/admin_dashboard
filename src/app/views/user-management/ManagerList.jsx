@@ -59,6 +59,7 @@ const ManagerList = () => {
   return (
     <div className="w-100 overflow-auto">
       <Table style={{ whiteSpace: "pre" }}>
+      
         <TableHead>
           <TableRow>
             <TableCell className="px-0">Manager</TableCell>

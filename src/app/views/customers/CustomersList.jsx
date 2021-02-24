@@ -21,10 +21,10 @@ const CustomersList = ({customers}) => {
             <TableCell className="px-0">Username</TableCell>
             <TableCell className="px-0">Email</TableCell>
             <TableCell className="px-0">Seller</TableCell>
-            <TableCell className="px-0">Location</TableCell>
-            <TableCell className="px-0">Orders</TableCell>
-            <TableCell className="px-0">Money Spent</TableCell>
-            <TableCell className="px-0">Last Order</TableCell>
+            {/* <TableCell className="px-0">Location</TableCell>
+            <TableCell className="px-0">Orders</TableCell> */}
+            {/* <TableCell className="px-0">Money Spent</TableCell> */}
+            {/* <TableCell className="px-0">Last Order</TableCell> */}
             <TableCell className="px-0"></TableCell>
           </TableRow>
         </TableHead>
@@ -40,18 +40,18 @@ const CustomersList = ({customers}) => {
               <TableCell className="px-0 capitalize" align="left">
                 {customer.email}
               </TableCell>
-              <TableCell className="px-0 capitalize">
+              {/* <TableCell className="px-0 capitalize">
                 {customer.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
+              </TableCell> */}
+              {/* <TableCell className="px-0 capitalize">
                 {customer.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
+              </TableCell> */}
+              {/* <TableCell className="px-0 capitalize">
                 {customer.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
+              </TableCell> */}
+              {/* <TableCell className="px-0 capitalize">
                 {customer.status}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="px-0 capitalize">
                 {customer.status}
               </TableCell>

@@ -27,12 +27,12 @@ export const navigations = [
   },
   {
     name: "Withdrawal",
-    icon: "local_grocery_store",
+    icon: "credit_card",
     path: "/withdrawal"
   },
   {
     name: "Coupons",
-    icon: "local_grocery_store",
+    icon: "card_giftcard",
     path: "/coupons"
   },
   {
@@ -89,7 +89,7 @@ export const navigations = [
   },
   {
     name: "Refund",
-    icon: "local_grocery_store",
+    icon: "cached",
     path: '/refund_requests'
   },
 

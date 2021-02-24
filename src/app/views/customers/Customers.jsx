@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Breadcrumb, SimpleCard } from "matx";
 import CustomersList from "./CustomersList";
-import http from "../../services/api"
+import http from "../../services/api";
+import {
+  IconButton,
+  Icon,
+  Button
+} from "@material-ui/core"
 
 class Customers extends Component {
     constructor(props) {
@@ -35,6 +40,7 @@ class Customers extends Component {
           />
         </div>
         <SimpleCard title="Customers">
+        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
         <CustomersList customers={this.state.customers}/>
         </SimpleCard>
       </div>

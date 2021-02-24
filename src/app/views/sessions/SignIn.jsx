@@ -12,6 +12,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { connect } from "react-redux";
 import { PropTypes } from "prop-types";
 import { withRouter } from "react-router-dom";
+import http from "../../services/api"
 
 import { loginWithEmailAndPassword } from "../../redux/actions/LoginActions";
 
@@ -31,8 +32,8 @@ const styles = theme => ({
 
 class SignIn extends Component {
   state = {
-    email: "watson@example.com",
-    password: "testpass",
+    email: "",
+    password: "",
     agreement: ""
   };
   handleChange = event => {
