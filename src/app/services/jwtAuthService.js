@@ -1,11 +1,15 @@
 import axios from "axios";
 import localStorageService from "./localStorageService";
-import http from "./api"
+import http from "./api";
+import history from "history.js";
+
 
 class JwtAuthService {
   constructor (props){
   
   }
+
+  
   
   loginWithEmailAndPassword = (userlog) => {
     console.log(userlog)
@@ -13,7 +17,19 @@ class JwtAuthService {
     .post("/afrimash/authenticate", userlog)
     .then((response)=>{
       if(response.jwt){
+        const jwt = response.jwt
+          localStorage.setItem("session_token", jwt)
         this.setSession(response.jwt)
+        http
+        .get("//afrimash/users/logged-in-details")
+        .then((response)=>{
+          if(response.object.status === 'OK'){
+            history.push("/dashboard/analytics")
+            this.setUser(response.object)
+          } else if (response.data.errorMsg != null){
+            return
+          }
+        })
       }
     })
   }
@@ -33,15 +49,6 @@ class JwtAuthService {
     });
   };
 
-  loginWithEmailAndPassword = () => {
-    http
-    .post("/afrimash/authenticate")
-    .then((response)=>{
-      if(response.jwt){
-        this.setSession(response.jwt)
-      }
-    })
-  }
 
   logout = () => {
     this.setSession(null);

@@ -18,12 +18,12 @@ export function loginWithEmailAndPassword(state) {
     // console.log(userlog)
 
     jwtAuthService
-      .loginWithEmailAndPassword("admin@jodao.com", "@root")
+      .loginWithEmailAndPassword(userlog)
       .then(user => {
         dispatch(setUserData(user));
 
         history.push({
-          pathname: "/"
+          pathname: "/home"
         });
 
         return dispatch({

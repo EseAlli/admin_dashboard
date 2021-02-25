@@ -32,9 +32,8 @@ const styles = theme => ({
 
 class SignIn extends Component {
   state = {
-    email: "",
+    username: "",
     password: "",
-    agreement: ""
   };
   handleChange = event => {
     event.persist();
@@ -46,7 +45,7 @@ class SignIn extends Component {
     this.props.loginWithEmailAndPassword({ ...this.state });
   };
   render() {
-    let { email, password } = this.state;
+    let { username, password } = this.state;
     let { classes } = this.props;
     return (
       <div className="signup flex flex-center w-100 h-100vh">
@@ -64,15 +63,15 @@ class SignIn extends Component {
                     <TextValidator
                       className="mb-24 w-100"
                       variant="outlined"
-                      label="Email"
+                      label="Username"
                       onChange={this.handleChange}
                       type="email"
-                      name="email"
-                      value={email}
+                      name="username"
+                      value={username}
                       validators={["required", "isEmail"]}
                       errorMessages={[
                         "this field is required",
-                        "email is not valid"
+                        "User is not valid"
                       ]}
                     />
                     <TextValidator

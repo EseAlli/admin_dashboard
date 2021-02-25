@@ -5,7 +5,7 @@ export default new (class Http {
 
 
   AxiosSetup = () => {
-    const token = localStorage.getItem("session_token")
+    const token = localStorage.getItem("jwt_token")
     const axiosInstance = Axios.create({
       baseURL: this.API_URL,
     })
@@ -29,7 +29,7 @@ export default new (class Http {
         response.data.status.msg ===
         "Login is required to access this resource!"
       ) {
-        localStorage.removeItem("session_token")
+        localStorage.removeItem("jwt_token")
         window.location.reload()
       }
       return response
@@ -45,7 +45,7 @@ export default new (class Http {
         response.data.status.msg ===
         "Login is required to access this resource!"
       ) {
-        localStorage.removeItem("session_token")
+        localStorage.removeItem("jwt_token")
         window.location.reload()
       }
       return response
@@ -62,7 +62,7 @@ export default new (class Http {
         response.data.status.msg ===
         "Login is required to access this resource!"
       ) {
-        localStorage.removeItem("session_token")
+        localStorage.removeItem("jwt_token")
         window.location.reload()
       }
       return response
@@ -78,7 +78,7 @@ export default new (class Http {
         response.data.status.msg ===
         "Login is required to access this resource!"
       ) {
-        localStorage.removeItem("session_token")
+        localStorage.removeItem("jwt_token")
         window.location.reload()
       }
       return response

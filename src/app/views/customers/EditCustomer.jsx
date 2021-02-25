@@ -40,7 +40,7 @@ function EditCustomer({location}) {
         .put("/afrimash/customers", state)
         .then((response)=>{
            if (response.data.status === "OK"){
-               const nextPage = props.location.state && props.location.state.from ? props.location.state.form : "/cutomers"
+               const nextPage = props.location.state && props.location.state.from ? props.location.state.from : "/cutomers"
                history.push(nextPage)
            }else if(response.data.errorMsg !== null) {
                return
