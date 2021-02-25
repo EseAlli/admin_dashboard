@@ -12,18 +12,7 @@ export const navigations = [
   {
     name: "Products",
     icon: "local_grocery_store",
-    children: [
-      {
-        name: "Products List",
-        path: "/products",
-        iconText: "B"
-      },
-      {
-        name: "New Products",
-        path: "/product/details",
-        iconText: "E"
-      }
-    ]
+    path: "/products"
   },
   {
     name: "Withdrawal",
@@ -43,18 +32,7 @@ export const navigations = [
   {
     name: "Customers",
     icon: "group",
-    children: [
-      {
-        name: "Customer List",
-        path: "/customers",
-        iconText: "B"
-      },
-      {
-        name: "New Customer",
-        path: "/forms/editor",
-        iconText: "E"
-      }
-    ]
+    path: "/customers"
   },
   {
     name: "User Management",

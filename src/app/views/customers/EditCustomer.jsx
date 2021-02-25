@@ -21,29 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewCustomer() {
-    const initialState = {
-    email: "",
-    country: "",
-    password: "",
-    lastName: "",
-    firstName: "",
-    mobileNo: "",
-    state: "",
-    username: "",
-    seller: "",
-    companyName: "",
-    postcode: "",
-    address1: "",
-    address2: "",
-    password: "password",
-    secretAnswer: "secret"
-    };
-
+function EditCustomer({location}) {
+    const State = location.state;
+    const {currState} = State
     const history = useHistory();
 
     const classes = useStyles()
-    const [state, setState] = useState(initialState);
+    const [state, setState] = useState(currState);
 
     const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +37,7 @@ function NewCustomer() {
 
     const handleSubmit = (props) => {
         http
-        .post("/afrimash/customers", state)
+        .put("/afrimash/customers", state)
         .then((response)=>{
            if (response.data.status === "OK"){
                const nextPage = props.location.state && props.location.state.from ? props.location.state.form : "/cutomers"
@@ -69,19 +53,19 @@ function NewCustomer() {
             <div  className="mb-sm-30">
                 <Breadcrumb
                     routeSegments={[
-                    { name: "Customer", path: "/customers" },
-                    { name: "New Customer" }
+                    { name: "Customer", path: "/Customer/New" },
+                    { name: "Edit Customer" }
                     ]}
                 />
             </div>
-            <SimpleCard title="Create New Customer">
+            <SimpleCard title="Edit Customer">
                 <div className="w-100 overflow-auto">
                     <Card>
                         <form className={classes.root} noValidate autoComplete="on" onSubmit={handleSubmit}>
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.username}  
+                                    value={state.user.username}  
                                     autoFocus
                                     margin="dense"
                                     id="name"
@@ -248,7 +232,7 @@ function NewCustomer() {
                                 />
                             
                             </div>
-                            <Button variant="contained" color="primary">Create</Button>
+                            <Button variant="contained" color="primary">Submit</Button>
                         </form>
                     </Card>
                 </div>
@@ -257,4 +241,4 @@ function NewCustomer() {
     )
 }
 
-export default NewCustomer
+export default EditCustomer

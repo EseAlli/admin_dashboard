@@ -23,15 +23,23 @@ import mapRoutes from "./views/map/MapRoutes";
 
 const redirectRoute = [
   {
-    path: "/",
+    path: "/home",
     exact: true,
     component: () => <Redirect to="/dashboard/analytics" />
   }
 ];
 
+const mainRoute = [
+  {
+    path: "/",
+    exact: true,
+    component: () => <Redirect to="/signin" />
+  }
+];
+
 const errorRoute = [
   {
-    component: () => <Redirect to="/session/404" />
+    component: () => <Redirect to="/404" />
   }
 ];
 
@@ -48,6 +56,7 @@ const routes = [
   ...dragAndDropRoute,
   ...formsRoutes,
   ...mapRoutes,
+  ...mainRoute,
   ...redirectRoute,
   ...errorRoute
 ];

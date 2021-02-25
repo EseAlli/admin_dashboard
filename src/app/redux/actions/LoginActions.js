@@ -8,14 +8,17 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 
-export function loginWithEmailAndPassword({ email, password }) {
+export function loginWithEmailAndPassword(state) {
+  const userlog = state
   return dispatch => {
     dispatch({
       type: LOGIN_LOADING
     });
 
+    // console.log(userlog)
+
     jwtAuthService
-      .loginWithEmailAndPassword(email, password)
+      .loginWithEmailAndPassword("admin@jodao.com", "@root")
       .then(user => {
         dispatch(setUserData(user));
 

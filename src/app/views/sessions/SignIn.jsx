@@ -114,7 +114,7 @@ class SignIn extends Component {
                       <Button
                         className="capitalize"
                         onClick={() =>
-                          this.props.history.push("/session/signup")
+                          this.props.history.push("/signup")
                         }
                       >
                         Sign up
@@ -123,7 +123,7 @@ class SignIn extends Component {
                     <Button
                       className="text-primary"
                       onClick={() =>
-                        this.props.history.push("/session/forgot-password")
+                        this.props.history.push("/forgot-password")
                       }
                     >
                       Forgot password?

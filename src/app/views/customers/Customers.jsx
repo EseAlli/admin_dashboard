@@ -6,7 +6,9 @@ import {
   IconButton,
   Icon,
   Button
-} from "@material-ui/core"
+} from "@material-ui/core";
+import { Link } from 'react-router-dom/cjs/react-router-dom';
+
 
 class Customers extends Component {
     constructor(props) {
@@ -18,6 +20,18 @@ class Customers extends Component {
        this.getCustomers()
        
     }
+
+     handleOpen = () => {
+    this.setState({
+      isOpen: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
 
     getCustomers = () =>{
         http.get(`/afrimash/customers`)
@@ -40,8 +54,18 @@ class Customers extends Component {
           />
         </div>
         <SimpleCard title="Customers">
-        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
+        <Link
+                to={{
+                  pathname: '/customer/new',
+                  state: {
+                    from: 'customers',
+                    method: 'post'
+                    }
+                  }}
+              >
+        <IconButton><Button variant="contained" color="primary" ><Icon>add</Icon>Add New</Button></IconButton></Link>
         <CustomersList customers={this.state.customers}/>
+        
         </SimpleCard>
       </div>
     );

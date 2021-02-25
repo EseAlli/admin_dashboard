@@ -44,10 +44,10 @@ class NewProduct extends Component {
     });
   }
 
-  componentWillUnmount() {
-    // remove rule when it is not needed
-    ValidatorForm.removeValidationRule("isPasswordMatch");
-  }
+  // componentWillUnmount() {
+  //   // remove rule when it is not needed
+  //   ValidatorForm.removeValidationRule("isPasswordMatch");
+  // }
 
   handleSubmit = event => {
     console.log("submitted");

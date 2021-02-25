@@ -3,36 +3,20 @@ import localStorageService from "./localStorageService";
 import http from "./api"
 
 class JwtAuthService {
-
-  // Dummy user object just for the demo
-  user = {
-    userId: "1",
-    role: 'ADMIN',
-    displayName: "Afrimash",
-    email: "afrimash@gmail.com",
-    photoURL: "/assets/images/face-6.jpg",
-    age: 25,
-    token: "faslkhfh423oiu4h4kj432rkj23h432u49ufjaklj423h4jkhkjh"
+  constructor (props){
+  
   }
-
-  // You need to send http request with email and passsword to your server in this method
-  // Your server will return user object & a Token
-  // User should have role property
-  // You can define roles in app/auth/authRoles.js
-  loginWithEmailAndPassword = (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.user);
-      }, 1000);
-    }).then(data => {
-      // Login successful
-      // Save token
-      this.setSession(data.token);
-      // Set user
-      this.setUser(data);
-      return data;
-    });
-  };
+  
+  loginWithEmailAndPassword = (userlog) => {
+    console.log(userlog)
+   return http
+    .post("/afrimash/authenticate", userlog)
+    .then((response)=>{
+      if(response.jwt){
+        this.setSession(response.jwt)
+      }
+    })
+  }
 
   // You need to send http requst with existing token to your server to check token is valid
   // This method is being used when user logged in & app is reloaded
@@ -48,6 +32,16 @@ class JwtAuthService {
       return data;
     });
   };
+
+  loginWithEmailAndPassword = () => {
+    http
+    .post("/afrimash/authenticate")
+    .then((response)=>{
+      if(response.jwt){
+        this.setSession(response.jwt)
+      }
+    })
+  }
 
   logout = () => {
     this.setSession(null);

@@ -40,7 +40,7 @@ class Auth extends Component {
       // Ridirect user to sign in page here
       console.log(err);
       history.push({
-        pathname: "/session/signin"
+        pathname: "/signin"
       });
     });
   };

@@ -6,18 +6,48 @@ import {
   IconButton,
   Icon,
   Button
-} from "@material-ui/core"
+} from "@material-ui/core";
+import CreateNew from "./CreateNew";
+
+const fields = [
+  "Username",
+  "Email",
+  "First Name",
+  "Seller",
+]
 
 class Staff extends Component {
    constructor(props) {
         super(props);
         this.state = {
-            staff : []
+            staff : [],
+            isOpen: false,
+            vendor: {
+              username: "",
+              firstName: "",
+              lastName: "",
+              password: "password",
+              secretAnswer: "secret",
+              phoneNo: "",
+              seller: ""
+            }
+
         }
 
       //  this.getStaff()
        
     }
+    handleOpen = () => {
+    this.setState({
+      isOpen: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
     getStaff = () =>{
       http
       .get(`/afrimash/users/search`)
@@ -28,6 +58,10 @@ class Staff extends Component {
         })
       })
       .catch((err) => alert(err.response.data))
+    }
+
+    submit = () => {
+      
     }
   render() {
     return (
@@ -41,8 +75,9 @@ class Staff extends Component {
           />
         </div>
         <SimpleCard title="Staff">
-        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
+        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}><Icon>add</Icon>Add New</Button></IconButton>
         <StaffList/>
+        <CreateNew onSubmit={this.submit} isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Staff" fields={fields}/> 
         </SimpleCard>
       </div>
     );

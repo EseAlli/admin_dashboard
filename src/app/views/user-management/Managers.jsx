@@ -18,18 +18,22 @@ class Manager extends Component {
    constructor(props) {
         super(props);
         this.state = {
-            toggle : false
+            isOpen : false
         }
     }
   
- 
+  handleOpen = () => {
+    this.setState({
+      isOpen: true
+    })
+  }
 
-    toggleModal =()=> {
-      console.log(this.state.toggle)
-      this.setState({
-        toggle: true
-      })
-    }
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
+ 
   render() {
     return (
       <div className="m-sm-30">
@@ -42,9 +46,9 @@ class Manager extends Component {
           />
         </div>
         <SimpleCard title="Managers">
-        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}>Add Manager<Icon>add</Icon></Button></IconButton>
+        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}>Add Manager<Icon>add</Icon></Button></IconButton>
         <ManagerList/>
-        {this.toggle ? <CreateNew toggleModal={this.toggleModal} name="Create Manager" fields={fields}/> : ""}
+         <CreateNew isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Manager" fields={fields}/> 
         </SimpleCard>
       </div>
     );

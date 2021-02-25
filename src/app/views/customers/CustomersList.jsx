@@ -60,10 +60,12 @@ const CustomersList = ({customers}) => {
                 to={{
                   pathname: '/customer/details',
                   state: {
-                      direct: 'customers',
-                      name: customer.name,
-                      image: customer.image,
-                      company: customer.company
+                      from: 'customers',
+                      firstName: customer.firstName,
+                      lastName: customer.lastName,
+                      email: customer.email,
+                      username: customer.user.username,
+                      currState: customer
                     }
                   }}
               >
@@ -71,9 +73,20 @@ const CustomersList = ({customers}) => {
                   <Icon color="success">open_in_new</Icon>
                 </IconButton>                    
               </Link>
+                <Link
+                to={{
+                  pathname: '/customer/edit',
+                  state: {
+                      from: 'customers',
+                      method: 'put',
+                      currState: customer
+                    }
+                  }}
+              >
                 <IconButton>
                   <Icon color="success">edit</Icon>
-                </IconButton> 
+                </IconButton>                    
+              </Link>
                 <IconButton>
                   <Icon color="success">delete</Icon>
                 </IconButton>  

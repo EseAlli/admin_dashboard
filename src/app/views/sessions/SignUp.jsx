@@ -99,7 +99,7 @@ class SignUp extends Component {
                       <Button
                         className="capitalize"
                         onClick={() =>
-                          this.props.history.push("/session/signin")
+                          this.props.history.push("/signin")
                         }
                       >
                         Sign in
