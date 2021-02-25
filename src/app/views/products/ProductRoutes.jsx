@@ -6,6 +6,9 @@ const Products = MatxLoadable({
 const ProductDetails = MatxLoadable({
   loader: () => import("./ProductDetails")
 });
+const NewProduct = MatxLoadable ({
+  loader: () => import("./NewProduct")
+})
 
 const productRoutes = [
   {
@@ -15,6 +18,10 @@ const productRoutes = [
   {
     path: "/product/details",
     component: ProductDetails
+  },
+  {
+    path: "/product/new",
+    component: NewProduct
   }
 ];
 

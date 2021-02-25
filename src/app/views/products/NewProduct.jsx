@@ -1,288 +1,181 @@
-import React, { Component } from "react";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import React, {useState} from 'react';
 import {
-  Button,
-  Icon,
-  Grid,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  Checkbox,
-  Card,
-  Input
+    FormControl,
+    InputLabel,
+    Input,
+    Card,
+    TextField,
+    Button
 } from "@material-ui/core";
-import { Breadcrumb } from "matx";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
+import { Breadcrumb, SimpleCard } from "matx";
+import { makeStyles } from '@material-ui/core/styles';
+import http from "../../services/api";
+import { useHistory } from "react-router-dom";
+import ImageUpload from "./ImageUpload"
 
-class NewProduct extends Component {
-  state = {
-    name: "",
-    description: "",
-    category: "",
-    date: new Date(),
-    price: "",
-    salePrice: "",
-    mobile: "",
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(2),
+      width: '63ch',
+    },
+  },
+}));
+
+function NewProduct() {
+    const initialState = {
+    email: "",
+    country: "",
     password: "",
-    confirmPassword: "",
-    gender: "",
-    agreement: ""
-  };
+    lastName: "",
+    firstName: "",
+    mobileNo: "",
+    state: "",
+    username: "",
+    seller: "",
+    companyName: "",
+    postcode: "",
+    address1: "",
+    address2: "",
+    password: "password",
+    secretAnswer: "secret"
+    };
 
-  componentDidMount() {
-    // custom rule will have name 'isPasswordMatch'
-    ValidatorForm.addValidationRule("isPasswordMatch", value => {
-      if (value !== this.state.password) {
-        return false;
-      }
-      return true;
-    });
-  }
+    const history = useHistory();
 
-  // componentWillUnmount() {
-  //   // remove rule when it is not needed
-  //   ValidatorForm.removeValidationRule("isPasswordMatch");
-  // }
+    const classes = useStyles()
+    const [state, setState] = useState(initialState);
 
-  handleSubmit = event => {
-    console.log("submitted");
-    console.log(event);
-  };
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+    console.log(state)
+    };
 
-  handleChange = event => {
-    event.persist();
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    const handleSubmit = (props) => {
+        http
+        .post("/afrimash/product", state)
+        .then((response)=>{
+           if (response.data.status === "OK"){
+               const nextPage = props.location.state && props.location.state.from ? props.location.state.form : "/cutomers"
+               history.push(nextPage)
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
+    }
 
-  handleDateChange = date => {
-    console.log(date);
+    const galleryImageList = [
+    "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+    "https://raw.githubusercontent.com/ShafeenTejani/fast-style-transfer/master/examples/dora-maar-picasso.jpg",
+    "https://pbs.twimg.com/profile_images/925531519858257920/IyYLHp-u_400x400.jpg",
+    "https://raw.githubusercontent.com/ShafeenTejani/fast-style-transfer/master/examples/dog.jpg",
+    "http://r.ddmcdn.com/s_f/o_1/cx_462/cy_245/cw_1349/ch_1349/w_720/APL/uploads/2015/06/caturday-shutterstock_149320799.jpg"
+  ];
 
-    this.setState({ date });
-  };
-
-  render() {
-    let {
-      name,
-      description,
-      price,
-      salePrice,
-      mobile,
-      password,
-      confirmPassword,
-      gender,
-      date,
-      category
-    } = this.state;
     return (
-    <Card>
-      <div className="w-100 overflow-auto m-sm-30">
-        <div  className="mb-sm-30">
-          <Breadcrumb
-            routeSegments={[
-              { name: "Product", path: "/product/new" },
-              { name: "New Product" }
-            ]}
-          />
+        <div className="m-sm-30">
+            <div  className="mb-sm-30">
+                <Breadcrumb
+                    routeSegments={[
+                    { name: "Products", path: "/products" },
+                    { name: "New Product" }
+                    ]}
+                />
+            </div>
+            <SimpleCard title="Create New Product">
+                <div className="w-100 overflow-auto">
+                    <Card>
+                        <form className={classes.root} noValidate autoComplete="on" onSubmit={handleSubmit}>
+                            <div>
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.product_name}  
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Product Name"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            
+                            
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.price}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Price(₦)"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.sale_price}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Sale Price (₦)"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            
+                            
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.sku}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="SKU"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.short_description}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Short Description"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            
+                            
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.description}
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Description"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                            </div>
+                            <div>
+                              <ImageUpload cardName="Input Image" imageGallery={galleryImageList} />
+                            </div>
+                            <Button variant="contained" color="primary">Create</Button>
+                        </form>
+                    </Card>
+                </div>
+            </SimpleCard>
         </div>
-      
-        <ValidatorForm
-          ref="form"
-          onSubmit={this.handleSubmit}
-          onError={errors => null}
-        >
-          <h2>Add New Product</h2>
-          <hr/>
-          <Grid container spacing={6}>
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <TextValidator
-                className="mb-16 w-100"
-                id="outlined-basic" 
-                label="Name"
-                onChange={this.handleChange}
-                type="text"
-                name="name"
-                value={name}
-                variant="outlined"
-                validators={[
-                  "required",
-                  "minStringLength: 4",
-                  "maxStringLength: 9"
-                ]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                className="mb-16 w-100"
-                label="Description"
-                onChange={this.handleChange}
-                type="text"
-                name="description"
-                value={description}
-                variant="outlined"
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                className="mb-16 w-100"
-                label="Category"
-                onChange={this.handleChange}
-                type="category"
-                name="category"
-                value={category}
-                variant="outlined"
-                validators={["required", "isCategory"]}
-                errorMessages={["this field is required", "category is not valid"]}
-              />
-
-              {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  className="mb-16 w-100"
-                  margin="none"
-                  id="mui-pickers-date"
-                  label="Date picker"
-                  inputVariant="standard"
-                  type="text"
-                  autoOk={true}
-                  value={date}
-                  variant="outlined"
-                  onChange={this.handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date"
-                  }}
-                />
-              </MuiPickersUtilsProvider> */}
-              <TextValidator
-                className="mb-32 w-100"
-                label="Price (₦)"
-                onChange={this.handleChange}
-                type="number"
-                name="price"
-                variant="outlined"
-                value={price}
-                validators={[
-                  "required",
-                  "minStringLength:16",
-                  "maxStringLength: 16"
-                ]}
-                errorMessages={["this field is required"]}
-              />
-
-              <TextValidator
-                className="mb-32 w-100"
-                label="Sale Price (₦)"
-                onChange={this.handleChange}
-                type="number"
-                name="salePrice"
-                variant="outlined"
-                value={salePrice}
-                validators={[
-                  "required",
-                  "minStringLength:16",
-                  "maxStringLength: 16"
-                ]}
-                errorMessages={["this field is required"]}
-              />
-              
-            </Grid>
-            
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <TextValidator
-                className="mb-32 w-100"
-                label="Coupons (₦)"
-                onChange={this.handleChange}
-                type="number"
-                name="salePrice"
-                variant="outlined"
-                value={salePrice}
-                validators={[
-                  "required",
-                  "minStringLength:16",
-                  "maxStringLength: 16"
-                ]}
-                errorMessages={["this field is required"]}
-              />
-
-              <TextValidator
-                className="mb-16 w-100"
-                label="Mobile Nubmer"
-                onChange={this.handleChange}
-                type="text"
-                name="mobile"
-                variant="outlined"
-                value={mobile}
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                className="mb-16 w-100"
-                label="Password"
-                onChange={this.handleChange}
-                name="password"
-                type="password"
-                value={password}
-                variant="outlined"
-                validators={["required"]}
-                errorMessages={["this field is required"]}
-              />
-              <TextValidator
-                className="mb-16 w-100"
-                label="Confirm Password"
-                onChange={this.handleChange}
-                name="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                validators={["required", "isPasswordMatch"]}
-                errorMessages={[
-                  "this field is required",
-                  "password didn't match"
-                ]}
-              />
-              <RadioGroup
-                className="mb-16"
-                value={gender}
-                name="gender"
-                onChange={this.handleChange}
-                row
-              >
-                <FormControlLabel
-                  value="Male"
-                  control={<Radio color="secondary" />}
-                  label="Male"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="Female"
-                  control={<Radio color="secondary" />}
-                  label="Female"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="Others"
-                  control={<Radio color="secondary" />}
-                  label="Others"
-                  labelPlacement="end"
-                />
-              </RadioGroup>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="I have read and agree to the terms of service."
-              />
-            </Grid>
-          </Grid>
-          <Button color="primary" variant="contained" type="submit">
-            <Icon>send</Icon>
-            <span className="pl-8 capitalize">Send</span>
-          </Button>
-        </ValidatorForm>
-     
-     </div>
-      </Card>
-    );
-  }
+    )
 }
 
-export default NewProduct;
+export default NewProduct

@@ -6,7 +6,8 @@ import {
   IconButton,
   Icon,
   Button
-} from "@material-ui/core"
+} from "@material-ui/core";
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 class Products extends Component {
   constructor(props){
@@ -41,7 +42,17 @@ class Products extends Component {
           />
         </div>
         <SimpleCard title="All Products">
-        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}>Create New Product<Icon>add</Icon></Button></IconButton>
+        <Link
+                to={{
+                  pathname: '/product/new',
+                  state: {
+                    from: 'product',
+                    method: 'post'
+                    }
+                  }}
+              >
+        <IconButton><Button variant="contained" color="primary">Create New Product<Icon>add</Icon></Button></IconButton>
+        </Link>
         <ProductList products={this.state.products}/>
         </SimpleCard>
       </div>

@@ -93,7 +93,7 @@ class Layout1Topbar extends Component {
               <div className="flex flex-middle">
                 <MatxSearchBox />
 
-                <NotificationBar />
+                {/* <NotificationBar /> */}
 
                 <ShoppingCart></ShoppingCart>
 
