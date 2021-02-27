@@ -8,7 +8,9 @@ import {
   Button
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory } from "react-router-dom";
 
+let history = useHistory();
 
 class Customers extends Component {
     constructor(props) {
@@ -21,11 +23,11 @@ class Customers extends Component {
        
     }
 
-     handleOpen = () => {
-    this.setState({
-      isOpen: true
-    })
-  }
+      handleOpen = () => {
+        this.setState({
+          isOpen: true
+        })
+      }
 
   handleClose = () => {
     this.setState({
@@ -39,6 +41,18 @@ class Customers extends Component {
             this.setState({
                 customers: response.data.object
             })
+        })
+    }
+
+    handleSubmit = (state) => {
+      http
+        .post("/afrimash/customers", state)
+        .then((response)=>{
+           if (response.data.status === "OK"){  
+               history.push("/customers")
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
         })
     }
 

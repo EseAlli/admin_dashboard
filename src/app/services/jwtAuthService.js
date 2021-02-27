@@ -18,7 +18,7 @@ class JwtAuthService {
     .then((response)=>{
       if(response.jwt){
         const jwt = response.jwt
-          localStorage.setItem("session_token", jwt)
+          localStorage.setItem("jwt_token", jwt)
         this.setSession(response.jwt)
         http
         .get("//afrimash/users/logged-in-details")

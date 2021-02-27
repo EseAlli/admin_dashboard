@@ -64,6 +64,27 @@ const subscribarList = [
   }
 ];
 
+const fields = [
+  "Username",
+  "Email",
+  "Name",
+	"Phone Number",
+	"State"
+]
+
+ const handleOpen = () => {
+    this.setState({
+      isOpen: true
+    })
+  }
+
+  const handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
+
+
 const Sellers = () => {
   return (
     <div className="m-sm-30">
@@ -76,7 +97,7 @@ const Sellers = () => {
           />
     </div>
     <SimpleCard title="Sellers">
-    <IconButton><Button variant="contained" color="primary" onClick={()=>{this.toggleModal()}}><Icon>add</Icon>Add New</Button></IconButton>
+    <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}><Icon>add</Icon>Add New</Button></IconButton>
     <div className="w-100 overflow-auto">
       
       <Table style={{ whiteSpace: "pre" }}>
@@ -116,7 +137,7 @@ const Sellers = () => {
                 <IconButton>
                   <Icon color="success">shopping_cart</Icon>
                 </IconButton>
-                <IconButton>
+                {/* <IconButton>
                   <Icon color="success">show_chart</Icon>
                 </IconButton>
                 <IconButton>
@@ -124,7 +145,7 @@ const Sellers = () => {
                 </IconButton>
                 <IconButton>
                   <Icon color="success">highlight_off</Icon>
-                </IconButton>
+                </IconButton> */}
                 <IconButton>
                   <Icon color="success">power_setting_new</Icon>
                 </IconButton>      

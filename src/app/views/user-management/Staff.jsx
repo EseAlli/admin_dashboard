@@ -13,7 +13,6 @@ const fields = [
   "Username",
   "Email",
   "First Name",
-  "Seller",
 ]
 
 class Staff extends Component {
@@ -29,7 +28,7 @@ class Staff extends Component {
               password: "password",
               secretAnswer: "secret",
               phoneNo: "",
-              seller: ""
+
             }
 
         }
@@ -61,7 +60,13 @@ class Staff extends Component {
     }
 
     submit = () => {
+       http
+      .post(`/afrimash/users/`)
+      .then((response) => {
+        console.log(response.data.object)
       
+      })
+      .catch((err) => alert(err.response.data))
     }
   render() {
     return (

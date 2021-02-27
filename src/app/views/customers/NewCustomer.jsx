@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewCustomer() {
+function NewCustomer({ handleSubmit}) {
     const initialState = {
     email: "",
     country: "",
@@ -48,20 +48,12 @@ function NewCustomer() {
     const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
-    console.log(state)
     };
 
-    const handleSubmit = (props) => {
-        http
-        .post("/afrimash/customers", state)
-        .then((response)=>{
-           if (response.data.status === "OK"){
-               const nextPage = props.location.state && props.location.state.from ? props.location.state.form : "/cutomers"
-               history.push(nextPage)
-           }else if(response.data.errorMsg !== null) {
-               return
-           }
-        })
+    const onSubmit = (e) => {
+        e.preventDefault();
+        handleSubmit(state),
+        console.log(state)
     }
 
     return (
@@ -77,27 +69,26 @@ function NewCustomer() {
             <SimpleCard title="Create New Customer">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root} noValidate autoComplete="on" onSubmit={handleSubmit}>
+                        <form className={classes.root}  onSubmit={onSubmit}>
                             <div>
                                 <TextField
                                     onChange={handleChange}
                                     value={state.username}  
+                                    name="username"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Username"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
-                                />
-                            
+                                />                            
                             
                                 <TextField
                                     onChange={handleChange}
                                     value={state.email}
+                                    name="email"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Email"
                                     type="text"
                                     fullWidth
@@ -108,9 +99,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.firstName}
+                                    name="firstName"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="First Name"
                                     type="text"
                                     fullWidth
@@ -122,8 +113,8 @@ function NewCustomer() {
                                     onChange={handleChange}
                                     value={state.lastName}
                                     autoFocus
+                                    name="lastName"
                                     margin="dense"
-                                    id="name"
                                     label="Last Name"
                                     type="text"
                                     fullWidth
@@ -134,9 +125,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.seller}
+                                    name="seller"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Seller"
                                     type="text"
                                     fullWidth
@@ -148,8 +139,8 @@ function NewCustomer() {
                                     onChange={handleChange}
                                     value={state.companyName}
                                     autoFocus
+                                    name="companyName"
                                     margin="dense"
-                                    id="name"
                                     label="Company Name"
                                     type="text"
                                     fullWidth
@@ -160,9 +151,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.mobileNo}
+                                    name="mobileNo"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Phone Number"
                                     type="text"
                                     fullWidth
@@ -173,9 +164,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.address1}
+                                    name="address1"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Address 1"
                                     type="text"
                                     fullWidth
@@ -186,9 +177,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.address2}
+                                    name="address2"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Address 2"
                                     type="text"
                                     fullWidth
@@ -199,9 +190,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.country}
+                                    name="country"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Country"
                                     type="text"
                                     fullWidth
@@ -212,9 +203,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.city}
+                                    name="city"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="City/Town"
                                     type="text"
                                     fullWidth
@@ -225,9 +216,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.state}
+                                    name="state"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="State"
                                     type="text"
                                     fullWidth
@@ -238,9 +229,9 @@ function NewCustomer() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.postcode}
+                                    name="postcode"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Postcode/Zip"
                                     type="text"
                                     fullWidth 
@@ -248,7 +239,7 @@ function NewCustomer() {
                                 />
                             
                             </div>
-                            <Button variant="contained" color="primary">Create</Button>
+                            <Button type="submit" variant="contained" color="primary">Create</Button>
                         </form>
                     </Card>
                 </div>
