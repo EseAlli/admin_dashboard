@@ -16,20 +16,20 @@ class Products extends Component {
       products: []
     }
 
-    this.getProducts()
+    // this.getProducts()
   }
 
-  getProducts = () => {
-    http
-      .get(`/afrimash/products/`)
-      .then((response) => {
-        console.log(response.data.object)
-        this.setState({
-          products: response.data.object,
-        })
-      })
-      .catch((err) => alert(err.response.data))
-  }
+  // getProducts = () => {
+  //   http
+  //     .get(`/afrimash/products/`)
+  //     .then((response) => {
+  //       console.log(response.data.object)
+  //       this.setState({
+  //         products: response.data.object,
+  //       })
+  //     })
+  //     .catch((err) => alert(err.response.data))
+  // }
   render() {
     return (
       <div className="m-sm-30">

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewCustomer({ handleSubmit}) {
+function NewVendor() {
     const initialState = {
     email: "",
     country: "",
@@ -29,12 +29,13 @@ function NewCustomer({ handleSubmit}) {
     lastName: "",
     firstName: "",
     mobileNo: "",
+    storeSlug: "",
     state: "",
     username: "",
-    companyName: "",
+    storeName: "",
     postcode: "",
     address1: "",
-    address2: "",
+    storeEmail: "",
     password: "password",
     secretAnswer: "secret"
     };
@@ -49,10 +50,16 @@ function NewCustomer({ handleSubmit}) {
     setState({ ...state, [name]: value });
     };
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        handleSubmit(state);
-        console.log(state)
+    const handleSubmit = (state) => {
+      http
+        .post("/afrimash/sellers", state)
+        .then((response)=>{
+           if (response.data.status === "OK"){  
+               history.push("/vendors")
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
     }
 
     return (
@@ -60,15 +67,15 @@ function NewCustomer({ handleSubmit}) {
             <div  className="mb-sm-30">
                 <Breadcrumb
                     routeSegments={[
-                    { name: "Customer", path: "/customers" },
-                    { name: "New Customer" }
+                    { name: "Seller", path: "/vendors" },
+                    { name: "New Seller" }
                     ]}
                 />
             </div>
-            <SimpleCard title="Create New Customer">
+            <SimpleCard title="Create New Seller">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root}  onSubmit={onSubmit}>
+                        <form className={classes.root}  onSubmit={handleSubmit}>
                             <div>
                                 <TextField
                                     onChange={handleChange}
@@ -125,11 +132,23 @@ function NewCustomer({ handleSubmit}) {
                             
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.companyName}
+                                    value={state.storeName}
                                     autoFocus
-                                    name="companyName"
+                                    name="storeName"
                                     margin="dense"
-                                    label="Company Name"
+                                    label="Store Name"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.storeName}
+                                    autoFocus
+                                    name="storeName"
+                                    margin="dense"
+                                    label="Store Slug"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
@@ -142,7 +161,7 @@ function NewCustomer({ handleSubmit}) {
                                     name="mobileNo"
                                     autoFocus
                                     margin="dense"
-                                    label="Phone Number"
+                                    label="Store Phone Number"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
@@ -164,11 +183,11 @@ function NewCustomer({ handleSubmit}) {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.address2}
-                                    name="address2"
+                                    value={state.storeEmail}
+                                    name="storeEmail"
                                     autoFocus
                                     margin="dense"
-                                    label="Address 2"
+                                    label="Store Email"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
@@ -236,4 +255,4 @@ function NewCustomer({ handleSubmit}) {
     )
 }
 
-export default NewCustomer
+export default NewVendor

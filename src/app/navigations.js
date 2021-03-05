@@ -12,7 +12,23 @@ export const navigations = [
   {
     name: "Products",
     icon: "local_grocery_store",
-    path: "/products"
+    children : [
+     {  
+       name: "Product Management  ",
+        path: "/products",
+        iconText: "P"
+      },
+      {
+        name: "Tags",
+        path: "/tags",
+        iconText: "T"
+      },
+      {
+        name: "Brands",
+        path: "/brands",
+        iconText: "B"
+      }
+   ]
   },
   {
     name: "Withdrawal",
@@ -43,26 +59,26 @@ export const navigations = [
         path: "/staff",
         iconText: "B"
       },
-      {
-        name: "Manager",
-        path: "/managers",
-        iconText: "E"
-      },
-      {
-        name: "Group",
-        path: "/groups",
-        iconText: "E"
-      },
-      {
-        name: "Membership",
-        path: "/membership",
-        iconText: "E"
-      },
-      {
-        name: "Followers",
-        path: "/followers",
-        iconText: "E"
-      }
+      // {
+      //   name: "Manager",
+      //   path: "/managers",
+      //   iconText: "E"
+      // },
+      // {
+      //   name: "Group",
+      //   path: "/groups",
+      //   iconText: "E"
+      // },
+      // {
+      //   name: "Membership",
+      //   path: "/membership",
+      //   iconText: "E"
+      // },
+      // {
+      //   name: "Followers",
+      //   path: "/followers",
+      //   iconText: "E"
+      // }
     ]
   },
   {

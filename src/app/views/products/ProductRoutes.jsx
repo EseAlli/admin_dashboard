@@ -9,6 +9,13 @@ const ProductDetails = MatxLoadable({
 const NewProduct = MatxLoadable ({
   loader: () => import("./NewProduct")
 })
+const Tag = MatxLoadable({
+  loader : () =>  import("./Tag")
+})
+
+const Brand = MatxLoadable({
+  loader : () =>  import("./Brand")
+})
 
 const productRoutes = [
   {
@@ -22,7 +29,15 @@ const productRoutes = [
   {
     path: "/product/new",
     component: NewProduct
-  }
+  },
+  {
+    path: "/tags",
+    component: Tag
+  },
+  {
+    path: "/brands",
+    component: Brand
+  },
 ];
 
 export default productRoutes;

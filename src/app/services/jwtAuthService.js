@@ -37,17 +37,30 @@ class JwtAuthService {
 
   // You need to send http requst with existing token to your server to check token is valid
   // This method is being used when user logged in & app is reloaded
+  // loginWithToken = () => {
+  //   return http
+  //       .get("/afrimash/users/logged-in-details")
+  //       .then((response)=>{
+  //         if(response.status === 200){
+  //           history.push("/dashboard/analytics")
+  //           this.setUser(response.data.object)
+  //         } else if (response.data.errorMsg != null){
+  //           return
+  //         }
+  //       })
+  // };
+
   loginWithToken = () => {
-    return http
-        .get("/afrimash/users/logged-in-details")
-        .then((response)=>{
-          if(response.status === 200){
-            history.push("/dashboard/analytics")
-            this.setUser(response.data.object)
-          } else if (response.data.errorMsg != null){
-            return
-          }
-        })
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.user);
+      }, 100);
+    }).then(data => {
+      // Token is valid
+      this.setSession(data.token);
+      this.setUser(data);
+      return data;
+    });
   };
 
 

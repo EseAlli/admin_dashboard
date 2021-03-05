@@ -23,6 +23,10 @@ const Followers = MatxLoadable({
   loader: () => import("./Followers")
 })
 
+const CreateSeller = MatxLoadable({
+  loader: () => import("./CreateSeller")
+})
+
 const userRoutes = [
   {
     path: "/membership",
@@ -47,6 +51,10 @@ const userRoutes = [
   {
     path: "/followers",
     component: Followers
+  },
+  {
+    path: "/vendor/new",
+    component: CreateSeller
   }
 
 ];

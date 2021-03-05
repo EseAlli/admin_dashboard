@@ -10,8 +10,12 @@ import {
   TableRow
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import http from "../../services/api";
 import { Breadcrumb, SimpleCard } from "matx";
 import Checkbox from "@material-ui/core/Checkbox";
+import { useHistory } from "react-router-dom";
+
+let history = useHistory();
 
 const subscribarList = [
   {
@@ -72,17 +76,6 @@ const fields = [
 	"State"
 ]
 
- const handleOpen = () => {
-    this.setState({
-      isOpen: true
-    })
-  }
-
-  const handleClose = () => {
-    this.setState({
-      isOpen: false
-    })
-  }
 
 
 const Sellers = () => {
@@ -97,7 +90,16 @@ const Sellers = () => {
           />
     </div>
     <SimpleCard title="Sellers">
-    <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}><Icon>add</Icon>Add New</Button></IconButton>
+    <Link
+                to={{
+                  pathname: '/vendor/new',
+                  state: {
+                    from: 'sellers',
+                    method: 'post'
+                    }
+                  }}
+              >
+        <IconButton><Button variant="contained" color="primary" ><Icon>add</Icon>Add New</Button></IconButton></Link>
     <div className="w-100 overflow-auto">
       
       <Table style={{ whiteSpace: "pre" }}>

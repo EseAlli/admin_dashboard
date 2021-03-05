@@ -19,7 +19,7 @@ class Customers extends Component {
             customers : []
         }
 
-       this.getCustomers()
+      //  this.getCustomers()
        
     }
 
@@ -35,14 +35,14 @@ class Customers extends Component {
     })
   }
 
-    getCustomers = () =>{
-        http.get(`/afrimash/customers`)
-        .then((response)=> {
-            this.setState({
-                customers: response.data.object
-            })
-        })
-    }
+    // getCustomers = () =>{
+    //     http.get(`/afrimash/customers`)
+    //     .then((response)=> {
+    //         this.setState({
+    //             customers: response.data.object
+    //         })
+    //     })
+    // }
 
     handleSubmit = (state) => {
       http
