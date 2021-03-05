@@ -1,5 +1,5 @@
 import Axios from "axios"
-
+import axios from "axios";
 export default new (class Http {
   API_URL = "https://api.afrimash.com/"
 
@@ -10,7 +10,7 @@ export default new (class Http {
       baseURL: this.API_URL,
     })
 
-    axiosInstance.defaults.headers.common.Authorization = token
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     axiosInstance.interceptors.response.use(
       (response) => {
         return response
@@ -26,11 +26,10 @@ export default new (class Http {
     try {
       const response = await this.AxiosSetup().post(urlpath, data, config)
       if (
-        response.data.status.msg ===
-        "Login is required to access this resource!"
+        response.data.errorMsg !== null
       ) {
-        localStorage.removeItem("jwt_token")
-        window.location.reload()
+        // localStorage.removeItem("jwt_token")
+        // window.location.reload()
       }
       return response
     } catch (err) {
@@ -42,8 +41,7 @@ export default new (class Http {
     try {
       const response = await this.AxiosSetup().put(urlpath, data, config)
       if (
-        response.data.status.msg ===
-        "Login is required to access this resource!"
+        response.data.errorMsg !== null
       ) {
         localStorage.removeItem("jwt_token")
         window.location.reload()
@@ -59,8 +57,7 @@ export default new (class Http {
     try {
       const response = await this.AxiosSetup().get(url)
       if (
-        response.data.status.msg ===
-        "Login is required to access this resource!"
+        response.data.errorMsg !== null
       ) {
         localStorage.removeItem("jwt_token")
         window.location.reload()
@@ -75,8 +72,7 @@ export default new (class Http {
     try {
       const response = await this.AxiosSetup().delete(urlpath, data)
       if (
-        response.data.status.msg ===
-        "Login is required to access this resource!"
+        response.data.errorMsg !== null
       ) {
         localStorage.removeItem("jwt_token")
         window.location.reload()

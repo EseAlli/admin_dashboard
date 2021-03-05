@@ -52,7 +52,7 @@ function NewCustomer({ handleSubmit}) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        handleSubmit(state),
+        handleSubmit(state);
         console.log(state)
     }
 

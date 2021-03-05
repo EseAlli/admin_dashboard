@@ -11,21 +11,22 @@ class JwtAuthService {
 
   
   
+ 
   loginWithEmailAndPassword = (userlog) => {
-    console.log(userlog)
    return http
     .post("/afrimash/authenticate", userlog)
     .then((response)=>{
-      if(response.jwt){
-        const jwt = response.jwt
-          localStorage.setItem("jwt_token", jwt)
-        this.setSession(response.jwt)
-        http
-        .get("//afrimash/users/logged-in-details")
+      if(response.status === 200){
+        const {jwt} = response.data
+        this.setSession(jwt)
+        history.push("/dashboard/analytics")
+       return http
+        .get("/afrimash/users/logged-in-details")
         .then((response)=>{
-          if(response.object.status === 'OK'){
+          if(response.status === 200){
             history.push("/dashboard/analytics")
-            this.setUser(response.object)
+            this.setUser(response.data.object)
+            return this.user
           } else if (response.data.errorMsg != null){
             return
           }
@@ -37,16 +38,16 @@ class JwtAuthService {
   // You need to send http requst with existing token to your server to check token is valid
   // This method is being used when user logged in & app is reloaded
   loginWithToken = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.user);
-      }, 100);
-    }).then(data => {
-      // Token is valid
-      this.setSession(data.token);
-      this.setUser(data);
-      return data;
-    });
+    return http
+        .get("/afrimash/users/logged-in-details")
+        .then((response)=>{
+          if(response.status === 200){
+            history.push("/dashboard/analytics")
+            this.setUser(response.data.object)
+          } else if (response.data.errorMsg != null){
+            return
+          }
+        })
   };
 
 
@@ -58,6 +59,7 @@ class JwtAuthService {
   // Set token to all http request header, so you don't need to attach everytime
   setSession = token => {
     if (token) {
+      console.log(token)
       localStorage.setItem("jwt_token", token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     } else {

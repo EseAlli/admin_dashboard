@@ -15,13 +15,11 @@ export function loginWithEmailAndPassword(state) {
       type: LOGIN_LOADING
     });
 
-    // console.log(userlog)
-
     jwtAuthService
       .loginWithEmailAndPassword(userlog)
       .then(user => {
         dispatch(setUserData(user));
-
+        console.log(user)
         history.push({
           pathname: "/home"
         });
