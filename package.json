@@ -14,6 +14,7 @@
     "@material-ui/pickers": "^3.2.2",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.19.2",
+    "axios-mock-adapter": "^1.19.0",
     "babel-polyfill": "^6.26.0",
     "clsx": "^1.0.4",
     "create-react-app": "^4.0.3",
@@ -76,7 +77,6 @@
   ],
   "devDependencies": {
     "@babel/runtime": "^7.5.5",
-    "axios-mock-adapter": "^1.19.0",
     "cross-env": "^5.2.0",
     "gh-pages": "^2.1.1"
   }
