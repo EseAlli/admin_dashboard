@@ -10,11 +10,11 @@ export const navigations = [
     icon: "description"
   },
   {
-    name: "Products",
+    name: "Product",
     icon: "local_grocery_store",
     children : [
      {  
-       name: "Product Management  ",
+       name: "Products",
         path: "/products",
         iconText: "P"
       },
@@ -27,6 +27,11 @@ export const navigations = [
         name: "Brands",
         path: "/brands",
         iconText: "B"
+      },
+      {
+        name: "Categories",
+        path: "/product-categories",
+        iconText: "C"
       }
    ]
   },

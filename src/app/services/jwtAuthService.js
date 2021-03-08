@@ -19,8 +19,7 @@ class JwtAuthService {
       if(response.status === 200){
         const {jwt} = response.data
         this.setSession(jwt)
-        history.push("/dashboard/analytics")
-       return http
+        http
         .get("/afrimash/users/logged-in-details")
         .then((response)=>{
           if(response.status === 200){
@@ -44,24 +43,27 @@ class JwtAuthService {
   //         if(response.status === 200){
   //           history.push("/dashboard/analytics")
   //           this.setUser(response.data.object)
-  //         } else if (response.data.errorMsg != null){
+  //           const jwt = localStorage.getItem("jwt_token");
+  //           console.log(jwt)
+  //           this.setSession(jwt)
+  //         } else if (response.error != null){
   //           return
   //         }
   //       })
   // };
 
-  loginWithToken = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.user);
-      }, 100);
-    }).then(data => {
-      // Token is valid
-      this.setSession(data.token);
-      this.setUser(data);
-      return data;
-    });
-  };
+  // loginWithToken = () => {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       resolve(this.user);
+  //     }, 100);
+  //   }).then(data => {
+  //     // Token is valid
+  //     this.setSession(data.token);
+  //     this.setUser(data);
+  //     return data;
+  //   });
+  // };
 
 
   logout = () => {
@@ -72,7 +74,6 @@ class JwtAuthService {
   // Set token to all http request header, so you don't need to attach everytime
   setSession = token => {
     if (token) {
-      console.log(token)
       localStorage.setItem("jwt_token", token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     } else {

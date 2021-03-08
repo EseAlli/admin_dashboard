@@ -9,8 +9,7 @@ export default new (class Http {
     const axiosInstance = Axios.create({
       baseURL: this.API_URL,
     })
-
-    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    axiosInstance.defaults.headers.common.Authorization = "Bearer " + token;
     axiosInstance.interceptors.response.use(
       (response) => {
         return response
@@ -43,8 +42,8 @@ export default new (class Http {
       if (
         response.data.errorMsg !== null
       ) {
-        localStorage.removeItem("jwt_token")
-        window.location.reload()
+        // localStorage.removeItem("jwt_token")
+        // window.location.reload()
       }
       return response
     } catch (err) {
@@ -59,8 +58,8 @@ export default new (class Http {
       if (
         response.data.errorMsg !== null
       ) {
-        localStorage.removeItem("jwt_token")
-        window.location.reload()
+        // localStorage.removeItem("jwt_token")
+        // window.location.reload()
       }
       return response
     } catch (err) {
@@ -74,8 +73,8 @@ export default new (class Http {
       if (
         response.data.errorMsg !== null
       ) {
-        localStorage.removeItem("jwt_token")
-        window.location.reload()
+        // localStorage.removeItem("jwt_token")
+        // window.location.reload()
       }
       return response
     } catch (err) {

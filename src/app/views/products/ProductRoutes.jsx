@@ -17,6 +17,10 @@ const Brand = MatxLoadable({
   loader : () =>  import("./Brand")
 })
 
+const Category = MatxLoadable({
+  loader: () => import("./Category")
+})
+
 const productRoutes = [
   {
     path: "/products",

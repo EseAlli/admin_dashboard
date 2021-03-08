@@ -11,7 +11,9 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import CreateNew from "./CreateNew"
 
 const fields = [
-    "Name"
+    "Name (Required)",
+    "Description (Optional)",
+    "Slug (Optional)"
 ]
 
 class Brand extends Component {
@@ -41,12 +43,17 @@ class Brand extends Component {
     http
       .get(`/afrimash/brands/`)
       .then((response) => {
-        console.log(response.data.object)
+        console.log(response.data)
         this.setState({
-          brands: response.data.object,
+          brands: response.data,
         })
       })
-      .catch((err) => alert(err.response.data))
+      .catch((err) => {
+        this.setState({
+          brands: []
+        })
+
+        })
   }
   render() {
     return (
@@ -64,7 +71,7 @@ class Brand extends Component {
         <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}>Create New Brand<Icon>add</Icon></Button></IconButton>
          <CreateNew isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Brand" fields={fields}/> 
         
-        <BrandList Brand={this.state.brands}/>
+        <BrandList brands={this.state.brands}/>
         </SimpleCard>
       </div>
     );

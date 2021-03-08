@@ -2,7 +2,7 @@ import {MatxLoadable} from "matx";
 
 const Customers = MatxLoadable({
   loader: () => import("./Customers")
-});
+})
 const NewCustomer = MatxLoadable({
   loader: () => import("./NewCustomer")
 });

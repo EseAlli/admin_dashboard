@@ -42,7 +42,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function CreateNew({name, handleClose, isOpen, fields}) {
+function CreateNew({name, handleClose, isOpen, fields, handleSubmit}) {
+
+  const submitForm = () => {
+    handleSubmit(fields)
+  }
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
     const body = (
@@ -58,7 +62,7 @@ function CreateNew({name, handleClose, isOpen, fields}) {
             type="text"
             fullWidth />
          ))}
-         <Button  variant="contained" color="primary">Create</Button>
+         <Button variant="contained" color="primary">Create</Button>
         </div>
       </form>
     </div>

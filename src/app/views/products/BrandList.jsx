@@ -27,13 +27,9 @@ const BrandList = ({brands}) => {
                 }}
               />
             </TableCell>
-            <TableCell className="px-0">
-              <Icon color="success">photo</Icon>
-            </TableCell>
             <TableCell className="px-0">Name</TableCell>
-
-            <TableCell className="px-0">Date</TableCell>
-            <TableCell className="px-0"></TableCell>
+            <TableCell className="px-0">Description</TableCell>
+            <TableCell className="px-0">Slug</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,34 +43,14 @@ const BrandList = ({brands}) => {
                 }}
               />
             </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                <img style={{width: "50%"}} src={brand.image} alt="Product Image"/>
-              </TableCell>
               <TableCell className="px-0 capitalize">
                 {brand.name}
               </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                {brand.sku}
+              <TableCell className="px-0 capitalize" >
+                {brand.description || "----"}
               </TableCell>
               <TableCell className="px-0">
-              <IconButton>
-                  <Icon color="success">create</Icon>
-                </IconButton>    
-              <Link
-                to={{
-                  pathname: '/brand/details',
-                  state: {
-                    direct: 'brand',
-                    }
-                  }}
-              >
-                <IconButton>
-                  <Icon color="success">open_in_new</Icon>
-                </IconButton>                    
-              </Link>
-                <IconButton>
-                  <Icon color="success">delete</Icon>
-                </IconButton>     
+              {brand.slug || "----"}
               </TableCell>
             </TableRow>
           ))}

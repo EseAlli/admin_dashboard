@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import Checkbox from "@material-ui/core/Checkbox";
 
 
-const TagList = ({tags, handleSubmit}) => {
+const CategoryList = ({categories, handleSubmit}) => {
 
   return (
     <div className="w-100 overflow-auto">
@@ -27,6 +27,9 @@ const TagList = ({tags, handleSubmit}) => {
                 }}
               />
             </TableCell>
+            <TableCell className="px-0">
+              <Icon color="success">photo</Icon>
+            </TableCell>
             <TableCell className="px-0">Name</TableCell>
             <TableCell className="px-0">Description</TableCell>
             <TableCell className="px-0">Slug</TableCell>
@@ -34,7 +37,7 @@ const TagList = ({tags, handleSubmit}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tags.map((tag, index) => (
+          {categories.map((category, index) => (
             <TableRow key={index}>
               <TableCell>
               <Checkbox
@@ -44,17 +47,20 @@ const TagList = ({tags, handleSubmit}) => {
                 }}
               />
                 </TableCell>
+                <TableCell className="px-0 capitalize" align="left">
+                <img style={{width: "50%"}} src={category.image} alt="Image"/>
+              </TableCell>
               <TableCell className="px-0 capitalize">
-                {tag.name}
+                {category.name}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {tag.description || "----"}
+                {category.description || "----"}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {tag.slug || "----"}
+                {category.slug || "----"}
               </TableCell>
               <TableCell className="px-0">
-                {tag.count || " "}   
+                {category.count || " "}   
               </TableCell>
             </TableRow>
           ))}
@@ -64,4 +70,4 @@ const TagList = ({tags, handleSubmit}) => {
   );
 };
 
-export default TagList;
+export default CategoryList;

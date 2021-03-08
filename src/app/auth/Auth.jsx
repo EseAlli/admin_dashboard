@@ -19,21 +19,23 @@ class Auth extends Component {
     this.props.setUserData(localStorageService.getItem("auth_user"));
     
     // Check current token is valid on page load/reload
-    this.checkJwtAuth();
+    // this.checkJwtAuth();
 
     // this.checkFirebaseAuth();
   }
 
-  checkJwtAuth = () => {
+  checkJwtAuth = () => {  
     // You need to send token to your server to check token is valid
     // modify loginWithToken method in jwtService
     jwtAuthService.loginWithToken().then(user => {
-
+        
       // Valid token
       // Set user
       this.props.setUserData(user);
 
-      // You should redirect user to Dashboard here
+      // history.push({
+      //   pathname: "/dashboard/analytics"
+      // })
       
     }).catch(err => {
       // Invalid token
