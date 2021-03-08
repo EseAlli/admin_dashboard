@@ -10,52 +10,8 @@ import {
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  }
-];
 
-const OrderList = () => {
+const OrderList = ({orders}) => {
   return (
     <div className="w-100 overflow-auto">
       <Table style={{ whiteSpace: "pre" }}>
@@ -72,28 +28,28 @@ const OrderList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList.map((subscriber, index) => (
+          {orders.map((order, index) => (
             <TableRow key={index}>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.name}
+                {order.name}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.company}
+                {order.company}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.date}
+                {order.date}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {order.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                ${subscriber.amount}
+                ${order.amount}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                ${subscriber.amount}
+                ${order.amount}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                ${subscriber.amount}
+                ${order.amount}
               </TableCell>
               <TableCell className="px-0">
               <Link
@@ -110,12 +66,12 @@ const OrderList = () => {
                 <IconButton>
                   <Icon color="success">create</Icon>
                 </IconButton>
-                <IconButton>
+                {/* <IconButton>
                   <Icon color="success">check</Icon>
                 </IconButton>
                 <IconButton>
                   <Icon color="success">insert_drive_file</Icon>
-                </IconButton>                               
+                </IconButton>                                */}
               </Link>
                 
               </TableCell>

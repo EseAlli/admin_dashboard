@@ -41,7 +41,7 @@ class Category extends Component {
 
     getTag = () => {
         http
-        .get(`/afrimash/categories/`)
+        .get(`/afrimash/product-categories?page=0&size=50&search=`)
         .then((response) => {
             console.log(response.data)
             this.setState({
@@ -61,7 +61,7 @@ class Category extends Component {
         .post("/afrimash/categories", state)
         .then((response)=>{
            if (response.data.status === "OK"){  
-               this.props.history.push("/categories")
+               this.props.history.push("/product-categories")
            }else if(response.data.errorMsg !== null) {
                return
            }
@@ -80,10 +80,17 @@ class Category extends Component {
           />
         </div>
         <SimpleCard title="All Tags">
+       <Link
+         to={{
+             pathname: 'product-category/new',
+             state:{
+                 categories: this.state.categories
+             }
+         }}
+         >
+         <IconButton><Button variant="contained" color="primary">Create Category<Icon>add</Icon></Button></IconButton>
+       </Link>
        
-        <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}>Create Category<Icon>add</Icon></Button></IconButton>
-         <CreateNew isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Category" fields={fields}/> 
-        
         <CategoryList categories={this.state.categories}/>
         </SimpleCard>
       </div>

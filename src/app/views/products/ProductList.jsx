@@ -95,9 +95,9 @@ const ProductList = ({products}) => {
                   <Icon color="success">open_in_new</Icon>
                 </IconButton>                    
               </Link>
-                <IconButton>
+                {/* <IconButton>
                   <Icon color="success">delete</Icon>
-                </IconButton>     
+                </IconButton>      */}
               </TableCell>
             </TableRow>
           ))}
