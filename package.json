@@ -76,7 +76,7 @@
   ],
   "devDependencies": {
     "@babel/runtime": "^7.5.5",
-    "axios-mock-adapter": "^1.17.0",
+    "axios-mock-adapter": "^1.19.0",
     "cross-env": "^5.2.0",
     "gh-pages": "^2.1.1"
   }
