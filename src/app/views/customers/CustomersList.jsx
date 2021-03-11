@@ -17,15 +17,14 @@ const CustomersList = ({customers}) => {
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
-            <TableCell className="px-0">Name</TableCell>
-            <TableCell className="px-0">Username</TableCell>
-            <TableCell className="px-0">Email</TableCell>
-            <TableCell className="px-0">Seller</TableCell>
-            {/* <TableCell className="px-0">Location</TableCell>
-            <TableCell className="px-0">Orders</TableCell> */}
+            <TableCell className="px-0" align="left">Name</TableCell>
+            <TableCell className="px-0" align="left">Username</TableCell>
+            <TableCell className="px-0" align="center">Email</TableCell>
+            <TableCell className="px-0" align="right">Location</TableCell>
+            {/* <TableCell className="px-0">Orders</TableCell>  */}
             {/* <TableCell className="px-0">Money Spent</TableCell> */}
             {/* <TableCell className="px-0">Last Order</TableCell> */}
-            <TableCell className="px-0"></TableCell>
+            <TableCell className="px-0" align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,28 +33,24 @@ const CustomersList = ({customers}) => {
               <TableCell className="px-0 capitalize" align="left">
                 {customer.firstName}
               </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
+              <TableCell className="px-0" align="left">
                 {customer.user.username}
               </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
+              <TableCell className="px-0 " align="center">
                 {customer.email}
               </TableCell>
-              {/* <TableCell className="px-0 capitalize">
-                {customer.status}
-              </TableCell> */}
-              {/* <TableCell className="px-0 capitalize">
-                {customer.status}
-              </TableCell> */}
-              {/* <TableCell className="px-0 capitalize">
-                {customer.status}
-              </TableCell> */}
-              {/* <TableCell className="px-0 capitalize">
-                {customer.status}
-              </TableCell> */}
-              <TableCell className="px-0 capitalize">
-                {customer.status}
+              
+              <TableCell className="px-0 capitalize" align="right">
+                {`${customer.state}, ${customer.country}`}
               </TableCell>
-              <TableCell className="px-0">
+              {/* <TableCell className="px-0 capitalize">
+                {customer.status}
+              </TableCell> */}
+              {/* <TableCell className="px-0 capitalize">
+                {customer.status}
+              </TableCell> */}
+
+              <TableCell className="px-0" align="right">
                 <Link
                 to={{
                   pathname: '/customer/details',
@@ -86,10 +81,7 @@ const CustomersList = ({customers}) => {
                 <IconButton>
                   <Icon color="success">edit</Icon>
                 </IconButton>                    
-              </Link>
-                <IconButton>
-                  <Icon color="success">delete</Icon>
-                </IconButton>  
+              </Link> 
               </TableCell>
             </TableRow>
           ))}

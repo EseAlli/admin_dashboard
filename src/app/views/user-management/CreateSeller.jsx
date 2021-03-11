@@ -37,7 +37,14 @@ function NewVendor() {
     address1: "",
     storeEmail: "",
     password: "password",
-    secretAnswer: "secret"
+    secretAnswer: "secret",
+    creditLimit: "",
+    creditSpent: "",
+    loyaltyNo: "",
+    loyaltyPoint: "",
+    picture: "",
+    referralCode: "",
+    walletBalance: ""
     };
 
     const history = useHistory();
@@ -75,7 +82,7 @@ function NewVendor() {
             <SimpleCard title="Create New Seller">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root}  onSubmit={handleSubmit}>
+                        <FormControl className={classes.root}>
                             <div>
                                 <TextField
                                     onChange={handleChange}
@@ -246,8 +253,8 @@ function NewVendor() {
                                 />
                             
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Create</Button>
-                        </form>
+                            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
+                        </FormControl>
                     </Card>
                 </div>
             </SimpleCard>

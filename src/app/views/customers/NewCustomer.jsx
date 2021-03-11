@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewCustomer({ handleSubmit}) {
+function NewCustomer() {
     const initialState = {
     email: "",
     country: "",
@@ -30,11 +30,8 @@ function NewCustomer({ handleSubmit}) {
     firstName: "",
     mobileNo: "",
     state: "",
-    username: "",
-    companyName: "",
-    postcode: "",
-    address1: "",
-    address2: "",
+    zipCode: "",
+    address: "",
     password: "password",
     secretAnswer: "secret"
     };
@@ -49,10 +46,17 @@ function NewCustomer({ handleSubmit}) {
     setState({ ...state, [name]: value });
     };
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        handleSubmit(state);
-        console.log(state)
+   const handleSubmit = (event) => {
+      console.log(event)
+      http
+        .post("/afrimash/customers", state)
+        .then((response)=>{
+           if (response.data.status === "OK"){  
+               history.push("/customers")
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
     }
 
     return (
@@ -68,32 +72,8 @@ function NewCustomer({ handleSubmit}) {
             <SimpleCard title="Create New Customer">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root}  onSubmit={onSubmit}>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.username}  
-                                    name="username"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Username"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />                            
+                        <FormControl className={classes.root}>
                             
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.email}
-                                    name="email"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Email"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
                             <div>
                                 <TextField
                                     onChange={handleChange}
@@ -121,22 +101,21 @@ function NewCustomer({ handleSubmit}) {
                                 />
                             </div>
                             <div>
-                            
+                                                       
                             
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.companyName}
+                                    value={state.email}
+                                    name="email"
                                     autoFocus
-                                    name="companyName"
                                     margin="dense"
-                                    label="Company Name"
+                                    label="Email"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
-                            </div>
-                            <div>
-                                <TextField
+
+                                 <TextField
                                     onChange={handleChange}
                                     value={state.mobileNo}
                                     name="mobileNo"
@@ -147,33 +126,48 @@ function NewCustomer({ handleSubmit}) {
                                     fullWidth
                                     variant="outlined" 
                                 />
+                            </div>
+                            <div>
+                               
                             
-                            
+                    
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.address1}
-                                    name="address1"
+                                    value={state.address}
+                                    name="address"
                                     autoFocus
                                     margin="dense"
-                                    label="Address 1"
+                                    label="Address "
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.city}
+                                    name="city"
+                                    autoFocus
+                                    margin="dense"
+                                    label="City/Town"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
                             </div>
                             <div>
+                                
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.address2}
-                                    name="address2"
+                                    value={state.state}
+                                    name="state"
                                     autoFocus
                                     margin="dense"
-                                    label="Address 2"
+                                    label="State"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
-                            
                             
                                 <TextField
                                     onChange={handleChange}
@@ -190,45 +184,19 @@ function NewCustomer({ handleSubmit}) {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.city}
-                                    name="city"
+                                    value={state.zipCode}
+                                    name="zipCode"
                                     autoFocus
                                     margin="dense"
-                                    label="City/Town"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.state}
-                                    name="state"
-                                    autoFocus
-                                    margin="dense"
-                                    label="State"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.postcode}
-                                    name="postcode"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Postcode/Zip"
+                                    label="Postcode/ZipCode"
                                     type="text"
                                     fullWidth 
                                     variant="outlined"
                                 />
                             
                             </div>
-                            <Button type="submit" variant="contained" color="primary">Create</Button>
-                        </form>
+                            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
+                        </FormControl>
                     </Card>
                 </div>
             </SimpleCard>

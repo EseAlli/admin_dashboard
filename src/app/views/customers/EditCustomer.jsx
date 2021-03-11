@@ -27,6 +27,7 @@ function EditCustomer({location}) {
     const history = useHistory();
 
     const classes = useStyles()
+    
     const [state, setState] = useState(currState);
 
     const handleChange = (e) => {
@@ -40,8 +41,7 @@ function EditCustomer({location}) {
         .put("/afrimash/customers", state)
         .then((response)=>{
            if (response.data.status === "OK"){
-               const nextPage = props.location.state && props.location.state.from ? props.location.state.from : "/cutomers"
-               history.push(nextPage)
+               return
            }else if(response.data.errorMsg !== null) {
                return
            }
@@ -53,7 +53,7 @@ function EditCustomer({location}) {
             <div  className="mb-sm-30">
                 <Breadcrumb
                     routeSegments={[
-                    { name: "Customer", path: "/Customer/New" },
+                    { name: "Customer", path: "/customers" },
                     { name: "Edit Customer" }
                     ]}
                 />
@@ -61,44 +61,19 @@ function EditCustomer({location}) {
             <SimpleCard title="Edit Customer">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root} noValidate autoComplete="on" onSubmit={handleSubmit}>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.user.username}  
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Username"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
+                        <formControl className={classes.root} noValidate autoComplete="on">
                             
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.email}
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Email"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
                             <div>
                                 <TextField
                                     onChange={handleChange}
                                     value={state.firstName}
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="First Name"
                                     type="text"
                                     fullWidth
-                                    variant="outlined" 
+                                    variant="outlined"
+                                    name="firstName"
                                 />
                             
                             
@@ -107,46 +82,21 @@ function EditCustomer({location}) {
                                     value={state.lastName}
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="Last Name"
                                     type="text"
                                     fullWidth
-                                    variant="outlined" 
+                                    variant="outlined"
+                                    name="lastName" 
                                 />
                             </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.seller}
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Seller"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
                             
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.companyName}
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Company Name"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
                             <div>
                                 <TextField
                                     onChange={handleChange}
                                     value={state.mobileNo}
                                     autoFocus
+                                    name="mobileNo"
                                     margin="dense"
-                                    id="name"
                                     label="Phone Number"
                                     type="text"
                                     fullWidth
@@ -156,11 +106,11 @@ function EditCustomer({location}) {
                             
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.address1}
+                                    value={state.email}
+                                    name="email"
                                     autoFocus
                                     margin="dense"
-                                    id="name"
-                                    label="Address 1"
+                                    label="Email"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
@@ -169,62 +119,64 @@ function EditCustomer({location}) {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.address2}
+                                    value={state.address}
                                     autoFocus
                                     margin="dense"
-                                    id="name"
-                                    label="Address 2"
+                                    name="address"
+                                    label="Address"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
-                            
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.country}
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Country"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
+
                                 <TextField
                                     onChange={handleChange}
                                     value={state.city}
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="City/Town"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
+                                    name="city"
                                 />
                             
+                            
+                                
+                            </div>
+                            <div>
                             
                                 <TextField
                                     onChange={handleChange}
                                     value={state.state}
                                     autoFocus
                                     margin="dense"
-                                    id="name"
                                     label="State"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
+                                    name="state"
+                                />
+
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.country}
+                                    autoFocus
+                                    margin="dense"
+                                    label="Country"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                    name="country"
                                 />
                             </div>
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.postcode}
+                                    value={state.zipCode}
                                     autoFocus
+                                    name="zipCode"
                                     margin="dense"
-                                    id="name"
                                     label="Postcode/Zip"
                                     type="text"
                                     fullWidth 
@@ -232,8 +184,8 @@ function EditCustomer({location}) {
                                 />
                             
                             </div>
-                            <Button variant="contained" color="primary">Submit</Button>
-                        </form>
+                            <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
+                        </formControl>
                     </Card>
                 </div>
             </SimpleCard>

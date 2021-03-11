@@ -44,17 +44,6 @@ class Customers extends Component {
         })
     }
 
-    handleSubmit = (state) => {
-      http
-        .post("/afrimash/customers", state)
-        .then((response)=>{
-           if (response.data.status === "OK"){  
-               this.props.history.push("/customers")
-           }else if(response.data.errorMsg !== null) {
-               return
-           }
-        })
-    }
 
   render() {
     return (

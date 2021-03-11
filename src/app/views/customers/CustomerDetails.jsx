@@ -15,7 +15,7 @@ function CustomerDetails({location}) {
             <div  className="mb-sm-30">
                 <Breadcrumb
                     routeSegments={[
-                    { name: "Customer", path: "/Customer/Details" },
+                    { name: "Customer", path: "/customers" },
                     { name: `Customer Details` }
                     ]}
                 />
