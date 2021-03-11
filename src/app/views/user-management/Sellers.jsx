@@ -69,10 +69,10 @@ const Sellers = () => {
             {/* <TableCell className="px-0">Verification</TableCell> */}
             <TableCell className="px-0 ">Profile</TableCell>
             <TableCell className="px-0">Store</TableCell>
-            <TableCell className="px-0">Membership</TableCell>
+            {/* <TableCell className="px-0">Membership</TableCell> */}
             <TableCell className="px-0">Gross Sales</TableCell>
             {/* <TableCell className="px-0">Total Fees</TableCell> */}
-            <TableCell className="px-0">Action</TableCell>
+            <TableCell className="px-0" align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -91,19 +91,19 @@ const Sellers = () => {
               <TableCell className="px-0 capitalize">
                 {seller.name}
               </TableCell>
-              <TableCell className="px-0 capitalize">
+              {/* <TableCell className="px-0 capitalize">
                 {seller.status}
-              </TableCell>
+              </TableCell> */}
               {/* <TableCell className="px-0 capitalize">
                 ${seller.amount}
               </TableCell> */}
               <TableCell className="px-0 capitalize">
-                {seller.walletBalance}
+                {!seller.walletBalance ? "------------" : seller.walletBalance}
               </TableCell>
-              <TableCell className="px-0 capitalize">
+              {/* <TableCell className="px-0 capitalize">
                 {seller.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
+              </TableCell> */}
+              <TableCell className="px-0 capitalize" align="center">
                 <IconButton>
                   <Icon color="success">open_in_new</Icon>
                 </IconButton>      

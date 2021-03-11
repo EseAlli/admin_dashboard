@@ -13,7 +13,8 @@ import {
   Button
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useHistory } from "react-router-dom";
+import http from "../../services/api";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -42,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function CreateNew({name, handleClose, isOpen, fields, onSubmit}) {
+function CreateNew({name, handleClose, isOpen, fields, onSubmit,staff}) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [state, setState] = React.useState({})
+  const [state, setState] = React.useState(staff)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,7 +55,15 @@ function CreateNew({name, handleClose, isOpen, fields, onSubmit}) {
   };
 
   const submit = () => {
-    onSubmit(state)
+    http
+        .put("/afrimash/customers", state)
+        .then((response)=>{
+           if (response.data.status === "OK"){
+               return
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
   }
     const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -66,6 +75,7 @@ function CreateNew({name, handleClose, isOpen, fields, onSubmit}) {
             className="capitalize"
             onChange={handleChange}
             autoFocus
+            value={state.field}
             margin="dense"
             id={field}
             name={field}

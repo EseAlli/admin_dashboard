@@ -42,23 +42,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function CreateNew({name, handleClose, isOpen, fields}) {
+function CreateNew({name, handleClose, isOpen, fields, onSubmit,states}) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+  const [state, setState] = React.useState(states)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(state)
+    setState({ ...state, [name]: value });
+  };
+
+  const submit = () => {
+    onSubmit(state)
+  }
     const body = (
     <div style={modalStyle} className={classes.paper}>
       <h4 id="simple-modal-title">{name}</h4>
       <form>
         <div>
-         {fields.map((field, index)=>  (                  <TextField
+         {fields.map((field, index)=>  (                  
+         <TextField
+            className="capitalize"
+            onChange={handleChange}
             autoFocus
             margin="dense"
-            id="name"
+            id={field}
+            name={field}
             label={field}
             type="text"
             fullWidth />
          ))}
-         <Button  variant="contained" color="primary">Create</Button>
+         <Button onClick={submit}  variant="contained" color="primary">Create</Button>
         </div>
       </form>
     </div>

@@ -10,9 +10,8 @@ import {
 import CreateNew from "./CreateNew";
 
 const fields = [
-  "Username",
-  "Email",
-  "First Name",
+  "username",
+  "email",
 ]
 
 class Staff extends Component {
@@ -26,14 +25,13 @@ class Staff extends Component {
               firstName: "",
               lastName: "",
               password: "password",
-              secretAnswer: "secret",
               phoneNo: "",
 
             }
 
         }
 
-      //  this.getStaff()
+       this.getStaff()
        
     }
     handleOpen = () => {
@@ -53,18 +51,18 @@ class Staff extends Component {
       .then((response) => {
         console.log(response.data.object)
         this.setState({
-          staff: response.data.object,
+          staff: response.data.object.content,
         })
       })
       .catch((err) => alert(err.response.data))
     }
 
-    submit = () => {
+    submit = (state) => {
        http
-      .post(`/afrimash/users/`)
+      .post(`/afrimash/users/`, state)
       .then((response) => {
         console.log(response.data.object)
-      
+        this.props.history.push("/staff")
       })
       .catch((err) => alert(err.response.data))
     }
@@ -81,8 +79,8 @@ class Staff extends Component {
         </div>
         <SimpleCard title="Staff">
         <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}><Icon>add</Icon>Add New</Button></IconButton>
-        <StaffList/>
-        <CreateNew onSubmit={this.submit} isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Staff" fields={fields}/> 
+        <StaffList staff={this.state.staff}/>
+        <CreateNew states={this.state.vendor} onSubmit={this.submit} isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Staff" fields={fields}/> 
         </SimpleCard>
       </div>
     );

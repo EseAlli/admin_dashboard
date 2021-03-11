@@ -11,9 +11,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import CreateNew from "./CreateNew"
 
 const fields = [
-    "Name",
-    "Slug",
-    "Description"
+    "name",
 ]
 
 class Tag extends Component {
@@ -60,7 +58,7 @@ class Tag extends Component {
       http
         .post("/afrimash/tags", state)
         .then((response)=>{
-           if (response.data.status === "OK"){  
+           if (response.status === "OK"){  
                this.props.history.push("/tags")
            }else if(response.data.errorMsg !== null) {
                return
@@ -82,7 +80,7 @@ class Tag extends Component {
         <SimpleCard title="All Tags">
        
         <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}>Create Tag<Icon>add</Icon></Button></IconButton>
-         <CreateNew isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Tag" fields={fields}/> 
+         <CreateNew onSubmit={this.handleSubmit} isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Tag" fields={fields}/> 
         
         <TagList tags={this.state.tags}/>
         </SimpleCard>

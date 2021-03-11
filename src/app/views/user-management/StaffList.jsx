@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Table,
   TableHead,
@@ -9,87 +9,51 @@ import {
   TableRow
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import EditUser from "./EditUser"
 
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
+const fields = [
+  "username",
+  "email",
+]
+
+const StaffList = ({staff}) => {
+  const [isOpen, setOpen] = useState(false)
+  const handleOpen = () => {
+    setOpen(true)
   }
-];
 
-const StaffList = () => {
+  const handleClose = () => {
+    setOpen(false)
+  }
   return (
     <div className="w-100 overflow-auto">
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
             <TableCell className="px-0">Staff</TableCell>
-            <TableCell className="px-0">Seller</TableCell>
+            {/* <TableCell className="px-0">Seller</TableCell> */}
             <TableCell className="px-0">Name</TableCell>
             <TableCell className="px-0">Email</TableCell>
-            <TableCell className="px-0"></TableCell>
+            <TableCell className="px-0" align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList.map((subscriber, index) => (
+          {staff.map((data, index) => (
             <TableRow key={index}>
-              <TableCell className="px-0 capitalize" align="left">
-                {subscriber.name}
+              <TableCell className="px-0" align="left">
+                {data.username}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.company}
-              </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                {subscriber.date}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                {subscriber.status}
+              { data.firstName && data.lastName !== null ? `${data.firstName} ${data.lastName}` : "-----"}
               </TableCell>
               <TableCell className="px-0">
+               { data.email !== null ? data.email : "----"}
+              </TableCell>
+              <TableCell className="px-0" align="center">
                 <IconButton>
-                  <Icon color="success">edit</Icon>
-                </IconButton> 
-                <IconButton>
-                  <Icon color="success">delete</Icon>
-                </IconButton>  
+                  <Icon>edit</Icon>
+                </IconButton>
+                <EditUser staff={staff} isOpen={isOpen} handleClose={handleClose} name="Edit Staff" fields={fields}/>
               </TableCell>
             </TableRow>
           ))}

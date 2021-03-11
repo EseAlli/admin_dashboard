@@ -11,9 +11,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import CreateNew from "./CreateNew"
 
 const fields = [
-    "Name (Required)",
-    "Description (Optional)",
-    "Slug (Optional)"
+    "name",
 ]
 
 class Brand extends Component {
@@ -55,6 +53,18 @@ class Brand extends Component {
 
         })
   }
+
+  handleSubmit = (state) => {
+      http
+        .post("/afrimash/brands", state)
+        .then((response)=>{
+           if (response.status === "OK"){  
+               this.props.history.push("/brands")
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
+    }
   render() {
     return (
       <div className="m-sm-30">
@@ -69,7 +79,7 @@ class Brand extends Component {
         <SimpleCard title="All Brands">
        
         <IconButton><Button variant="contained" color="primary" onClick={()=>{this.handleOpen()}}>Create New Brand<Icon>add</Icon></Button></IconButton>
-         <CreateNew isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Brand" fields={fields}/> 
+         <CreateNew onSubmit={this.handleSubmit} isOpen={this.state.isOpen} handleClose={this.handleClose} name="Create Brand" fields={fields}/> 
         
         <BrandList brands={this.state.brands}/>
         </SimpleCard>

@@ -26,16 +26,14 @@ function NewVendor() {
     email: "",
     country: "",
     password: "",
-    lastName: "",
-    firstName: "",
+    name: "",
     mobileNo: "",
-    storeSlug: "",
+    // storeSlug: "",
     state: "",
-    username: "",
-    storeName: "",
-    postcode: "",
-    address1: "",
-    storeEmail: "",
+    // storeName: "",
+    zipCode: "",
+    address: "",
+    // storeEmail: "",
     password: "password",
     secretAnswer: "secret",
     creditLimit: "",
@@ -57,7 +55,7 @@ function NewVendor() {
     setState({ ...state, [name]: value });
     };
 
-    const handleSubmit = (state) => {
+    const handleSubmit = () => {
       http
         .post("/afrimash/sellers", state)
         .then((response)=>{
@@ -83,18 +81,18 @@ function NewVendor() {
                 <div className="w-100 overflow-auto">
                     <Card>
                         <FormControl className={classes.root}>
-                            <div>
-                                <TextField
+                            <div> 
+                                 <TextField
                                     onChange={handleChange}
-                                    value={state.username}  
-                                    name="username"
+                                    value={state.name}
+                                    name="name"
                                     autoFocus
                                     margin="dense"
-                                    label="Username"
+                                    label="Name"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
-                                />                            
+                                />                        
                             
                                 <TextField
                                     onChange={handleChange}
@@ -109,32 +107,32 @@ function NewVendor() {
                                 />
                             </div>
                             <div>
+                               
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.firstName}
-                                    name="firstName"
+                                    value={state.mobileNo}
+                                    name="mobileNo"
                                     autoFocus
                                     margin="dense"
-                                    label="First Name"
+                                    label="Phone Number"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
                             
-                            
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.lastName}
+                                    value={state.address}
+                                    name="address"
                                     autoFocus
-                                    name="lastName"
                                     margin="dense"
-                                    label="Last Name"
+                                    label="Address"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                             
                             
                                 <TextField
@@ -160,59 +158,8 @@ function NewVendor() {
                                     fullWidth
                                     variant="outlined" 
                                 />
-                            </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Store Phone Number"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
+                            </div> */}
                             
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.address1}
-                                    name="address1"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Address 1"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.storeEmail}
-                                    name="storeEmail"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Store Email"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.country}
-                                    name="country"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Country"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
                             <div>
                                 <TextField
                                     onChange={handleChange}
@@ -240,10 +187,22 @@ function NewVendor() {
                                 />
                             </div>
                             <div>
+                            
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.postcode}
-                                    name="postcode"
+                                    value={state.country}
+                                    name="country"
+                                    autoFocus
+                                    margin="dense"
+                                    label="Country"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.zipCode}
+                                    name="zipCode"
                                     autoFocus
                                     margin="dense"
                                     label="Postcode/Zip"
