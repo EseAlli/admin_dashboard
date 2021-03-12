@@ -65,6 +65,7 @@ class Brand extends Component {
            }
         })
     }
+    
   render() {
     return (
       <div className="m-sm-30">

@@ -13,10 +13,9 @@ class JwtAuthService {
   
  
   loginWithEmailAndPassword = (userlog) => {
-   return http
-    .post("/afrimash/authenticate", userlog)
-    .then((response)=>{
-      if(response.status === 200){
+     axios.post(`https://api.afrimash.com/afrimash/authenticate`, userlog)
+      .then(response => {
+       if(response.status === 200){
         const {jwt} = response.data
         this.setSession(jwt)
         http
@@ -33,6 +32,7 @@ class JwtAuthService {
       }
     })
   }
+ 
 
   // You need to send http requst with existing token to your server to check token is valid
   // This method is being used when user logged in & app is reloaded
