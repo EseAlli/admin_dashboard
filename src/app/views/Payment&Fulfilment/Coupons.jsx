@@ -6,7 +6,8 @@ import {
   TableBody,
   IconButton,
   Icon,
-  TableRow
+  TableRow,
+  Button
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { Breadcrumb, SimpleCard } from "matx";
@@ -76,7 +77,12 @@ const Coupons = () => {
     </div>
     <SimpleCard title="Coupons">
     <div className="w-100 overflow-auto">
-      
+          <Link
+                to={{
+                  pathname: '/coupon/new',
+                  }}
+              >
+        <IconButton><Button variant="contained" color="primary" ><Icon>add</Icon>Add New</Button></IconButton></Link>
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
@@ -86,7 +92,7 @@ const Coupons = () => {
             <TableCell className="px-0">Seller</TableCell>
             <TableCell className="px-0">Usage Limit</TableCell>
             <TableCell className="px-0">Expiry Date</TableCell>
-            <TableCell className="px-0">Action</TableCell>
+            <TableCell className="px-0"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -111,12 +117,18 @@ const Coupons = () => {
                 {subscriber.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                <IconButton>
+                <Link
+                  to={{
+                    pathname: '/coupon/details',
+                    state: {
+                      currState: subscriber
+                    }
+                  }}
+                >
+                  <IconButton>
                   <Icon color="success">create</Icon>
                 </IconButton>
+                </Link>
                 <IconButton>
                   <Icon color="success">delete</Icon>
                 </IconButton>

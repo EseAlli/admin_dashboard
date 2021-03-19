@@ -125,20 +125,21 @@ class OrderDetails extends Component {
                     }
                
                     <TableRow >
-                        <TableCell align="right" rowSpan={6} colSpan={2.5} />
-                        <p>Discount: </p>
-                        <p>Shipping: </p>
-                        <p>Store Credit Used: </p> 
-                        <p>Order Total: </p>
-                        <p>Vendor(s) Earning: </p>
-                        <p>Admin Fee: </p>
+                        <TableCell align="right" rowSpan={6} colSpan={3} />
+                        <p>Discount: ₦30000 </p>
+                        <p>Shipping:  ₦30000</p>
+                        <p>Store Credit Used: ₦30000 </p> 
+                        <p>Order Total: ₦30000 </p>
+                        <p>Vendor(s) Earning: ₦30000 </p>
+                        <p>Admin Fee: ₦30000</p>
                     </TableRow>
                 </TableBody>
             </Table>
           
         </SimpleCard>
         <br/>
-        <SimpleCard>
+        <SimpleCard title="Shipment Tracking">
+            <h2>Mark item(s) as shipped and provide tracking information</h2>
         </SimpleCard>
       </div>
     );

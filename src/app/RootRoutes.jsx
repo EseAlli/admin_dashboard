@@ -21,6 +21,8 @@ import dragAndDropRoute from "./views/Drag&Drop/DragAndDropRoute";
 import formsRoutes from "./views/forms/FormsRoutes";
 import mapRoutes from "./views/map/MapRoutes";
 
+import reviewRoutes from "./views/reviews/ReviewRoutes";
+
 const redirectRoute = [
   {
     path: "/dashboard/analytics",
@@ -48,6 +50,7 @@ const routes = [
   ...dashboardRoutes,
   ...orderRoutes,
   ...productRoutes,
+  ...reviewRoutes,
   ...paymentAndFulfilmentRoutes,
   ...userRoutes,
   ...customerRoutes,

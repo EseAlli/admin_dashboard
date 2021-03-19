@@ -20,11 +20,11 @@ const OrderList = ({orders}) => {
             <TableCell className="px-0">Order</TableCell>
             <TableCell className="px-0">Purchased</TableCell>
             <TableCell className="px-0">Billing Address</TableCell>
-            <TableCell className="px-0">Shipping Address</TableCell>
+            {/* <TableCell className="px-0">Shipping Address</TableCell> */}
             <TableCell className="px-0">Gross Sales</TableCell>
             {/* <TableCell className="px-0">Admin Fee</TableCell> */}
-            <TableCell className="px-0">Date</TableCell>
-            <TableCell className="px-0">Actions</TableCell>
+            <TableCell align="right" className="px-0">Date</TableCell>
+            <TableCell className="px-0" align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,19 +39,17 @@ const OrderList = ({orders}) => {
               <TableCell className="px-0 capitalize" align="left">
                 {order.deliveryAddress || "-----" }
               </TableCell>
+              
               <TableCell className="px-0 capitalize">
-                {order.deliveryAddress || "-----"}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                ₦{order.totalPrice}
+               { `₦${order.totalPrice} by ${order.payments[0].paymentMethod}`}
               </TableCell>
               {/* <TableCell className="px-0 capitalize">
                 ${order.amount}
               </TableCell> */}
-              <TableCell className="px-0 capitalize">
-                {order.amount}
+              <TableCell align="right" className="px-0 capitalize">
+                {order.createDate}
               </TableCell>
-              <TableCell className="px-0">
+              <TableCell align="right" className="px-0">
               <Link
                 to={{
                   pathname: '/order/details',
@@ -62,10 +60,7 @@ const OrderList = ({orders}) => {
                   }}
               >
                 <IconButton>
-                  <Icon color="success">open_in_new</Icon>
-                </IconButton> 
-                <IconButton>
-                  <Icon color="success">create</Icon>
+                  <Icon color="success">launch</Icon>
                 </IconButton>
                 {/* <IconButton>
                   <Icon color="success">check</Icon>

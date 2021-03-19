@@ -12,6 +12,14 @@ const Refunds = MatxLoadable({
     loader: () => import("./Refunds")
 })
 
+const NewCoupon =MatxLoadable({
+    loader: () => import("./NewCoupons")
+})
+
+const EditCoupon = MatxLoadable({
+  loader: ()=> import("./EditCoupon")
+})
+
 const paymentAndFulfilmentRoutes = [
   {
     path: "/withdrawal",
@@ -24,6 +32,14 @@ const paymentAndFulfilmentRoutes = [
   {
       path: "/refund_requests",
       component: Refunds
+  },
+  {
+      path: "/coupon/new",
+      component: NewCoupon
+  },
+  {
+      path: '/coupon/details',
+      component: EditCoupon
   }
   
 ];

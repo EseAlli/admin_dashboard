@@ -35,11 +35,11 @@ export const navigations = [
       }
    ]
   },
-  {
-    name: "Withdrawal",
-    icon: "credit_card",
-    path: "/withdrawal"
-  },
+  // {
+  //   name: "Withdrawal",
+  //   icon: "credit_card",
+  //   path: "/withdrawal"
+  // },
   {
     name: "Coupons",
     icon: "card_giftcard",
@@ -86,11 +86,11 @@ export const navigations = [
       // }
     ]
   },
-  {
-    name: "Refund",
-    icon: "cached",
-    path: '/refund_requests'
-  },
+  // {
+  //   name: "Refund",
+  //   icon: "cached",
+  //   path: '/refund_requests'
+  // },
 
 
   // {
@@ -148,18 +148,19 @@ export const navigations = [
   //     }
   //   ]
   // },
+    
   {
     name: "Reviews",
     icon: "border_color",
     children: [
       {
-        name: "Users List",
-        path: "/forms/basic",
+        name: "Product Review",
+        path: "/product-reviews",
         iconText: "B"
       },
       {
-        name: "New User",
-        path: "/forms/editor",
+        name: "Store Review",
+        path: "/store-reviews",
         iconText: "E"
       }
     ]

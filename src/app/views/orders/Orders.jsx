@@ -13,7 +13,8 @@ class Orders extends Component {
   constructor(props) {
         super(props);
         this.state = {
-            orders : []
+            orders : [],
+            payment: []
         }
        
     }
@@ -39,8 +40,9 @@ class Orders extends Component {
         http.get(`/afrimash/orders`)
         .then((response)=> {
             this.setState({
-                orders: response.data.object
+                orders: response.data.object,
             })
+            console.log(this.state.payment)
         })
     }
   render() {

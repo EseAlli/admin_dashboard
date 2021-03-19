@@ -60,6 +60,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     boxSizing: "inherit"
   },
+  grid: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 140,
+    width: 100,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
   
 }));
 
@@ -290,9 +300,11 @@ function NewProduct() {
                                         variant="outlined" 
                                 />
                             </div>
-                            <div className="pl-10">
+                            
+                             <div className="pl-10">
+                                   
                                 
-                                    <GridList variant="outlined" margin="dense"  cellHeight="auto">
+                                    {/* <GridList variant="outlined" margin="dense"  cellHeight="auto">
                                     <ListSubheader component="div">Brands</ListSubheader>
                                     {brands.map((brand) => (
                                         <FormControlLabel
@@ -342,9 +354,9 @@ function NewProduct() {
                                             label={tag.name}
                                         />
                                     ))}
-                                    </GridList>
+                                    </GridList> */}
                                 
-                            </div>
+                            </div> 
                             <div className={classes.image}>
                                 <input 
                                 accept="image/*" 
