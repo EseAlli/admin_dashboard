@@ -24,7 +24,7 @@ class Category extends Component {
       isOpen: false
     }
 
-    this.getTag()
+    this.getCategories()
   }
 
    handleOpen = () => {
@@ -39,7 +39,7 @@ class Category extends Component {
         })
     }
 
-    getTag = () => {
+    getCategories = () => {
         http
         .get(`/afrimash/product-categories?page=0&size=50&search=`)
         .then((response) => {
@@ -56,18 +56,7 @@ class Category extends Component {
         })
     }
 
-     handleSubmit = (state) => {
-      http
-        .post("/afrimash/categories", state)
-        .then((response)=>{
-           if (response.data.status === "OK"){  
-               this.props.history.push("/product-categories")
-           }else if(response.data.errorMsg !== null) {
-               return
-           }
-        })
-    }
-
+    
   render() {
     return (
       <div className="m-sm-30">
@@ -83,10 +72,8 @@ class Category extends Component {
        <Link
          to={{
              pathname: 'product-category/new',
-             state:{
-                 categories: this.state.categories
              }
-         }}
+         }
          >
          <IconButton><Button variant="contained" color="primary">Create Category<Icon>add</Icon></Button></IconButton>
        </Link>

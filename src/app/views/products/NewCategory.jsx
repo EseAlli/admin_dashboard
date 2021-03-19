@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import axios from "axios"
 import {
     FormControl,
     InputLabel,
@@ -15,6 +16,7 @@ import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
+import ImageUpload from "./ImageUpload"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,22 +30,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 function NewCategory({ handleSubmit}) {
     const initialState = {
     name: "",
-    country: "",
-    password: "",
-    lastName: "",
-    firstName: "",
-    mobileNo: "",
-    state: "",
-    slug: "",
-    companyName: "",
-    postcode: "",
-    address1: "",
-    address2: "",
-    password: "password",
-    secretAnswer: "secret"
+    // category: "",
+    // productCategoryId: ""
     };
 
     const history = useHistory();
@@ -52,18 +45,52 @@ function NewCategory({ handleSubmit}) {
     const [categories, setCategories] = useState([])
 
 
+    useEffect(() => {
+        getCategories()        
+    }, [])
+
     const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(state)
     setState({ ...state, [name]: value });
     };
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        handleSubmit(state);
-        console.log(state)
+    const onSubmit = () => {
+     const data = new FormData();
+     const token = localStorage.getItem("jwt_token")
+    //  console.log(state)
+    // for (const [key, value] of Object.entries(object1)) {
+    //     console.log(`${key}: ${value}`);
+    // }
+    data.append("productCategory",  JSON.stringify(state))
+     
+     axios({
+        method: "post",
+        url: "https://api.afrimash.com/afrimash/product-categories",
+        data,
+        headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
+    //   http
+    //     .post("/afrimash/product-categories", state)
+    //     .then((response)=>{
+    //        if (response.data.status === "OK"){  
+    //            this.props.history.push("/product-categories")
+    //        }else if(response.data.errorMsg !== null) {
+    //            return
+    //        }
+    //     })
     }
 
-    const getTag = () => {
+
+    const getCategories = () => {
         http
         .get(`/afrimash/product-categories?page=0&size=50&search=`)
         .then((response) => {
@@ -89,7 +116,7 @@ function NewCategory({ handleSubmit}) {
             <SimpleCard title="Create New Product Category">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root}  onSubmit={onSubmit}>
+                        <FormControl className={classes.root}>
                             <div>
                                  <TextField
                                     onChange={handleChange}
@@ -102,31 +129,27 @@ function NewCategory({ handleSubmit}) {
                                     fullWidth
                                     variant="outlined" 
                                 />
-
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.slug}  
-                                    name="slug"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Slug"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />                            
-                            </div>
-                            <div>
-                                <TextareaAutosize
-                                    rowsMax={8}
-                                    aria-label="maximum height"
-                                    placeholder="Description"
-                                    
-                               />
-                            </div>
                            
-                            
-                            <Button type="submit" variant="contained" color="primary">Create</Button>
-                        </form>
+                                
+                                {/* <TextField
+                                    value={state.category}
+                                    onChange={handleChange}
+                                    select
+                                    autoFocus
+                                    name="parentCategoryId"
+                                    margin="dense" 
+                                    variant="outlined" 
+                                    helperText="Select Parent Category (Optional)"
+                                    fullWidth
+                                >
+                                    {categories.map(category => (
+                                        <MenuItem name="category" value={category.id}>{category.name}</MenuItem>
+                                    )
+                                    )}
+                                </TextField>                                 */}
+                            </div>
+                                 <Button onClick={onSubmit} className="mt-5" type="submit" variant="contained" color="primary">Create</Button>
+                        </FormControl>
                     </Card>
                 </div>
             </SimpleCard>

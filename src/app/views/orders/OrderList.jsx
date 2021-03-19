@@ -22,7 +22,7 @@ const OrderList = ({orders}) => {
             <TableCell className="px-0">Billing Address</TableCell>
             <TableCell className="px-0">Shipping Address</TableCell>
             <TableCell className="px-0">Gross Sales</TableCell>
-            <TableCell className="px-0">Admin Fee</TableCell>
+            {/* <TableCell className="px-0">Admin Fee</TableCell> */}
             <TableCell className="px-0">Date</TableCell>
             <TableCell className="px-0">Actions</TableCell>
           </TableRow>
@@ -31,25 +31,25 @@ const OrderList = ({orders}) => {
           {orders.map((order, index) => (
             <TableRow key={index}>
               <TableCell className="px-0 capitalize" align="left">
-                {order.name}
+                {order.referenceNo}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {order.company}
+                {order.orderItems.length} items
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {order.date}
+                {order.deliveryAddress || "-----" }
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {order.status}
+                {order.deliveryAddress || "-----"}
               </TableCell>
               <TableCell className="px-0 capitalize">
+                ₦{order.totalPrice}
+              </TableCell>
+              {/* <TableCell className="px-0 capitalize">
                 ${order.amount}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="px-0 capitalize">
-                ${order.amount}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                ${order.amount}
+                {order.amount}
               </TableCell>
               <TableCell className="px-0">
               <Link
@@ -57,6 +57,7 @@ const OrderList = ({orders}) => {
                   pathname: '/order/details',
                   state: {
                     direct: 'shipment',
+                    id: order.id
                     }
                   }}
               >
