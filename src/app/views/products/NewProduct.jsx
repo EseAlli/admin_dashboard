@@ -302,8 +302,27 @@ function NewProduct() {
                             </div>
                             
                              <div className="pl-10">
-                                   
-                                
+                                   {/* <Grid container className={classes.root} spacing={2}>
+                                    <Grid item xs={12}>
+                                        
+                                        <GridList variant="outlined" margin="dense"  cellHeight="auto">
+                                    <ListSubheader component="div">Brands</ListSubheader>
+                                    {brands.map((brand) => (
+                                        <FormControlLabel
+                                            control={
+                                            <Checkbox
+                                                checked={state.checkedB}
+                                                onChange={handleChange}
+                                                name="brand"
+                                                color="primary"
+                                            />
+                                            }
+                                            label={brand.name}
+                                        />
+                                    ))}
+                                    </GridList>
+                                    </Grid>
+                                    </Grid> */}
                                     {/* <GridList variant="outlined" margin="dense"  cellHeight="auto">
                                     <ListSubheader component="div">Brands</ListSubheader>
                                     {brands.map((brand) => (
@@ -358,16 +377,17 @@ function NewProduct() {
                                 
                             </div> 
                             <div className={classes.image}>
-                                <input 
+                                {/* <input 
                                 accept="image/*" 
                                 multiple="" 
                                 type="file" 
                                 autocomplete="off" 
                                 tabindex="-1" 
-                                style={{display: "none"}}/>
+                                style={{display: "none"}}/> */}
+                                 <input type="file" id="files" name="files" multiple />
                             <div>
-                                <Icon>publish</Icon>
-                                <span>Drop product images</span>
+                                {/* <Icon>publish</Icon>
+                                <span>Drop product images</span> */}
                             </div>
                             </div>
                            
