@@ -12,6 +12,8 @@ import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -139,37 +141,13 @@ function NewOrder() {
                                     {customers.map(customer => (
                                         <MenuItem name="customer"value={`${customer.firstName} ${customer.lastName}`}>{`${customer.firstName} ${customer.lastName}`}</MenuItem>
                                     ))}
-                                </TextField>                        
+                                </TextField>  
+                                                      
                             
                             </div>
                             <div>
                                
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
-                                    select
-                                    margin="dense"
-                                    label="Product"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                >
-                                {products.map(product => (
-                                        <MenuItem name="product"value={product.name}>{product.name}</MenuItem>
-                                    ))}
-                                </TextField> 
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.address}
-                                    name="address"
-                                    margin="dense"
-                                    label="Quantity"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
+                               
                             </div>
                             
                             <div>
@@ -231,30 +209,6 @@ function NewOrder() {
                             </div>
                             
                             <h5>Billing</h5>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.firstName}
-                                    name="firstName"
-                                    margin="dense"
-                                    label="First Name"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.lastName}
-                                    name="lastName"
-                                    margin="dense"
-                                    label="Last Name"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
                             <div>
                                                        
                             

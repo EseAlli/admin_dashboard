@@ -1,4 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
+import axios from "axios";
 import {
     FormControl,
     InputLabel,
@@ -18,7 +19,7 @@ import {
     IconButton,
     FormControlLabel,
     ImageIcon,
-    Icon,
+    Icon
 } from "@material-ui/core";
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
@@ -26,22 +27,20 @@ import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
-import ImageUpload from "./ImageUpload"
+import ImageUpload from "./ImageUpload";
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { RMIUploader } from "react-multiple-image-uploader";
+
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      width: '63ch',
-    },
-    '& .MuiGridList-root': {
-      margin: theme.spacing(4),
-      display:"inline-block",
-      padding: theme.spacing(5),
-      width: '31ch',
-      height: 159,
-      backgroundColor: theme.palette.background.paper,
-    },
+    width: "100%"
+
   },
   image:{    
     border: " 2px dashed #DCDCDC",
@@ -82,22 +81,16 @@ const productTypes = [
 
 function NewProduct() {
     const initialState = {
-    email: "",
-    country: "",
-    password: "",
-    lastName: "",
-    firstName: "",
-    mobileNo: "",
-    state: "",
-    username: "",
-    seller: "",
-    companyName: "",
-    postcode: "",
-    address1: "",
-    address2: "",
-    password: "password",
-    secretAnswer: "secret",
-    productType: ""
+    productType: "",
+    discountRate: "",
+    price: "",
+    sku: "",
+    name: "",
+    storeId: "",
+    description: "",
+    brandId: "",
+    productCategories: [],
+    tags: [],
     };
 
     const history = useHistory();
@@ -108,6 +101,36 @@ function NewProduct() {
     const [tags, setTags] = useState([]);
     const [stores, setStores] = useState([])
     const [categories, setCategories] = useState([])
+    const [dataSources, setDataSource] = useState([])
+    const [productImages, setProductImages] = useState([])
+
+
+    const onUpload = (data) => {
+        let source = data
+        source.forEach((item, i) => {
+            item.id = i + 1;
+        });
+        setDataSource(source)
+    };
+    const onSelect = (data) => {
+        console.log("Select files", data);
+        let imageFiles =[]
+         data.map(img =>{
+             let {file} =img.img
+             imageFiles.push(file)
+             setProductImages(imageFiles)
+        })
+        
+        console.log(imageFiles)
+        setProductImages(data)
+    };
+    const onRemove = (id) => {
+        let newdataSource = dataSources.filter(data =>{
+           return data.id !== id
+        })
+        setDataSource(newdataSource)
+    };
+
 
     useEffect(() => {
         getBrands()
@@ -121,6 +144,12 @@ function NewProduct() {
     setState({ ...state, [name]: value });
     console.log(state)
     };
+
+    const handleSelect = (newValue, fieldName) => {
+        const {id} = newValue
+        setState({...state, [fieldName]: id})
+        console.log(state)
+  };
 
     const getBrands = () => {
     http
@@ -175,18 +204,34 @@ function NewProduct() {
     }
 
 
-    const handleSubmit = (props) => {
-        http
-        .post("/afrimash/product", state)
-        .then((response)=>{
-           if (response.data.status === "OK"){
-               const nextPage = props.location.state && props.location.state.from ? props.location.state.form : "/cutomers"
-               history.push(nextPage)
-           }else if(response.data.errorMsg !== null) {
-               return
-           }
-        })
+    const onSubmit = () => {
+     const data = new FormData();
+     const token = localStorage.getItem("jwt_token")
+    //  console.log(state)
+    // for (const [key, value] of Object.entries(object1)) {
+    //     console.log(`${key}: ${value}`);
+    // }
+    data.append("product",  JSON.stringify(state))
+    data.append("imageFile", productImages)
+
+    console.log(data)
+     
+    //  axios({
+    //     method: "post",
+    //     url: "https://api.afrimash.com/afrimash/products",
+    //     data,
+    //     headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
+    //     })
+    //     .then(function (response) {
+    //         //handle success
+    //         console.log(response);
+    //     })
+    //     .catch(function (response) {
+    //         //handle error
+    //         console.log(response);
+    //     });
     }
+
 
     return (
         <div className="m-sm-30">
@@ -201,7 +246,7 @@ function NewProduct() {
             <SimpleCard title="Create New Product">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <form className={classes.root} noValidate autoComplete="on" onSubmit={handleSubmit}>
+                        <FormControl className={classes.root} noValidate autoComplete="on" >
                             <div>
                                 <TextField
                                     value={state.productType}
@@ -222,8 +267,9 @@ function NewProduct() {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.product_name}  
+                                    value={state.name}  
                                     margin="dense"
+                                    name="name"
                                     id="name"
                                     label="Product Name"
                                     type="text"
@@ -236,7 +282,8 @@ function NewProduct() {
                                     onChange={handleChange}
                                     value={state.price}
                                     margin="dense"
-                                    id="name"
+                                    id="price"
+                                    name="price"
                                     label="Price(₦)"
                                     type="text"
                                     fullWidth
@@ -246,10 +293,11 @@ function NewProduct() {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.sale_price}
+                                    value={state.discountRate}
                                     margin="dense"
-                                    id="name"
-                                    label="Sale Price (₦)"
+                                    id="discountRate"
+                                    name="discountRate"
+                                    label="Discount Rate (%)"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
@@ -260,7 +308,8 @@ function NewProduct() {
                                     onChange={handleChange}
                                     value={state.sku}
                                     margin="dense"
-                                    id="name"
+                                    id="sku"
+                                    name="sku"
                                     label="SKU"
                                     type="text"
                                     fullWidth
@@ -268,22 +317,16 @@ function NewProduct() {
                                 />
                             </div>
                             <div>
-                                <TextField
-                                    value={state.store}
-                                    onChange={handleChange}
-                                    select
-                                    autoFocus
-                                    name="parentCategoryId"
-                                    margin="dense" 
-                                    variant="outlined" 
-                                    label="Select Store"
-                                    fullWidth
-                                >
-                                    {stores.map(store => (
-                                        <MenuItem name="store" value={store.id}>{store.name}</MenuItem>
-                                    )
-                                    )}
-                                </TextField>                                
+                                <Autocomplete
+                                    id="storeId"
+                                    name="storeId"
+                                    options={stores}
+                                    getOptionLabel={(option) => option.name}
+                                    onChange={(event, newValue) => handleSelect(newValue, 'storeId')}
+                                    renderInput={(params) => 
+                                        <TextField {...params} label="Select Store" variant="outlined" margin="dense" />
+                                    }
+                                 />                           
                             
                             
                                <TextField
@@ -294,105 +337,105 @@ function NewProduct() {
                                         margin="dense"
                                         label="Description"
                                         rowsMax={5}
-                                        rows={4}
+                                        rows={1}
                                         type="text"
                                         fullWidth
                                         variant="outlined" 
                                 />
                             </div>
+
+                            <div>   
+                                    <Autocomplete
+                                        id="brands"
+                                        options={brands}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => handleSelect(newValue, 'brandId')}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Select Brand"  margin="dense" />
+                                        )}
+                                    />
+
+                                    
+
+                                </div>
+                                <div>
+                                    <Autocomplete
+                                        multiple
+                                        id="tags"
+                                        options={tags}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, tags: newValue})
+                                            console.log(state);
+                                        }}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Select Tags" placeholder="Tag" fullWidth margin="dense" />
+                                        )}
+                                    />
+
+                            </div>
+
+                             <div>
+
+                                    <Autocomplete
+                                        multiple
+                                        id="categoried"
+                                        options={categories}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, productCategories: newValue})
+                                            console.log(state);
+                                        }}
+                                        getOptionLabel={(option) => option.name}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Select Categories" placeholder="Category" fullWidth margin="dense" />
+                                        )}
+                                    />
+
+                            </div>
                             
-                             <div className="pl-10">
-                                   {/* <Grid container className={classes.root} spacing={2}>
-                                    <Grid item xs={12}>
-                                        
-                                        <GridList variant="outlined" margin="dense"  cellHeight="auto">
-                                    <ListSubheader component="div">Brands</ListSubheader>
-                                    {brands.map((brand) => (
-                                        <FormControlLabel
-                                            control={
-                                            <Checkbox
-                                                checked={state.checkedB}
-                                                onChange={handleChange}
-                                                name="brand"
-                                                color="primary"
-                                            />
-                                            }
-                                            label={brand.name}
-                                        />
-                                    ))}
-                                    </GridList>
-                                    </Grid>
-                                    </Grid> */}
-                                    {/* <GridList variant="outlined" margin="dense"  cellHeight="auto">
-                                    <ListSubheader component="div">Brands</ListSubheader>
-                                    {brands.map((brand) => (
-                                        <FormControlLabel
-                                            control={
-                                            <Checkbox
-                                                checked={state.checkedB}
-                                                onChange={handleChange}
-                                                name="brand"
-                                                color="primary"
-                                            />
-                                            }
-                                            label={brand.name}
-                                        />
-                                    ))}
-                                    </GridList>                       
-                                    
-                                    <GridList margin="dense" variant="outlined" cellHeight="auto">
-                                    <ListSubheader component="div">Category</ListSubheader>
-                                    {categories.map((category) => (
-                                        <FormControlLabel
-                                            control={
-                                            <Checkbox
-                                                checked={state.checkedB}
-                                                onChange={handleChange}
-                                                name="checkedB"
-                                                color="primary"
-                                            />
-                                            }
-                                            label={category.name}
-                                        />
-                                    ))}
-                                    </GridList>
-                                
-                                    
-                                    <GridList margin="dense"  cellHeight="auto">
-                                    <ListSubheader component="div">Tags</ListSubheader>
-                                    {tags.map((tag) => (
-                                        <FormControlLabel
-                                            control={
-                                            <Checkbox
-                                                checked={state.checkedB}
-                                                onChange={handleChange}
-                                                name="checkedB"
-                                                color="primary"
-                                            />
-                                            }
-                                            label={tag.name}
-                                        />
-                                    ))}
-                                    </GridList> */}
-                                
-                            </div> 
-                            <div className={classes.image}>
-                                {/* <input 
-                                accept="image/*" 
-                                multiple="" 
-                                type="file" 
-                                autocomplete="off" 
-                                tabindex="-1" 
-                                style={{display: "none"}}/> */}
+                              
+                            {/* <div className={classes.image}>
+                               
                                  <input type="file" id="files" name="files" multiple />
                             <div>
-                                {/* <Icon>publish</Icon>
-                                <span>Drop product images</span> */}
+                                <Icon>publish</Icon>
+                                <span>Drop product images</span>
                             </div>
+                            </div> */}
+
+                            <div>
+                                    <RMIUploader                                    
+                                        onSelect={onSelect}
+                                        onUpload={onUpload}
+                                        onRemove={onRemove}
+                                        dataSources={dataSources}
+                                    />
                             </div>
                            
-                            <Button variant="contained" color="primary">Create</Button>
-                        </form>
+                            <Button onClick={onSubmit} variant="contained" color="primary">Create</Button>
+                        </FormControl>
                     </Card>
                 </div>
             </SimpleCard>
