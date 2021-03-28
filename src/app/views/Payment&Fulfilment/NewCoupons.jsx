@@ -7,7 +7,10 @@ import {
     Card,
     TextField,
     Button,
-    MenuItem
+    MenuItem,
+    Checkbox,
+    FormGroup,
+    FormControlLabel
 } from "@material-ui/core";
 import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
       width: '63ch',
     },
+    formControl: {
+    margin: theme.spacing(2),
+  },
   },
 }));
 
@@ -35,47 +41,56 @@ const paymentMethod = [
     "Pay Online With Bank By Paystack"
 ]
 
+// const couponTypes ={
+//     ORDER_DISCOUNT : "Order Discount",
+//     PRODUCT_DISCOUNT: "Product Discount"
+// }
+
 const couponTypes = [
-    "Percentage Discount",
-    "Fixed Cart Discount",
-    "Fixed Product Discount",
-    "Store Credit/ Gift Certificate"
+    "Order Discount",
+    "Product Discount",
 ]
 
-const shippingMethod = [
-    "Flat Reate",
-    "Free Shipping",
-    "Local Pickup",
-    "Marketplace Shipping By Country",
-    "Store Shipping",
-    "Marketplace Shipping by Weight",
-    "Marketplace Shipping by Distance",
-    "Table Rate"
-
+const discountApplyMode = [
+    "Fixed Amount",
+    "Percentage",
 ]
+
 
 function NewCoupon() {
     const initialState = {
-    email: "",
-    country: "",
-    password: "",
     name: "",
-    mobileNo: "",
-    // storeSlug: "",
-    state: "",
-    // storeName: "",
-    zipCode: "",
-    address: "",
-    // storeEmail: "",
-    password: "password",
-    secretAnswer: "secret",
+    code: "",
+    enabled: "",
+    maximumOff: "",
+    minimumBuy: "",
+    barcode: "",
+    expireDate: "",
+    barcode: "",
+    applyToAll: false,
+    value: "",
+    couponType: "",
+    modifiable: false,
+    neverExpire: "",
+    newUsersOnly: false,
+    discountApplyMode: [],
+    excludedProducts: [],
+    excludedProductCategories:[],
+    productCategories:[],
+    products:[],
+    customers: [],
+    paymentMethod:"",
     creditLimit: "",
     creditSpent: "",
     loyaltyNo: "",
     loyaltyPoint: "",
     picture: "",
     referralCode: "",
-    walletBalance: ""
+    walletBalance: "",
+    providesFreeShipping: false,
+    individualUseOnly: false,
+    limitPerUser: "",
+    overallUsageLimit: ""
     };
 
     const history = useHistory();
@@ -85,10 +100,18 @@ function NewCoupon() {
     const [sellers, setSellers] = useState([])
     const [products, setProducts] = useState([])
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [checked, setChecked] = useState(false)
 
     const handleDateChange = (date) => {
             setSelectedDate(date);
     };
+    const handleCheck = (event) => {
+    // setChecked(event.target.checked);
+    const {value, checked} = event.target
+    setState({...state, [value]: checked})
+
+    console.log(state)
+  };
 
 
     useEffect(() => {
@@ -96,8 +119,24 @@ function NewCoupon() {
     }, [])
 
     const handleChange = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
+        let { name, value } = e.target;      
+        if ( name === "couponType"){
+            if( value = "Order Discount"){
+                setState({...state, couponType: "ORDER_DISCOUNT"})
+            }else if (name === "Product Discount"){
+                 setState({...state, couponType: "PRODUCT_DISCOUNT"})
+            }
+        }else if ( name === "discountApplyMode"){
+            if( value = "Fixed Amount"){
+                setState({...state, couponType: "FIXED_AMOUNT"})
+            }else if (name === "Percentage"){
+                 setState({...state, couponType: "PERCENTAGE"})
+            }
+        }
+        else{
+            setState({ ...state, [name]: value });
+        }
+        console.log(state)
     };
 
     const handleSubmit = () => {
@@ -137,6 +176,17 @@ function NewCoupon() {
                     <Card>
                         <FormControl className={classes.root}>
                             <div> 
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.name}
+                                    name="name"
+                                    margin="dense"
+                                    label="Name"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+
                                  <TextField
                                     onChange={handleChange}
                                     value={state.code}
@@ -147,11 +197,13 @@ function NewCoupon() {
                                     fullWidth
                                     variant="outlined" 
                                 />
-
+                                                           
+                            </div>
+                            <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    value={state.couponType}
+                                    name="couponType"
                                     select
                                     margin="dense"
                                     label="Discount Type"
@@ -160,12 +212,10 @@ function NewCoupon() {
                                     variant="outlined" 
                                 >
                                 {couponTypes.map(couponType => (
-                                        <MenuItem name="couponType"value={couponType}>{couponType}</MenuItem>
+                                        <MenuItem name="couponType"value={state.couponType}>{couponType}</MenuItem>
                                     ))}
                                 </TextField>
-                                                           
-                            </div>
-                            <div>
+
                                 <TextField
                                     onChange={handleChange}
                                     value={state.amount}
@@ -177,39 +227,71 @@ function NewCoupon() {
                                     variant="outlined" 
                                 />
 
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
-                                    format="MM/dd/yyyy"
-                                    margin="normal"
-                                    label="Coupon Expiry Date"
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                    />
-                                </MuiPickersUtilsProvider>
                             </div>
-                            
-                            <div>
-                              
 
+                            <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.description}
-                                    name="description"
+                                    value={state.barcode}
+                                    name="address"
                                     margin="dense"
-                                    label="Description"
-                                    multiline
-                                    rows={3}
-                                    rowsMax={5}
+                                    label="Barcode"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
-                                 
+
+                                <TextField
+                                    id="date"
+                                    label="Coupon Expiry Date"
+                                    type="date"
+                                    variant="outlined"
+                                    margin="dense"
+                                    name="expireDate"
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+
+                            </div>
+
+                            <div>
+                                <TextField
+                                    onChange={handleChange}
+                                    value={state.discountApplyMode}
+                                    name="discountApplyMode"
+                                    select
+                                    margin="dense"
+                                    label="Discount Apply Mode"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                >
+                                {discountApplyMode.map(discountApplyMode => (
+                                        <MenuItem name="discountApplyMode" value={state.discountApplyMode}>{discountApplyMode}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            
+                            <div>
+                                <FormGroup aria-label="position" row>
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.providesFreeShipping}
+                                            value="providesFreeShipping"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="Allow Free Shipping"
+                                    labelPlacement="start"
+                                />
+                            
+                                </FormGroup>
                             </div>
                         </FormControl>
                     </Card>
@@ -248,8 +330,8 @@ function NewCoupon() {
                             <div>
                                  <TextField
                                     onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    value={state.product}
+                                    name="product"
                                     select
                                     margin="dense"
                                     label="Product"
@@ -265,8 +347,8 @@ function NewCoupon() {
 
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    value={state.excludedProducts}
+                                    name="excludedProducts"
                                     select
                                     margin="dense"
                                     label="Excluded Product"
@@ -283,8 +365,8 @@ function NewCoupon() {
                             <div>
                                  <TextField
                                     onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    value={state.productCategories}
+                                    name="productCategories"
                                     select
                                     margin="dense"
                                     label="Categories"
@@ -318,10 +400,10 @@ function NewCoupon() {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.zipCode}
-                                    name="zipCode"
+                                    value={state.overallUsageLimit}
+                                    name="overallUsageLimit"
                                     margin="dense"
-                                    label="Usage Limit Per Coupon"
+                                    label="Overall Usage Limit"
                                     type="text"
                                     fullWidth 
                                     variant="outlined"
@@ -329,8 +411,8 @@ function NewCoupon() {
 
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.zipCode}
-                                    name="zipCode"
+                                    value={state.limitPerUser}
+                                    name="limitPerUser"
                                     margin="dense"
                                     label="Usage Limit Per User"
                                     type="text"
@@ -338,6 +420,87 @@ function NewCoupon() {
                                     variant="outlined"
                                 />
                             
+                            </div>
+                            <div>
+                                <FormGroup aria-label="position" row>
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.individualUseOnly}
+                                            value="individualUseOnly"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="Individual Use Only"
+                                    labelPlacement="start"
+                                />
+                                 
+                    
+                                
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.enabled}
+                                            value="enabled"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="Enabled"
+                                    labelPlacement="start"
+                                />
+                                 
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.applyToAll}
+                                            value="applyToAll"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="Apply To All"
+                                    labelPlacement="start"
+                                />
+
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.modifiable}
+                                            value="modifiable"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="Modifiable"
+                                    labelPlacement="start"
+                                />
+
+                                <FormControlLabel
+                                    value="top"
+                                    control={
+                                        <Checkbox
+                                            checked={state.newUsersOnly}
+                                            value="newUsersOnly"
+                                            onChange={handleCheck}
+                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            color="primary"
+                                        /> 
+                                    }
+                                    label="New Users Only"
+                                    labelPlacement="start"
+                                />
+                                 
+                                </FormGroup>                                                             
                             </div>
                             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
                         </FormControl>
