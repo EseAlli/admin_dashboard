@@ -54,7 +54,7 @@ const paymentMethods = [
     "Wallet"
 ]
 
-function NewCoupon({location}) {
+function EditCoupon({location}) {
 
     const history = useHistory();
         const State = location.state;
@@ -173,11 +173,11 @@ function NewCoupon({location}) {
                 <Breadcrumb
                     routeSegments={[
                     { name: "Coupons", path: "/coupons" },
-                    { name: "Create Coupon" }
+                    { name: "Edit Coupon" }
                     ]}
                 />
             </div>
-            <SimpleCard title="Create New Coupon">
+            <SimpleCard title="Edit New Coupon">
                 <div className="w-100 overflow-auto">
                     <Card>
                         <FormControl className={classes.root}>
@@ -575,7 +575,7 @@ function NewCoupon({location}) {
                                  
                                 </FormGroup>                                                             
                             </div>
-                            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
+                            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Edit</Button>
                         </FormControl>
                     </Card>
                 </div>
@@ -584,4 +584,4 @@ function NewCoupon({location}) {
     )
 }
 
-export default NewCoupon
+export default EditCoupon
