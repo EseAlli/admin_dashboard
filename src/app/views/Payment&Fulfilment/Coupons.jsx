@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Table,
   TableHead,
@@ -12,59 +12,23 @@ import {
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { Breadcrumb, SimpleCard } from "matx";
 import Checkbox from "@material-ui/core/Checkbox";
-
-const subscribarList = [
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  },
-  {
-    image: "http://matx-react.ui-lib.com/assets/images/products/headphone-2.jpg",
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD."
-  }
-];
+import http from "../../services/api";
 
 const Coupons = () => {
+  const [coupons, setCoupons] = useState([])
+  useEffect(() => {
+    getCoupons()
+  }, [])
+  const getCoupons = () => {
+        http
+        .get(`/afrimash/coupons/`)
+        .then((response) => {
+            console.log(response.data.object)
+            setCoupons(response.data.object)
+        })
+        .catch((err) => alert(err.response.data))
+    }
+
   return (
     <div className="m-sm-30">
     <div  className="mb-sm-30">
@@ -96,7 +60,7 @@ const Coupons = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList.map((subscriber, index) => (
+          {coupons.map((subscriber, index) => (
             <TableRow key={index}>
               <TableCell className="px-0 capitalize">
                 {subscriber.name}

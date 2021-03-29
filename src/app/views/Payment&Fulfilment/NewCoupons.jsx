@@ -10,8 +10,10 @@ import {
     MenuItem,
     Checkbox,
     FormGroup,
-    FormControlLabel
+    FormControlLabel,
+    
 } from "@material-ui/core";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
@@ -22,75 +24,62 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      width: '63ch',
-    },
-    formControl: {
-    margin: theme.spacing(2),
-  },
+      width: '100%',
   },
 }));
-
-const paymentMethod = [
-    "Bank Transfer or Bank Deposit",
-    "Pay with a Debit/Credit Card",
-    "Pay Online With Bank By Paystack"
-]
-
-// const couponTypes ={
-//     ORDER_DISCOUNT : "Order Discount",
-//     PRODUCT_DISCOUNT: "Product Discount"
-// }
 
 const couponTypes = [
     "Order Discount",
     "Product Discount",
 ]
 
-const discountApplyMode = [
+const discountApplyModes = [
     "Fixed Amount",
     "Percentage",
 ]
 
+const paymentMethods = [
+    "Bank Transfer",
+    "Cash",
+    "POS",
+    "Paystack",
+    "Wallet"
+]
 
 function NewCoupon() {
     const initialState = {
     name: "",
     code: "",
     enabled: "",
-    maximumOff: "",
-    minimumBuy: "",
+    maximumOff: 0,
+    minimumBuy: 0,
     barcode: "",
     expireDate: "",
-    barcode: "",
     applyToAll: false,
-    value: "",
+    value: null,
     couponType: "",
     modifiable: false,
-    neverExpire: "",
+    neverExpire: false,
     newUsersOnly: false,
-    discountApplyMode: [],
+    discountApplyMode: "",
     excludedProducts: [],
     excludedProductCategories:[],
     productCategories:[],
     products:[],
     customers: [],
     paymentMethod:"",
-    creditLimit: "",
-    creditSpent: "",
-    loyaltyNo: "",
-    loyaltyPoint: "",
-    picture: "",
-    referralCode: "",
-    walletBalance: "",
     providesFreeShipping: false,
     individualUseOnly: false,
-    limitPerUser: "",
-    overallUsageLimit: ""
+    limitPerUser: 0,
+    overallUsageLimit: 0
     };
 
     const history = useHistory();
@@ -99,11 +88,20 @@ function NewCoupon() {
     const [state, setState] = useState(initialState);
     const [sellers, setSellers] = useState([])
     const [products, setProducts] = useState([])
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [categories, setCategories] = useState([])
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18 21:11'));
     const [checked, setChecked] = useState(false)
 
-    const handleDateChange = (date) => {
-            setSelectedDate(date);
+    const handleDateChange = (event) => {
+        let date = event.target.value
+            console.log(event.target.value)
+            // setSelectedDate(date);
+            let newDate = new Date(date)
+            let dateformat = newDate.toISOString().
+                             replace(/T/, ' ').      
+                             replace(/\..+/, '') 
+                            console.log(dateformat)
+            setState({...state, expireDate: dateformat})
     };
     const handleCheck = (event) => {
     // setChecked(event.target.checked);
@@ -115,23 +113,42 @@ function NewCoupon() {
 
 
     useEffect(() => {
-        getProducts()      
+        getProducts()  
+        getCategories()    
     }, [])
 
+    const handlePaymentmethod = ( value) => {
+        let payment = "PAYMENT_METHOD_"
+        if (value === 'Bank Transfer'){
+            setState({...state, paymentMethod: `${payment}BANK_TRANSFER` })
+        }else if (value === 'POS'){
+            setState({...state, paymentMethod: `${payment}POS` })
+        }else if (value === 'Paystack'){
+            setState({...state, paymentMethod: `${payment}PAYSTACK` })
+        }else if (value === 'Cash'){
+            setState({...state, paymentMethod: `${payment}CASH` })
+        }else if (value === 'Wallet'){
+            setState({...state, paymentMethod: `${payment}WALLET` })
+        }
+    }
+
     const handleChange = (e) => {
-        let { name, value } = e.target;      
+        let { name, value } = e.target;   
+        console.log(value)
         if ( name === "couponType"){
-            if( value = "Order Discount"){
+            if( value === "Order Discount"){
                 setState({...state, couponType: "ORDER_DISCOUNT"})
             }else if (name === "Product Discount"){
                  setState({...state, couponType: "PRODUCT_DISCOUNT"})
             }
         }else if ( name === "discountApplyMode"){
-            if( value = "Fixed Amount"){
-                setState({...state, couponType: "FIXED_AMOUNT"})
+            if( value === "Fixed Amount"){
+                setState({...state, discountApplyMode: "FIXED_AMOUNT"})
             }else if (name === "Percentage"){
-                 setState({...state, couponType: "PERCENTAGE"})
+                 setState({...state, discountApplyMode: "PERCENTAGE"})
             }
+        }else if (name === "paymentMethod"){
+            handlePaymentmethod(value)
         }
         else{
             setState({ ...state, [name]: value });
@@ -152,14 +169,27 @@ function NewCoupon() {
     }
 
     const getProducts = () => {
-    http
-      .get(`/afrimash/products/`)
-      .then((response) => {
-        console.log(response.data.object)
-        setProducts(response.data.object)
-      })
-      .catch((err) => alert(err.response.data))
-  }
+        http
+        .get(`/afrimash/products/`)
+        .then((response) => {
+            console.log(response.data.object)
+            setProducts(response.data.object)
+        })
+        .catch((err) => alert(err.response.data))
+    }
+
+    const getCategories = () => {
+        http
+        .get(`/afrimash/product-categories?page=0&size=50&search=`)
+        .then((response) => {
+            console.log(response.data)
+            setCategories(response.data.object)
+        })
+        .catch((err) => {
+            setCategories([])
+            alert(err.response.data)
+        })
+    }
 
     return (
         <div className="m-sm-30">
@@ -202,27 +232,26 @@ function NewCoupon() {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.couponType}
+                                    // value={state.couponType}
                                     name="couponType"
                                     select
                                     margin="dense"
-                                    label="Discount Type"
-                                    type="text"
+                                    label="Coupon Type"
                                     fullWidth
                                     variant="outlined" 
                                 >
                                 {couponTypes.map(couponType => (
-                                        <MenuItem name="couponType"value={state.couponType}>{couponType}</MenuItem>
+                                        <MenuItem name="couponType" value={couponType}>{couponType}</MenuItem>
                                     ))}
                                 </TextField>
 
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.amount}
-                                    name="address"
+                                    value={state.value}
+                                    name="value"
                                     margin="dense"
                                     label="Coupon Amount"
-                                    type="text"
+                                    type="number"
                                     fullWidth
                                     variant="outlined" 
                                 />
@@ -233,43 +262,75 @@ function NewCoupon() {
                                 <TextField
                                     onChange={handleChange}
                                     value={state.barcode}
-                                    name="address"
+                                    name="barcode"
                                     margin="dense"
                                     label="Barcode"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
+                                
+                                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="outlined"
+                                    format="yyyy/MM/dd HH:mm"
+                                    margin="dense"
+                                    label="Coupon Expiry Date"
+                                    value={selectedDate}
+                                    onChange={handleDateChange}
+                                    fullWidth
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    />
+                                </MuiPickersUtilsProvider> */}
 
                                 <TextField
                                     id="date"
                                     label="Coupon Expiry Date"
-                                    type="date"
+                                    type="datetime-local"
                                     variant="outlined"
                                     margin="dense"
+                                    fullWidth
                                     name="expireDate"
-                                    onChange={handleChange}
+                                    onChange={handleDateChange}
                                     InputLabelProps={{
                                     shrink: true,
                                     }}
                                 />
+
 
                             </div>
 
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.discountApplyMode}
                                     name="discountApplyMode"
                                     select
                                     margin="dense"
-                                    label="Discount Apply Mode"
-                                    type="text"
+                                    label="Discount Apply Mode" 
                                     fullWidth
                                     variant="outlined" 
                                 >
-                                {discountApplyMode.map(discountApplyMode => (
-                                        <MenuItem name="discountApplyMode" value={state.discountApplyMode}>{discountApplyMode}</MenuItem>
+                                {discountApplyModes.map(discountApplyMode => (
+                                        <MenuItem name="discountApplyMode" value={discountApplyMode}>{discountApplyMode}</MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+
+                            <div>
+                                <TextField
+                                    onChange={handleChange}
+                                    name="paymentMethod"
+                                    select
+                                    margin="dense"
+                                    label="Payment Method" 
+                                    fullWidth
+                                    variant="outlined" 
+                                >
+                                {paymentMethods.map(paymentMethod => (
+                                        <MenuItem name="paymentMethod" value={paymentMethod}>{paymentMethod}</MenuItem>
                                     ))}
                                 </TextField>
                             </div>
@@ -306,11 +367,11 @@ function NewCoupon() {
                             <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.firstName}
-                                    name="firstName"
+                                    value={state.minimumBuy}
+                                    name="minimumBuy"
                                     margin="dense"
                                     label="Minimum Spend"
-                                    type="text"
+                                    type="number"
                                     fullWidth
                                     variant="outlined" 
                                 />
@@ -318,84 +379,14 @@ function NewCoupon() {
                             
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.lastName}
-                                    name="lastName"
+                                    value={state.maximumOff}
+                                    name="maximumOff"
                                     margin="dense"
                                     label="Maximum Spend"
-                                    type="text"
+                                    type="number"
                                     fullWidth
                                     variant="outlined" 
                                 />
-                            </div>
-                            <div>
-                                 <TextField
-                                    onChange={handleChange}
-                                    value={state.product}
-                                    name="product"
-                                    select
-                                    margin="dense"
-                                    label="Product"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                >
-                                {products.map(product => (
-                                        <MenuItem name="product"value={product.name}>{product.name}</MenuItem>
-                                    ))}
-                                </TextField> 
-
-
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.excludedProducts}
-                                    name="excludedProducts"
-                                    select
-                                    margin="dense"
-                                    label="Excluded Product"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                >
-                                {products.map(product => (
-                                        <MenuItem name="product"value={product.name}>{product.name}</MenuItem>
-                                    ))}
-                                </TextField> 
-
-                            </div>
-                            <div>
-                                 <TextField
-                                    onChange={handleChange}
-                                    value={state.productCategories}
-                                    name="productCategories"
-                                    select
-                                    margin="dense"
-                                    label="Categories"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                >
-                                {products.map(product => (
-                                        <MenuItem name="product"value={product.name}>{product.name}</MenuItem>
-                                    ))}
-                                </TextField> 
-
-
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
-                                    select
-                                    margin="dense"
-                                    label="Excluded Categories"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                >
-                                {products.map(product => (
-                                        <MenuItem name="product"value={product.name}>{product.name}</MenuItem>
-                                    ))}
-                                </TextField> 
-
                             </div>
                             <div>
                                 <TextField
@@ -404,7 +395,7 @@ function NewCoupon() {
                                     name="overallUsageLimit"
                                     margin="dense"
                                     label="Overall Usage Limit"
-                                    type="text"
+                                    type="number"
                                     fullWidth 
                                     variant="outlined"
                                 />
@@ -415,11 +406,117 @@ function NewCoupon() {
                                     name="limitPerUser"
                                     margin="dense"
                                     label="Usage Limit Per User"
-                                    type="text"
+                                    type="number"
                                     fullWidth 
                                     variant="outlined"
                                 />
                             
+                            </div>
+                            <div>
+                                 <Autocomplete
+                                        multiple
+                                        id="products"
+                                        options={products}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, products: newValue})
+                                            console.log(state);
+                                        }}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Products" placeholder="Filter  " fullWidth margin="dense" />
+                                        )}
+                                    />
+                                </div>
+                                <div>
+                                    <Autocomplete
+                                        multiple
+                                        id="products"
+                                        options={products}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, excludedProducts: newValue})
+                                            console.log(state);
+                                        }}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Excluded Products" placeholder="Filter by Products" fullWidth margin="dense" />
+                                        )}
+                                    />
+                                </div>
+                                <div>
+
+                                     <Autocomplete
+                                        multiple
+                                        id="categories"
+                                        options={categories}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, productCategories: newValue})
+                                            console.log(state);
+                                        }}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Select Categories" placeholder="Categories" fullWidth margin="dense" />
+                                        )}
+                                    />
+                                </div>
+                                <div>
+                                     <Autocomplete
+                                        fullwidth
+                                        multiple
+                                        id="categories"
+                                        options={categories}
+                                        getOptionLabel={(option) => option.name}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, excludedProductCategories: newValue})
+                                            console.log(state);
+                                        }}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Excluded Categories" placeholder="Categories" fullWidth margin="dense" />
+                                        )}
+                                    />
                             </div>
                             <div>
                                 <FormGroup aria-label="position" row>
