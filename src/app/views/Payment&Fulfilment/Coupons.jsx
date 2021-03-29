@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { Breadcrumb, SimpleCard } from "matx";
 import Checkbox from "@material-ui/core/Checkbox";
 import http from "../../services/api";
+import Moment from 'react-moment';
 
 const Coupons = () => {
   const [coupons, setCoupons] = useState([])
@@ -59,29 +60,29 @@ const Coupons = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {coupons.map((subscriber, index) => (
+          {coupons.map((coupon, index) => (
             <TableRow key={index}>
               <TableCell className="px-0 capitalize">
-                {subscriber.name}
+                {coupon.name || "-----"}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.code}
+                {coupon.code}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.value}
+                {coupon.value}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.overallUsageLimit}
+                {coupon.overallUsageLimit}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.expireDate}
+                <Moment format="YYYY/MM/DD">{coupon.expireDate}</Moment>
               </TableCell>
               <TableCell className="px-0 capitalize">
                 <Link
                   to={{
                     pathname: '/coupon/details',
                     state: {
-                      currState: subscriber
+                      currState: coupon
                     }
                   }}
                 >

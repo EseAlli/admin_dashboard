@@ -9,6 +9,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import Moment from 'react-moment';
 
 
 const OrderList = ({orders}) => {
@@ -47,7 +48,7 @@ const OrderList = ({orders}) => {
                 ${order.amount}
               </TableCell> */}
               <TableCell align="right" className="px-0 capitalize">
-                {order.createDate}
+                <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
               </TableCell>
               <TableCell align="right" className="px-0">
               <Link
