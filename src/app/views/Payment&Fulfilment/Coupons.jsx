@@ -50,10 +50,9 @@ const Coupons = () => {
       <Table style={{ whiteSpace: "pre" }}>
         <TableHead>
           <TableRow>
+            <TableCell className="px-0">Name</TableCell>
             <TableCell className="px-0">Code</TableCell>
-            <TableCell className="px-0">Type</TableCell>
             <TableCell className="px-0">Amount</TableCell>
-            <TableCell className="px-0">Seller</TableCell>
             <TableCell className="px-0">Usage Limit</TableCell>
             <TableCell className="px-0">Expiry Date</TableCell>
             <TableCell className="px-0"></TableCell>
@@ -66,19 +65,16 @@ const Coupons = () => {
                 {subscriber.name}
               </TableCell>
               <TableCell className="px-0 capitalize" align="left">
-                {subscriber.company}
+                {subscriber.code}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {subscriber.value}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {subscriber.overallUsageLimit}
               </TableCell>
               <TableCell className="px-0 capitalize">
-                ${subscriber.amount}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                {subscriber.status}
+                {subscriber.expireDate}
               </TableCell>
               <TableCell className="px-0 capitalize">
                 <Link
