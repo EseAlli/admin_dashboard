@@ -82,7 +82,8 @@ const Coupons = () => {
                   to={{
                     pathname: '/coupon/details',
                     state: {
-                      currState: coupon
+                      
+                      couponId: coupon.id
                     }
                   }}
                 >

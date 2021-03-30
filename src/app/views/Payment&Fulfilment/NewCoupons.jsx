@@ -37,10 +37,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const couponTypes = [
-    "Order Discount",
-    "Product Discount",
+const couponTypes= [
+    {
+        label: "Order Discount",
+        value: "ORDER_DISCOUNT"
+    },
+    {
+        label: "Product Discount",
+        value: "PRODUCT_DISCOUNT"
+    }
 ]
+
+// const couponTypes = [
+//     "Order Discount",
+//     "Product Discount",
+// ]
 
 const discountApplyModes = [
     "Fixed Amount",
@@ -65,7 +76,7 @@ function NewCoupon() {
     barcode: "",
     expireDate: "",
     applyToAll: false,
-    value: null,
+    value: 0,
     couponType: "",
     modifiable: false,
     neverExpire: false,
@@ -137,11 +148,12 @@ function NewCoupon() {
         let { name, value } = e.target;   
         console.log(value)
         if ( name === "couponType"){
-            if( value === "Order Discount"){
-                setState({...state, couponType: "ORDER_DISCOUNT"})
-            }else if (name === "Product Discount"){
-                 setState({...state, couponType: "PRODUCT_DISCOUNT"})
-            }
+            setState({...state, [name]: value})
+            // if( value === "Order Discount"){
+            //     setState({...state, couponType: "ORDER_DISCOUNT"})
+            // }else if (name === "Product Discount"){
+            //      setState({...state, couponType: "PRODUCT_DISCOUNT"})
+            // }
         }else if ( name === "discountApplyMode"){
             if( value === "Fixed Amount"){
                 setState({...state, discountApplyMode: "FIXED_AMOUNT"})
@@ -242,7 +254,7 @@ function NewCoupon() {
                                     variant="outlined" 
                                 >
                                 {couponTypes.map(couponType => (
-                                        <MenuItem name="couponType" value={couponType}>{couponType}</MenuItem>
+                                        <MenuItem name="couponType" value={couponType.value}>{couponType.label}</MenuItem>
                                     ))}
                                 </TextField>
 

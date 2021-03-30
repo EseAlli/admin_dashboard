@@ -56,12 +56,39 @@ const paymentMethods = [
 
 function EditCoupon({location}) {
 
+    const initialState = {
+    name: "",
+    code: "",
+    enabled: "",
+    maximumOff: 0,
+    minimumBuy: 0,
+    barcode: "",
+    expireDate: "",
+    applyToAll: false,
+    value: 0,
+    couponType: "",
+    modifiable: false,
+    neverExpire: false,
+    newUsersOnly: false,
+    discountApplyMode: "",
+    excludedProducts: [],
+    excludedProductCategories:[],
+    productCategories:[],
+    products:[],
+    customers: [],
+    paymentMethod:"",
+    providesFreeShipping: false,
+    individualUseOnly: false,
+    limitPerUser: 0,
+    overallUsageLimit: 0
+    };
+
     const history = useHistory();
-        const State = location.state;
-    const {currState} = State
+    const State = location.state;
+    const {currState, couponId} = State
 
     const classes = useStyles()
-    const [state, setState] = useState(currState);
+    const [state, setState] = useState(initialState);
     const [sellers, setSellers] = useState([])
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
@@ -80,18 +107,34 @@ function EditCoupon({location}) {
             setState({...state, expireDate: dateformat})
     };
     const handleCheck = (event) => {
-    // setChecked(event.target.checked);
-    const {value, checked} = event.target
-    setState({...state, [value]: checked})
+        // setChecked(event.target.checked);
+        const {value, checked} = event.target
+        setState({...state, [value]: checked})
 
-    console.log(state)
-  };
+        console.log(state)
+    };
 
 
     useEffect(() => {
         getProducts()  
-        getCategories()    
+        getCategories()
+        getCoupon()    
     }, [])
+
+    const getCoupon = () =>{
+        http
+        .get(`/afrimash/coupons/${couponId}`)
+        .then((response)=>{
+            console.log(response)
+           if (response.data.status === "OK"){  
+               setState(response.data.object)
+               console.log(response.data.object)
+               console.log(state)
+           }else if(response.data.errorMsg !== null) {
+               return
+           }
+        })
+    }
 
     const handlePaymentmethod = ( value) => {
         let payment = "PAYMENT_METHOD_"
@@ -180,7 +223,7 @@ function EditCoupon({location}) {
             <SimpleCard title="Edit New Coupon">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <FormControl className={classes.root}>
+                        <FormControl className={classes.root} autocomplete>
                             <div> 
                                 <TextField
                                     onChange={handleChange}

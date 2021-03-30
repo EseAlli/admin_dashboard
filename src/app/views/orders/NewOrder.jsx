@@ -71,7 +71,8 @@ function NewOrder() {
     const classes = useStyles()
     const [state, setState] = useState(initialState);
     const [customers, setCustomers] = useState([])
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState([]);
+    const [fields, setFields] = useState([])
 
     useEffect(() => {
         getCustomers()
@@ -82,6 +83,22 @@ function NewOrder() {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
     };
+
+    const handleAddInput =() => {
+        const values = [fields];
+        values.push({
+            product: "",
+            quantity: ""
+        });
+        setFields(values)
+    }
+
+    const handleRemoveInput = (i) => {
+        const values = [...fields];
+        console.log(values);
+        values.splice(i, 1);
+        setFields(values);
+  }
 
     const handleSubmit = () => {
       http

@@ -208,28 +208,36 @@ function NewProduct() {
      const data = new FormData();
      const token = localStorage.getItem("jwt_token")
     //  console.log(state)
-    // for (const [key, value] of Object.entries(object1)) {
-    //     console.log(`${key}: ${value}`);
-    // }
+    
+    let imageFiles= {
+        id: "1",
+        imageUrl: "",
+        position: 0,
+        productId: "2"
+    }
     data.append("product",  JSON.stringify(state))
-    data.append("imageFile", productImages)
+    data.append("imageFile", [productImages])
 
-    console.log(data)
+    for (const [key, value] of Object.entries(data)) {
+        console.log(`${key}: ${value}`);
+    }
+
+ 
      
-    //  axios({
-    //     method: "post",
-    //     url: "https://api.afrimash.com/afrimash/products",
-    //     data,
-    //     headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
-    //     })
-    //     .then(function (response) {
-    //         //handle success
-    //         console.log(response);
-    //     })
-    //     .catch(function (response) {
-    //         //handle error
-    //         console.log(response);
-    //     });
+     axios({
+        method: "post",
+        url: "https://api.afrimash.com/afrimash/products",
+        data,
+        headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
+        })
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
     }
 
 
@@ -418,11 +426,8 @@ function NewProduct() {
                               
                             {/* <div className={classes.image}>
                                
-                                 <input type="file" id="files" name="files" multiple />
-                            <div>
-                                <Icon>publish</Icon>
-                                <span>Drop product images</span>
-                            </div>
+                                 <input onChange={(e)=> setProductImages(e.target.files)} type="file" id="files" name="files" multiple />
+                            
                             </div> */}
 
                             <div>
