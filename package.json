@@ -16,7 +16,7 @@
     "axios": "^0.19.2",
     "axios-mock-adapter": "^1.19.0",
     "babel-polyfill": "^6.26.0",
-    "clsx": "^1.0.4",
+    "clsx": "^1.1.1",
     "create-react-app": "^4.0.3",
     "css-vars-ponyfill": "^2.1.2",
     "date-fns": "^2.0.0-alpha.34",
@@ -24,6 +24,7 @@
     "echarts": "^4.2.1",
     "echarts-for-react": "^2.0.15-beta.0",
     "firebase": "^6.6.1",
+    "formik": "^2.2.6",
     "history": "^4.10.0",
     "lodash": "^4.17.15",
     "material-ui": "^1.0.0-beta.47",
@@ -37,6 +38,7 @@
     "react-beautiful-dnd": "^11.0.4",
     "react-big-calendar": "^0.22.0",
     "react-dom": "^16.8.6",
+    "react-dropzone": "^11.3.2",
     "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.1",
     "react-highlight": "^0.12.0",
@@ -61,7 +63,8 @@
     "serve": "^11.3.2",
     "shortid": "^2.2.14",
     "swiper": "^4.5.0",
-    "victory": "^32.3.3"
+    "victory": "^32.3.3",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "serve -s build",

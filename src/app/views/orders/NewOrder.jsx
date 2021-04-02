@@ -162,8 +162,42 @@ function NewOrder() {
                                                       
                             
                             </div>
-                            <div>
+                            {
+                                fields.map((field, idx)=>{
+                                    return (
+                                        <div key={`${field}-${idx}`} className="maindiv">
+                                            <Autocomplete
+                                                id="combo-box-demo"
+                                                options={products}
+                                                value={fields.product}
+                                                getOptionLabel={(option) => option.name}
+                                                renderInput={(params) => <TextField {...params} label="Product" margin="dense" variant="outlined" />}
+                                            />
+
+                                <TextField
+                                    onChange={handleChange}
+                                    value={fields.quantity}
+                                    name="state"
+                                    margin="dense"
+                                    label="Quantity"
+                                    type="text"
+                                    fullWidth
+                                    variant="outlined" 
+                                />
+
+                                <Button type="button" onClick={() => handleAddInput()}>
+                                    <i className="fa fa-plus" aria-hidden="true"/>
+                                </Button>
                                
+                               <Button type="button" onClick={() => handleRemoveInput()}>
+                                    <i className="fa fa-times" aria-hidden="true"/>
+                                </Button>                
+                                        </div>
+                                    )
+                                })
+                            }
+                            <div>
+                                
                                
                             </div>
                             
