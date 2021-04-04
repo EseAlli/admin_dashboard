@@ -6,64 +6,78 @@ import {
     Card,
     TextField,
     Button,
-    MenuItem
+    MenuItem,
+    IconButton,
+    Grid,
+  Icon,
 } from "@material-ui/core";
 import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Alert from '@material-ui/lab/Alert';
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      width: '63ch',
+    //   margin: theme.spacing(2),
+    //   width: '63ch',
     },
   },
 }));
 
+
+
 const paymentMethod = [
-    "Bank Transfer or Bank Deposit",
-    "Pay with a Debit/Credit Card",
-    "Pay Online With Bank By Paystack"
+    {
+        label: "Bank Transfer",
+        value:"PAYMENT_METHOD_BANK_TRANSFER"
+    },
+    {
+        label: "Cash",
+        value:"PAYMENT_METHOD_CASH"
+    },
+    {
+        label: "Paystack",
+        value:"PAYMENT_METHOD_PAYSTACK"
+    },
+    {
+        label: "POS",
+        value:"PAYMENT_METHOD_POS"
+    },
+    {
+        label: "Wallet",
+        value:"PAYMENT_METHOD_WALLET"
+    },
 ]
 
 const shippingMethod = [
-    "Flat Reate",
-    "Free Shipping",
-    "Local Pickup",
-    "Marketplace Shipping By Country",
-    "Store Shipping",
-    "Marketplace Shipping by Weight",
-    "Marketplace Shipping by Distance",
-    "Table Rate"
-
+    {
+        label: "Delivery",
+        value: "DELIVERY"
+    },
+    {
+        label: "Drop Off",
+        value: "DROP_OFF"
+    },
+    {
+        label: "Pick Up",
+        value: "PICK_UP"
+    }
 ]
+
 
 function NewOrder() {
     const initialState = {
-    email: "",
-    country: "",
-    password: "",
-    name: "",
-    mobileNo: "",
-    // storeSlug: "",
-    state: "",
-    // storeName: "",
-    zipCode: "",
-    address: "",
-    // storeEmail: "",
-    password: "password",
-    secretAnswer: "secret",
-    creditLimit: "",
-    creditSpent: "",
-    loyaltyNo: "",
-    loyaltyPoint: "",
-    picture: "",
-    referralCode: "",
-    walletBalance: ""
+    customerId:"",
+    orderItems: [],
+    paymentMethod: "",
+    shippingMethod: "",
+    paidAmount:"",
+    // deliveryAddress: "",
     };
 
     const history = useHistory();
@@ -72,7 +86,7 @@ function NewOrder() {
     const [state, setState] = useState(initialState);
     const [customers, setCustomers] = useState([])
     const [products, setProducts] = useState([]);
-    const [fields, setFields] = useState([])
+    const [fields, setFields] = useState([{productId:"", itemQuantity:""}])
 
     useEffect(() => {
         getCustomers()
@@ -81,16 +95,41 @@ function NewOrder() {
 
     const handleChange = (e) => {
     const { name, value } = e.target;
-    setState({ ...state, [name]: value });
+        setState({ ...state, [name]: value });
+        console.log(state)
     };
 
+
+    const handleChangeInput = (i, event) =>{
+    const values = [...fields];
+    const { name, value } = event.target;
+    values[i][name] = value;
+    setFields(values);
+    console.log(fields);
+    setState({...state, orderItems: fields})
+    }
+
+    const handleInputChange =(i, event, newValues) => {
+        console.log(newValues)
+        let itemPrice = newValues.price
+        const values = [...fields];
+        const { name, value } = event.target;
+        values[i].productId = newValues.id;
+        values[i]= {...values[i], itemPrice}
+        setFields(values);
+        console.log(fields);
+        setState({...state, orderItems: fields})
+  }
+
     const handleAddInput =() => {
-        const values = [fields];
+        const values = [...fields];
         values.push({
-            product: "",
-            quantity: ""
+            productId: "",
+            itemQuantity: ""
         });
         setFields(values)
+        console.log(values)
+        console.log(fields)
     }
 
     const handleRemoveInput = (i) => {
@@ -100,9 +139,10 @@ function NewOrder() {
         setFields(values);
   }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
       http
-        .post("/afrimash/sellers", state)
+        .post("/afrimash/orders", state)
         .then((response)=>{
            if (response.data.status === "OK"){  
                history.push("/vendors")
@@ -116,6 +156,10 @@ function NewOrder() {
         http.get(`/afrimash/customers`)
         .then((response)=> {
             setCustomers(response.data.object)
+            console.log(response.data.object)
+        })
+        .catch((err) => {
+            console.log(err)
         })
     }
 
@@ -126,7 +170,9 @@ function NewOrder() {
         console.log(response.data.object)
         setProducts(response.data.object)
       })
-      .catch((err) => alert(err.response.data))
+      .catch((err) => {
+            console.log(err)
+      })
   }
 
     return (
@@ -142,12 +188,11 @@ function NewOrder() {
             <SimpleCard title="Create New Order">
                 <div className="w-100 overflow-auto">
                     <Card>
-                        <FormControl className={classes.root}>
-                            <div> 
-                                 <TextField
+                        <form className="px-4">
+                            <TextField
                                     onChange={handleChange}
-                                    value={state.name}
-                                    name="name"
+                                    // value={state.name}
+                                    name="customerId"
                                     select
                                     margin="dense"
                                     label="Customer"
@@ -156,56 +201,40 @@ function NewOrder() {
                                     variant="outlined" 
                                 >
                                     {customers.map(customer => (
-                                        <MenuItem name="customer"value={`${customer.firstName} ${customer.lastName}`}>{`${customer.firstName} ${customer.lastName}`}</MenuItem>
+                                        <MenuItem name="customer"value={customer.id}>{`${customer.firstName} ${customer.lastName}`}</MenuItem>
                                     ))}
-                                </TextField>  
+                                </TextField> 
+                         <Grid container spacing={3}>
+                            <Grid item sm={6} xs={12}>                        
                                                       
                             
-                            </div>
+                            
                             {
                                 fields.map((field, idx)=>{
                                     return (
                                         <div key={`${field}-${idx}`} className="maindiv">
                                             <Autocomplete
-                                                id="combo-box-demo"
+                                                id="productId"
+                                                name="productId"
                                                 options={products}
                                                 value={fields.product}
                                                 getOptionLabel={(option) => option.name}
-                                                renderInput={(params) => <TextField {...params} label="Product" margin="dense" variant="outlined" />}
+                                                onChange={(e, newValues) => handleInputChange(idx, e, newValues)}
+                                                renderInput={(params) => <TextField {...params}        label="Product"
+                                                 name="productId"
+                                                 margin="dense" variant="outlined" />}
                                             />
 
-                                <TextField
-                                    onChange={handleChange}
-                                    value={fields.quantity}
-                                    name="state"
-                                    margin="dense"
-                                    label="Quantity"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-
-                                <Button type="button" onClick={() => handleAddInput()}>
-                                    <i className="fa fa-plus" aria-hidden="true"/>
-                                </Button>
-                               
-                               <Button type="button" onClick={() => handleRemoveInput()}>
-                                    <i className="fa fa-times" aria-hidden="true"/>
-                                </Button>                
-                                        </div>
+                                            
+                                        </div> 
                                     )
                                 })
                             }
-                            <div>
-                                
-                               
-                            </div>
+                           
                             
-                            <div>
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    name="paymentMethod"
                                     select
                                     margin="dense"
                                     label="Payment Method"
@@ -214,27 +243,12 @@ function NewOrder() {
                                     variant="outlined" 
                                 >
                                 {paymentMethod.map(paymentMethod => (
-                                        <MenuItem name="PaymentMethod"value={paymentMethod}>{paymentMethod}</MenuItem>
+                                        <MenuItem name="PaymentMethod"value={paymentMethod.value}>{paymentMethod.label}</MenuItem>
                                     ))}
                                 </TextField> 
-                            
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.state}
-                                    name="state"
-                                    margin="dense"
-                                    label="Payment Details"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
+                                    name="shippingMethod"
                                     select
                                     margin="dense"
                                     label="Shipping Method"
@@ -243,113 +257,67 @@ function NewOrder() {
                                     variant="outlined" 
                                 >
                                 {shippingMethod.map(shippingMethod => (
-                                        <MenuItem name="shippingMethod"value={shippingMethod}>{shippingMethod}</MenuItem>
+                                        <MenuItem name="shippingMethod"value={shippingMethod.value}>{shippingMethod.label}</MenuItem>
                                     ))}
                                 </TextField> 
+                                </Grid>
+                                <Grid item sm={6} xs={12}>
+                                    {
+                                        fields.map((field, idx)=>{
+                                            return(
+                                                <div key={`${field}-${idx}`} className="maindiv">
+                                           <TextField
+                                                onChange={(e, newValues) => handleChangeInput(idx, e)}
+                                                value={fields.quantity}
+                                                name="itemQuantity"
+                                                id="itemQuantity"
+                                                margin="dense"
+                                                label="Quantity"
+                                                type="text"
+                                                style={{width: "81%"}}
+                                                variant="outlined" 
+                                            />
+
+                                            <IconButton onClick={()=> handleAddInput()}>
+                                                <Icon color="success">add</Icon>
+                                            </IconButton>
+
+                                            <IconButton onClick={()=> handleRemoveInput(idx)}>
+                                                <Icon color="success">remove</Icon>
+                                            </IconButton>
+
+                                    
+                                        </div>
+                                            )
+                                        })
+                                    }
                                 <TextField
                                     onChange={handleChange}
-                                    value={state.zipCode}
-                                    name="zipCode"
+                                    value={state.paidAmount}
+                                    name="paidAmount"
                                     margin="dense"
-                                    label="Shipping Cost"
-                                    type="text"
-                                    fullWidth 
-                                    variant="outlined"
-                                />
-                            
-                            </div>
-                            
-                            <h5>Billing</h5>
-                            <div>
-                                                       
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.email}
-                                    name="email"
-                                    margin="dense"
-                                    label="Email"
+                                    label="Amount"
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
                                 />
 
-                                 <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
-                                    margin="dense"
-                                    label="Phone Number"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                               
                             
-                    
-                                <TextField
+                                
+                                {/* <TextField
                                     onChange={handleChange}
-                                    value={state.address}
-                                    name="address"
+                                    value={state.deliveryAddress}
+                                    name="deliveryAddress"
                                     margin="dense"
                                     label="Address "
                                     type="text"
                                     fullWidth
                                     variant="outlined" 
-                                />
-
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.city}
-                                    name="city"
-                                    margin="dense"
-                                    label="City/Town"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.state}
-                                    name="state"
-                                    margin="dense"
-                                    label="State"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.country}
-                                    name="country"
-                                    margin="dense"
-                                    label="Country"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.zipCode}
-                                    name="zipCode"
-                                    margin="dense"
-                                    label="Postcode/ZipCode"
-                                    type="text"
-                                    fullWidth 
-                                    variant="outlined"
-                                />
-                            
-                            </div>
+                                /> */}
+                            </Grid>
+                         </Grid>
                             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
-                        </FormControl>
+                        </form>
                     </Card>
                 </div>
             </SimpleCard>

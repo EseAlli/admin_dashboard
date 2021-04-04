@@ -190,7 +190,6 @@ function NewProduct() {
 
 
     const onSubmit = (values, { setSubmitting }) => {
-     setState({...state, values})
      console.log(values)
      const payload = {...state, ...values}
      console.log(payload)
