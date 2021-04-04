@@ -42,7 +42,7 @@ const OrderList = ({orders}) => {
               </TableCell>
               
               <TableCell className="px-0 capitalize">
-               { `₦${order.totalPrice} by ${order.payments[0].paymentMethod}`}
+                ₦{ order.totalPrice }
               </TableCell>
               {/* <TableCell className="px-0 capitalize">
                 ${order.amount}
@@ -51,12 +51,11 @@ const OrderList = ({orders}) => {
                 <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
               </TableCell>
               <TableCell align="right" className="px-0">
-              <Link
+              <Link 
                 to={{
                   pathname: '/order/details',
                   state: {
-                    direct: 'shipment',
-                    id: order.id
+                      id: order.id
                     }
                   }}
               >

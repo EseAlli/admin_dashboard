@@ -3,21 +3,19 @@ import http from "../../services/api"
 
 export const getInvoiceById = (id) => {
    return http 
-    .get(`/afrimash/coupons/${id}`)      
+    .get(`/afrimash/orders/${id}`)      
 }
 
 export const getAllInvoice = () => {
-    return http.get('/afrimash/coupons/')
+    return http.get('/afrimash/orders/')
 }
-// export const getInvoiceById = (id) => {
-//     return axios.get('/api/invoices', { data: id })
-// }
-export const deleteInvoice = (invoice) => {
-    return axios.post('/api/invoices/delete', invoice)
+
+export const deleteInvoice = (order) => {
+    return http.delete('/afrimash/orders/', order)
 }
-export const addInvoice = (invoice) => {
-    return axios.post('/api/invoices/add', invoice)
+export const addInvoice = (order) => {
+    return http.post('/afrimash/orders/', order)
 }
-export const updateInvoice = (invoice) => {
-    return axios.post('/api/invoices/update', invoice)
+export const updateInvoice = (order,id) => {
+    return http.put(`/afrimash/orders/${id}`, order)
 }

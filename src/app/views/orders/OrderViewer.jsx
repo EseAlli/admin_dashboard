@@ -35,24 +35,36 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
             },
         },
     },
-    invoiceViewer: {
+    orderViewer: {
         '& h5': {
             fontSize: 15,
         },
+        paddingBottom: "4px"
     },
+    viewerAction: {
+        justifyContent: "space-between !important",
+        display: "flex",
+        marginTop: "10px",
+        marginBottom: "2px",
+        paddingLeft: "4px",
+        paddingRight: "4px"
+    },
+    tableBottom:{
+        display: "flex",
+        justifyContent: "flex-end !important"
+    }
 }))
 
-const InvoiceViewer = ({ toggleInvoiceEditor }) => {
+const OrderViewer = ({ toggleOrderEditor, id}) => {
     const [state, setState] = useState({})
 
-    const { id } = useParams()
     const classes = useStyles()
 
     useEffect(() => {
         if (id !== 'add')
             getInvoiceById(id).then((res) => {
                 console.log(res)
-                setState({ ...res.data })
+                setState({ ...res.data.object })
             })
     }, [id])
 
@@ -60,19 +72,22 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
     let subTotalCost = 0
     let {
-        orderNo,
+        referenceNo,
         buyer,
-        seller,
-        item: invoiceItemList = [],
+        customerId,
+        orderItems: invoiceItemList = [],
         status,
         vat,
-        date,
+        createDate,
+        totalDiscount,
+        subTotal,
+        deliveryAddress
     } = state
 
     return (
-        <div className={clsx('invoice-viewer py-4', classes.invoiceViewer)}>
-            <div className="viewer_actions px-4 mb-5 flex items-center justify-between">
-                <Link to="/invoice/list">
+        <div className={clsx('invoice-viewer py-4', classes.orderViewer)}>
+            <div className={clsx("viewer_actions px-4 mb-5 flex items-center", classes.viewerAction)}>
+                <Link to="/orders">
                     <IconButton>
                         <Icon>arrow_back</Icon>
                     </IconButton>
@@ -82,9 +97,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         className="mr-4 py-2"
                         variant="contained"
                         color="primary"
-                        onClick={() => toggleInvoiceEditor()}
+                        onClick={() => toggleOrderEditor()}
                     >
-                        Edit Invoice
+                        Edit Order
                     </Button>
                     <Button
                         onClick={handlePrint}
@@ -92,17 +107,17 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         variant="contained"
                         color="secondary"
                     >
-                        Print Invoice
+                        Print Order
                     </Button>
                 </div>
             </div>
 
             <div id="print-area">
-                <div className="viewer__order-info px-4 mb-4 flex justify-between">
+                <div className={clsx("viewer_actions px-4 mb-5 flex items-center justify-between", classes.viewerAction) }>
                     <div>
                         <h5 className="mb-2">Order Info</h5>
-                        <p className="mb-4">Order Number</p>
-                        <p className="mb-0"># {orderNo}</p>
+                        <p className="mb-4">Reference Number</p>
+                        <p className="mb-0"># {referenceNo}</p>
                     </div>
                     <div className="text-right">
                         <h5 className="font-normal mb-4 capitalize">
@@ -111,9 +126,9 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         <h5 className="font-normal capitalize">
                             <strong>Order date: </strong>{' '}
                             <span>
-                                {date
+                                {createDate
                                     ? format(
-                                          new Date(date).getTime(),
+                                          new Date(createDate).getTime(),
                                           'MMMM dd, yyyy'
                                       )
                                     : ''}
@@ -124,19 +139,15 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
 
                 <Divider />
 
-                <div className="viewer__billing-info px-4 py-5 flex justify-between">
+                <div className={clsx("viewer__billing-info px-4 py-5 flex justify-between", classes.viewerAction)}>
                     <div>
-                        <h5 className="mb-2">Bill From</h5>
-                        <p className="mb-4">{seller ? seller.name : null}</p>
+                        <h5 className="mb-2">Shipping Details</h5>
+                        <p className="mb-4">{customerId ? `${customerId.firstName} ${customerId.lastName}` : null}</p>
                         <p className="mb-0 whitespace-pre-wrap">
-                            {seller ? seller.address : null}
+                            {customerId ? customerId.email : null}
                         </p>
-                    </div>
-                    <div className="text-right w-full">
-                        <h5 className="mb-2">Bill To</h5>
-                        <p className="mb-4">{buyer ? buyer.name : null}</p>
                         <p className="mb-0 whitespace-pre-wrap">
-                            {buyer ? buyer.address : null}
+                            {deliveryAddress ? deliveryAddress : null}
                         </p>
                     </div>
                     <div />
@@ -159,7 +170,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                         </TableHead>
                         <TableBody>
                             {invoiceItemList.map((item, index) => {
-                                subTotalCost += item.unit * item.price
+                                subTotalCost += item.itemQuantity * item.itemPrice
                                 return (
                                     <TableRow key={index}>
                                         <TableCell
@@ -172,19 +183,19 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                                             className="pl-0 capitalize"
                                             align="left"
                                         >
-                                            {item.name}
+                                            {item.productId.name}
                                         </TableCell>
                                         <TableCell
                                             className="pl-0 capitalize"
                                             align="left"
                                         >
-                                            {item.price}
+                                            {item.itemPrice}
                                         </TableCell>
                                         <TableCell className="pl-0 capitalize">
-                                            {item.unit}
+                                            {item.itemQuantity}
                                         </TableCell>
                                         <TableCell className="pl-0">
-                                            {item.unit * item.price}
+                                            {item.itemQuantity * item.itemPrice}
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -193,7 +204,7 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                     </Table>
                 </Card>
 
-                <div className="px-4 flex justify-end">
+                <div className={clsx("px-4", classes.tableBottom)}>
                     <div className="flex">
                         <div className="pr-12">
                             <p className="mb-4">Sub Total:</p>
@@ -203,14 +214,13 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
                             </strong>
                         </div>
                         <div>
-                            <p className="mb-4">{subTotalCost}</p>
-                            <p className="mb-4">{vat}</p>
+                            <p className="mb-4">{subTotal}</p>
+                            <p className="mb-4">{totalDiscount}</p>
                             <p>
                                 <strong>
-                                    $
+                                    ₦
                                     {
-                                        (subTotalCost +=
-                                            (subTotalCost * vat) / 100)
+                                        subTotal
                                     }
                                 </strong>
                             </p>
@@ -222,4 +232,4 @@ const InvoiceViewer = ({ toggleInvoiceEditor }) => {
     )
 }
 
-export default InvoiceViewer
+export default OrderViewer
