@@ -73,7 +73,9 @@ const productTypes = [
     "VARIANT"
 ]
 
-function NewProduct() {
+function EditProduct({location}) {
+    const State = location.state
+    const {productId} = State
     const initialState = {
         tags: [],
         productCategories: [],
@@ -100,7 +102,7 @@ function NewProduct() {
     const [categories, setCategories] = useState([])
     const [dataSources, setDataSource] = useState([])
     const [imageList, setImageList] = useState([])
-
+    const [values, setValues] = useState([])
     
 
      const onDrop = useCallback(acceptedFiles => {
@@ -134,6 +136,15 @@ function NewProduct() {
         setState({...state, [fieldName]: id})
         console.log(state)
   };
+
+    const getProduct = () =>{
+        http
+        .get(`/afrimash/products/${productId}`)
+        .then((response)=>{
+            setValues(response.data.object)
+            setState(response.data.object)
+        })
+    }
 
     const getBrands = () => {
     http
@@ -207,7 +218,7 @@ function NewProduct() {
  
      
      axios({
-        method: "post",
+        method: "put",
         url: "https://api.afrimash.com/afrimash/products",
         data,
         headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
@@ -495,4 +506,4 @@ const productSchema = yup.object().shape({
     price: yup.number().required('Price is required'),
 })
 
-export default NewProduct
+export default EditProduct

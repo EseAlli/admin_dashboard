@@ -9,6 +9,9 @@ const ProductDetails = MatxLoadable({
 const NewProduct = MatxLoadable ({
   loader: () => import("./NewProduct")
 })
+const EditProduct = MatxLoadable ({
+  loader: () => import("./EditProduct")
+})
 const Tag = MatxLoadable({
   loader : () =>  import("./Tag")
 })
@@ -36,6 +39,10 @@ const productRoutes = [
   {
     path: "/product/new",
     component: NewProduct
+  },
+  {
+    path: "/product/edit",
+    component: EditProduct
   },
   {
     path: "/tags",

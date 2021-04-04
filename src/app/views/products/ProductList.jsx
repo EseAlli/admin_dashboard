@@ -27,16 +27,12 @@ const ProductList = ({products}) => {
                 }}
               />
             </TableCell>
-            <TableCell className="px-0">
-              <Icon color="success">photo</Icon>
-            </TableCell>
             <TableCell className="px-0">Name</TableCell>
-            <TableCell className="px-0">SKU</TableCell>
-            <TableCell className="px-0">Status</TableCell>
-            <TableCell className="px-0">Stock</TableCell>
+            <TableCell className="px-0" align="center">SKU</TableCell>
+            {/* <TableCell className="px-0">Status</TableCell> */}
+            {/* <TableCell className="px-0">Stock</TableCell> */}
             <TableCell className="px-0">Price</TableCell>
-            <TableCell className="px-0">Taxonomies</TableCell>
-            <TableCell className="px-0">Date</TableCell>
+            {/* <TableCell className="px-0">Date</TableCell> */}
             <TableCell className="px-0">Seller</TableCell>
             <TableCell className="px-0"></TableCell>
           </TableRow>
@@ -52,42 +48,41 @@ const ProductList = ({products}) => {
                 }}
               />
             </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                <img style={{width: "50%"}} src={product.image} alt="Product Image"/>
-              </TableCell>
               <TableCell className="px-0 capitalize">
                 {product.name}
               </TableCell>
-              <TableCell className="px-0 capitalize" align="left">
-                {product.sku}
+              <TableCell className="px-0 capitalize" align="center">
+                {product.sku || "-----"}
               </TableCell>
-              <TableCell className="px-0 capitalize">
+              {/* <TableCell className="px-0 capitalize">
                 {product.status}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                {product.status}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="px-0 capitalize">
                 ₦{product.price}
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                <p>Brand: {product.brandId.name }</p>
-              </TableCell>
-              <TableCell className="px-0 capitalize">
-                {product.status}
               </TableCell>
               <TableCell className="px-0 capitalize">
                 {product.storeId.sellerId.name}
               </TableCell>
               <TableCell className="px-0">
-              <IconButton>
+              <Link 
+                to={{
+                  pathname: '/product/edit',
+                  state:{
+                    productId: product.id
+                  }
+                }}
+              >
+                <IconButton>
                   <Icon color="success">create</Icon>
                 </IconButton>    
+              </Link>
+              
               <Link
                 to={{
                   pathname: '/product/details',
                   state: {
                     direct: 'product',
+                    productId: product.id
                     }
                   }}
               >
