@@ -32,6 +32,7 @@ import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
+import Notification from "../../components/Notification"
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -100,6 +101,8 @@ function NewProduct() {
     const [categories, setCategories] = useState([])
     const [dataSources, setDataSource] = useState([])
     const [imageList, setImageList] = useState([])
+    const [alert, setAlert] = useState("");
+    const [severity, setSeverity] = useState("")
 
     
 
@@ -156,8 +159,8 @@ function NewProduct() {
         setTags(response.data.object)
       })
       .catch((err) => {
-          setTags([])
-
+          setAlert("An Error Ocurred, Please Try Again")
+          setSeverity("error")
         })
    }
 
@@ -169,8 +172,8 @@ function NewProduct() {
         setStores(response.data.object)
       })
       .catch((err) => {
-          setStores([])
-
+          setAlert("An Error Ocurred, Please Try Again")
+          setSeverity("error")
         })
    }
 
@@ -182,8 +185,8 @@ function NewProduct() {
             setCategories(response.data.object)
         })
         .catch((err) => {
-            setCategories([])
-            alert(err.response.data)
+            setAlert("An Error Ocurred, Please Try Again")
+            setSeverity("error")
         })
     }
 
@@ -212,12 +215,11 @@ function NewProduct() {
         headers: { "Content-Type": "multipart/form-data", Authorization: "Bearer " + token},
         })
         .then(function (response) {
-            //handle success
-            console.log(response);
+            history.push("/products")
         })
         .catch(function (response) {
-            //handle error
-            console.log(response);
+            setAlert("An Error Ocurred, Couldn't Create Product")
+            setSeverity("error")
         });
     }
 
@@ -232,6 +234,7 @@ function NewProduct() {
                     ]}
                 />
             </div>
+            <Notification alert={alert} severity={severity}/>
             <SimpleCard>
                 <div className="flex p-4">
                     <h4 className="m-0">Add New Product</h4>

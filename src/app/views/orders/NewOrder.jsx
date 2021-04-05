@@ -10,13 +10,20 @@ import {
     IconButton,
     Grid,
   Icon,
+  Checkbox
 } from "@material-ui/core";
 import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from '@material-ui/core/styles';
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Alert from '@material-ui/lab/Alert';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Notification from "../../components/Notification"
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 
 
 
@@ -78,6 +85,7 @@ function NewOrder() {
     shippingMethod: "",
     paidAmount:"",
     // deliveryAddress: "",
+    appliedCoupons: []
     };
 
     const history = useHistory();
@@ -87,10 +95,14 @@ function NewOrder() {
     const [customers, setCustomers] = useState([])
     const [products, setProducts] = useState([]);
     const [fields, setFields] = useState([{productId:"", itemQuantity:""}])
+    const [coupons, setCoupons] = useState([])
+    const [alert, setAlert] = useState("")
+    const [severity, setSeverity] = useState("")
 
     useEffect(() => {
         getCustomers()
-        getProducts()      
+        getProducts()  
+        getCoupons()    
     }, [])
 
     const handleChange = (e) => {
@@ -104,6 +116,8 @@ function NewOrder() {
     const values = [...fields];
     const { name, value } = event.target;
     values[i][name] = value;
+    // let totalPrice = values[i][name] * values[i].itemQuantity
+    // values[i] = {...values[i], totalPrice}
     setFields(values);
     console.log(fields);
     setState({...state, orderItems: fields})
@@ -139,15 +153,38 @@ function NewOrder() {
         setFields(values);
   }
 
+    const getCoupons = () => {
+        http
+        .get(`/afrimash/coupons/`)
+        .then((response) => {
+            if (response instanceof Object){
+                if(response.data.object){
+                    console.log(response.data)
+                    setCoupons(response.data.object)
+                }
+            }
+            
+        })
+        .catch((err) => {
+            setAlert("An Error Ocurred, Please Try Again")
+            setSeverity("error")
+        })
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault()
       http
         .post("/afrimash/orders", state)
         .then((response)=>{
-           if (response.data.status === "OK"){  
-               history.push("/vendors")
-           }else if(response.data.errorMsg !== null) {
-               return
+            if( response instanceof Object){
+                if (response.data.status === "OK"){  
+               history.push("/orders")
+           }
+            }
+           else if(response) {
+               setAlert("An Error Ocurred, Could not Create Order. Try Again")
+               setSeverity("error")
            }
         })
     }
@@ -159,7 +196,8 @@ function NewOrder() {
             console.log(response.data.object)
         })
         .catch((err) => {
-            console.log(err)
+            setAlert("An Error Ocurred, Please Try Again")
+            setSeverity("error")
         })
     }
 
@@ -171,7 +209,8 @@ function NewOrder() {
         setProducts(response.data.object)
       })
       .catch((err) => {
-            console.log(err)
+            setAlert("An Error Ocurred, Please Try Again")
+            setSeverity("error")
       })
   }
 
@@ -185,6 +224,7 @@ function NewOrder() {
                     ]}
                 />
             </div>
+            <Notification alert={alert} severity={severity}/>
             <SimpleCard title="Create New Order">
                 <div className="w-100 overflow-auto">
                     <Card>
@@ -301,6 +341,31 @@ function NewOrder() {
                                     fullWidth
                                     variant="outlined" 
                                 />
+
+                                <Autocomplete
+                                        multiple
+                                        id="categoried"
+                                        options={coupons}
+                                        onChange={(event, newValue) => {
+                                            setState({...state, appliedCoupons: newValue })
+                                            console.log(state);
+                                        }}
+                                        getOptionLabel={(option) => option.code}
+                                        renderOption={(option, { selected }) => (
+                                            <React.Fragment>
+                                            <Checkbox
+                                                icon={icon}
+                                                checkedIcon={checkedIcon}
+                                                style={{ marginRight: 8 }}
+                                                checked={selected}
+                                            />
+                                            {option.code}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField {...params} variant="outlined" label="Apply Coupons" placeholder="Select Coupons" fullWidth margin="dense" />
+                                        )}
+                                    />
 
                             
                                 

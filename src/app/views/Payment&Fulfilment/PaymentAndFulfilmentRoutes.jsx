@@ -38,7 +38,7 @@ const paymentAndFulfilmentRoutes = [
       component: NewCoupon
   },
   {
-      path: '/coupon/details',
+      path: '/coupon/edit',
       component: EditCoupon
   }
   

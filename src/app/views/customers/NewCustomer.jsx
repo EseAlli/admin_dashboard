@@ -1,25 +1,9 @@
 import React, {useState} from 'react';
-import {
-    FormControl,
-    InputLabel,
-    Input,
-    Card,
-    TextField,
-    Button
-} from "@material-ui/core";
 import { Breadcrumb, SimpleCard } from "matx";
-import { makeStyles } from '@material-ui/core/styles';
+
 import http from "../../services/api";
 import { useHistory } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(2),
-      width: '63ch',
-    },
-  },
-}));
+import CustomerForm from './CustomerForm'
 
 function NewCustomer() {
     const initialState = {
@@ -38,13 +22,7 @@ function NewCustomer() {
 
     const history = useHistory();
 
-    const classes = useStyles()
     const [state, setState] = useState(initialState);
-
-    const handleChange = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
-    };
 
    const handleSubmit = (event) => {
       console.log(event)
@@ -70,135 +48,7 @@ function NewCustomer() {
                 />
             </div>
             <SimpleCard title="Create New Customer">
-                <div className="w-100 overflow-auto">
-                    <Card>
-                        <FormControl className={classes.root}>
-                            
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.firstName}
-                                    name="firstName"
-                                    autoFocus
-                                    margin="dense"
-                                    label="First Name"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.lastName}
-                                    autoFocus
-                                    name="lastName"
-                                    margin="dense"
-                                    label="Last Name"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                                       
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.email}
-                                    name="email"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Email"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-
-                                 <TextField
-                                    onChange={handleChange}
-                                    value={state.mobileNo}
-                                    name="mobileNo"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Phone Number"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                               
-                            
-                    
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.address}
-                                    name="address"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Address "
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.city}
-                                    name="city"
-                                    autoFocus
-                                    margin="dense"
-                                    label="City/Town"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.state}
-                                    name="state"
-                                    autoFocus
-                                    margin="dense"
-                                    label="State"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.country}
-                                    name="country"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Country"
-                                    type="text"
-                                    fullWidth
-                                    variant="outlined" 
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    onChange={handleChange}
-                                    value={state.zipCode}
-                                    name="zipCode"
-                                    autoFocus
-                                    margin="dense"
-                                    label="Postcode/ZipCode"
-                                    type="text"
-                                    fullWidth 
-                                    variant="outlined"
-                                />
-                            
-                            </div>
-                            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
-                        </FormControl>
-                    </Card>
-                </div>
+                <CustomerForm values={state}/>
             </SimpleCard>
         </div>
     )

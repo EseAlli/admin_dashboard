@@ -14,9 +14,12 @@ import { Breadcrumb, SimpleCard } from "matx";
 import Checkbox from "@material-ui/core/Checkbox";
 import http from "../../services/api";
 import Moment from 'react-moment';
+import Notification from "../../components/Notification"
 
 const Coupons = () => {
   const [coupons, setCoupons] = useState([])
+  const [alert, setAlert] = useState("")
+  const [severity, setSeverity] = useState("")
   useEffect(() => {
     getCoupons()
   }, [])
@@ -24,10 +27,25 @@ const Coupons = () => {
         http
         .get(`/afrimash/coupons/`)
         .then((response) => {
-            console.log(response.data.object)
-            setCoupons(response.data.object)
+            if (response instanceof Object){
+              if(response.data.object){
+                console.log(response.data.object)
+                setCoupons(response.data.object)
+              }
+              else{
+                setAlert("An Error Ocurred, Please Reload The Page")
+                setSeverity("error")
+              }
+            }else{
+               setAlert("An Error Ocurred, Please Reload The Page")
+               setSeverity("error")
+            }
+            
         })
-        .catch((err) => alert(err.response.data))
+        .catch((err) => {
+              setAlert("An Error Ocurred, Please Reload The Page")
+               setSeverity("error")
+        })
     }
 
   return (
@@ -40,6 +58,7 @@ const Coupons = () => {
             ]}
           />
     </div>
+    <Notification alert={alert} severity={severity}/>
     <SimpleCard title="Coupons">
     <div className="w-100 overflow-auto">
           <Link
@@ -80,9 +99,8 @@ const Coupons = () => {
               <TableCell className="px-0 capitalize">
                 <Link
                   to={{
-                    pathname: '/coupon/details',
-                    state: {
-                      
+                    pathname: '/coupon/edit',
+                    state: { 
                       couponId: coupon.id
                     }
                   }}
