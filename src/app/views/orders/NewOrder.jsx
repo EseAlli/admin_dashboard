@@ -347,6 +347,14 @@ function NewOrder() {
                                         id="categoried"
                                         options={coupons}
                                         onChange={(event, newValue) => {
+                                            let coupons = {
+                                                coupon: {}
+                                            }
+                                            newValue.forEach(element => {
+                                                return {
+                                                    coupon: element
+                                                }
+                                            });
                                             setState({...state, appliedCoupons: newValue })
                                             console.log(state);
                                         }}

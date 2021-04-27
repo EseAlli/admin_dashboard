@@ -1,14 +1,14 @@
 import {MatxLoadable} from "matx";
 
 const Customers = MatxLoadable({
-  loader: () => import("./Customers")
+  loader: () => import("./CustomerList")
 })
 const NewCustomer = MatxLoadable({
   loader: () => import("./NewCustomer")
 });
 
 const CustomerDetails = MatxLoadable({
-  loader: () =>  import("./CustomerDetails")
+  loader: () =>  import("./CustomerInfo")
 })
 
 const EditCustomer = MatxLoadable({

@@ -16,6 +16,6 @@ export const deleteInvoice = (order) => {
 export const addInvoice = (order) => {
     return http.post('/afrimash/orders/', order)
 }
-export const updateInvoice = (order,id) => {
-    return http.put(`/afrimash/orders/${id}`, order)
+export const updateInvoice = (order) => {
+    return http.put(`/afrimash/orders/`, order)
 }

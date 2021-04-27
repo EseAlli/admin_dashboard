@@ -32,6 +32,11 @@ export const navigations = [
         name: "Categories",
         path: "/product-categories",
         iconText: "C"
+      },
+      {
+        name: "Features",
+        path: "/features",
+        iconText: "F"
       }
    ]
   },

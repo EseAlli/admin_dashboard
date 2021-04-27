@@ -27,6 +27,10 @@ const Category = MatxLoadable({
 const NewCategory = MatxLoadable({
   loader: () =>  import("./NewCategory")
 })
+
+const Features = MatxLoadable({
+  loader: () => import("./Features")
+})
 const productRoutes = [
   {
     path: "/products",
@@ -59,6 +63,10 @@ const productRoutes = [
   {
     path: "/product-category/new",
     component: NewCategory
+  },
+  {
+    path: "/features",
+    component: Features
   }
 ];
 

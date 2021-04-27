@@ -115,7 +115,7 @@ const OrderEditor = ({ isNewInvoice, toggleOrderEditor, id }) => {
         setState({ ...state, loading: true })
         let tempState = { ...state }
         delete tempState.loading
-            updateInvoice(tempState, id).then(() => {
+            updateInvoice(tempState).then(() => {
                 setState({ ...state, loading: false })
                 toggleOrderEditor()
             })
