@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb, SimpleCard } from "matx";
-
-import http from "../../services/api";
-import { useHistory } from "react-router-dom";
 import CustomerForm from "./CustomerForm";
 
 function NewCustomer() {

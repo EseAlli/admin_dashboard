@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb, SimpleCard } from "matx";
-
-import http from "../../services/api";
-import { useHistory } from "react-router-dom";
 import CustomerForm from "./CustomerForm";
 
 function EditCustomer({location}) {
@@ -12,7 +9,7 @@ function EditCustomer({location}) {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "Customer", path: "/customer/edit" },
+            { name: "Customer", path: "/customers" },
             { name: "Edit Customer" },
           ]}
         />

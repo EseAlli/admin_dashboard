@@ -23,6 +23,8 @@ import mapRoutes from "./views/map/MapRoutes";
 
 import reviewRoutes from "./views/reviews/ReviewRoutes";
 
+import sellerRoutes from "./views/sellers/SellerRoutes"
+
 const redirectRoute = [
   {
     path: "/dashboard/analytics",
@@ -48,6 +50,7 @@ const errorRoute = [
 const routes = [
   ...sessionRoutes,
   ...dashboardRoutes,
+  ...sellerRoutes,
   ...orderRoutes,
   ...productRoutes,
   ...reviewRoutes,

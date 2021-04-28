@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import {
   FormControl,
+  InputLabel,
+  Input,
   Card,
   TextField,
   Button,
 } from "@material-ui/core";
-import {
-  getCustomerById,
-  addCustomer,
-  updateCustomer,
-} from "./CustomerService";
+import { Breadcrumb, SimpleCard } from "matx";
 import { makeStyles } from "@material-ui/core/styles";
-import Notification from "../../components/Notification"
+import {
+    getSellerById,
+    addSeller,
+    updateSeller,
+  } from "./SellerService";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,54 +25,64 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewCustomer({ isNewCustomer, id, Customer }) {
-console.log(Customer)
-  const values = {
+function NewVendor({isNewSeller, id, Seller}) {
+  const initialState = {
     email: "",
     country: "",
     password: "",
-    lastName: "",
-    firstName: "",
+    name: "",
     mobileNo: "",
+    // storeSlug: "",
     state: "",
+    // storeName: "",
     zipCode: "",
     address: "",
+    // storeEmail: "",
     password: "password",
     secretAnswer: "secret",
+    creditLimit: "",
+    creditSpent: "",
+    loyaltyNo: "",
+    loyaltyPoint: "",
+    picture: "",
+    referralCode: "",
+    walletBalance: "",
   };
-  const classes = useStyles();
-  const [state, setState] = useState(values);
-  const [customer, setCustomer] = useState(Customer)
+
   const history = useHistory();
+
+  const classes = useStyles();
+  const [state, setState] = useState(initialState);
+  const [seller, setSeller] = useState(Seller)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
-    setCustomer({...customer, [name]: value});
+    setSeller({...seller, [name]: value})
   };
 
   const handleSubmit = (event) => {
     let tempState = { ...state };
-    if (isNewCustomer)
-      addCustomer(tempState).then(() => {
+    if (isNewSeller)
+      addSeller(tempState).then(() => {
         setState({ ...state });
-        history.push(`/customers`);
+        history.push(`/vendors`);
       });
     else
-      updateCustomer(customer).then(() => {
+      updateSeller(seller).then(() => {
         setState({ ...state });
       });
   };
 
   useEffect(() => {
-    if (!isNewCustomer) {
-      getCustomerById(id).then(({ data }) => {
+    if (!isNewSeller) {
+      getSellerById(id).then(({ data }) => {
         console.log(data.object);
         setState(data.object);
         console.log(state);
       });
     }
-  }, [id, isNewCustomer]);
+  }, [id, isNewSeller]);
 
   return (
     <div className="w-100 overflow-auto">
@@ -79,27 +91,15 @@ console.log(Customer)
           <div>
             <TextField
               onChange={handleChange}
-              value={state.firstName}
-              name="firstName"
+              value={state.name}
+              name="name"
               margin="dense"
-              label="First Name"
+              label="Name"
               type="text"
               fullWidth
               variant="outlined"
             />
 
-            <TextField
-              onChange={handleChange}
-              value={state.lastName}
-              name="lastName"
-              margin="dense"
-              label="Last Name"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-          </div>
-          <div>
             <TextField
               onChange={handleChange}
               value={state.email}
@@ -110,7 +110,8 @@ console.log(Customer)
               fullWidth
               variant="outlined"
             />
-
+          </div>
+          <div>
             <TextField
               onChange={handleChange}
               value={state.mobileNo}
@@ -121,19 +122,20 @@ console.log(Customer)
               fullWidth
               variant="outlined"
             />
-          </div>
-          <div>
+
             <TextField
               onChange={handleChange}
               value={state.address}
               name="address"
               margin="dense"
-              label="Address "
+              label="Address"
               type="text"
               fullWidth
               variant="outlined"
             />
+          </div>
 
+          <div>
             <TextField
               onChange={handleChange}
               value={state.city}
@@ -144,8 +146,7 @@ console.log(Customer)
               fullWidth
               variant="outlined"
             />
-          </div>
-          <div>
+
             <TextField
               onChange={handleChange}
               value={state.state}
@@ -156,7 +157,8 @@ console.log(Customer)
               fullWidth
               variant="outlined"
             />
-
+          </div>
+          <div>
             <TextField
               onChange={handleChange}
               value={state.country}
@@ -167,14 +169,12 @@ console.log(Customer)
               fullWidth
               variant="outlined"
             />
-          </div>
-          <div>
             <TextField
               onChange={handleChange}
               value={state.zipCode}
               name="zipCode"
               margin="dense"
-              label="Postcode/ZipCode"
+              label="Postcode/Zip"
               type="text"
               fullWidth
               variant="outlined"
@@ -194,4 +194,4 @@ console.log(Customer)
   );
 }
 
-export default NewCustomer;
+export default NewVendor;
