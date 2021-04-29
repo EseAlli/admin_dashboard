@@ -37,39 +37,43 @@ const SellerInfo = ({ id }) => {
               <div>{state.email}</div>
             </TableCell>
           </TableRow>
-          {customerInfo.map((item, ind) => (
-            <TableRow key={ind}>
-              <TableCell className="pl-4">{item.title}</TableCell>
-              <TableCell>{item.value}</TableCell>
-            </TableRow>
-          ))}
+
+          <TableRow>
+            <TableCell className="pl-4">Phone Number</TableCell>
+            <TableCell>
+              <div>{state.mobileNo}</div>
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="pl-4">City</TableCell>
+            <TableCell>
+              <div>{state.city}</div>
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="pl-4">State</TableCell>
+            <TableCell>
+              <div>{state.state}</div>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Address</TableCell>
+            <TableCell>
+              <div>{state.address || "-----"}</div>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="pl-4">Country</TableCell>
+            <TableCell>
+              <div>{state.country}</div>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </SimpleCard>
   );
 };
-
-const customerInfo = [
-  {
-    title: "Phone",
-    value: "+1 439 327 546",
-  },
-  {
-    title: "Country",
-    value: "USA",
-  },
-  {
-    title: "State/Region",
-    value: "New York",
-  },
-  {
-    title: "Address 1",
-    value: "Street Tailwood, No. 17",
-  },
-  {
-    title: "Address 2",
-    value: "House #19",
-  },
-];
 
 export default SellerInfo;
