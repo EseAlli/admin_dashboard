@@ -4,34 +4,22 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import CreateNew from "./CreateNew";
-import { makeStyles } from "@material-ui/core/styles";
 
-const fields = ["name", "featureType"];
-
-const Features = () => {
+const CategoriesList = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [features, setFeatures] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/features/`).then((response) => {
-      let { data } = response;
-      if (isAlive) setFeatures(data.object);
-    });
+    http
+      .get(`/afrimash/product-categories/search?`)
+      .then((response) => {
+        let { data } = response;
+        if (isAlive) setCategories(data.object);
+        console.log(data.object);
+        console.log(categories);
+      });
     return () => setIsAlive(false);
   }, [isAlive]);
-
-  const handleModal = () => {
-    setOpen(!open);
-  };
-
-  const submit = (state) => {
-    let feature_type = state.featureType;
-    let featureType = feature_type.toUpperCase();
-    let tempState = { ...state, featureType: featureType };
-    return http.post("/afrimash/features", tempState);
-  };
 
   const columns = [
     {
@@ -40,12 +28,12 @@ const Features = () => {
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let category = categories[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${feature?.name}`}</h5>
+                <h5 className="my-0 text-15">{category?.name}</h5>
               </div>
             </div>
           );
@@ -53,18 +41,18 @@ const Features = () => {
       },
     },
     {
-      name: "description",
-      label: "Description",
+      name: "translatedName",
+      label: "Translated Name",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let category = categories[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-15">
                   {" "}
-                  {feature.description || "-----"}
+                  {category.translatedName || "-----"}
                 </h5>
               </div>
             </div>
@@ -73,19 +61,38 @@ const Features = () => {
       },
     },
     {
-      name: "featureType",
-      label: "Feature Type",
+      name: "parentCategory",
+      label: "Parent Category",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let category = categories[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.featureType || "-----"}
+                  {category.parentCategoryId?.name}
                 </h5>
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "subCategories",
+      label: "Sub Categories",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let category = categories[dataIndex];
+          let subCategories = category.subCategories;
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                {subCategories.map((subcategory) => {
+                 return `${subcategory.name}, `
+                })}
               </div>
             </div>
           );
@@ -94,27 +101,30 @@ const Features = () => {
     },
     {
       name: "action",
-      label: "Actions ",
+      label: " ",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let category = categories[dataIndex];
           return (
             <div className="flex items-center">
-              <div className="flex-grow"></div>
-              {/* <IconButton
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  handleModal();
+              <div className="flex-grow items-center"></div>
+              {/* <Link
+                to={{
+                  pathname: "/category/edit",
+                  state: {
+                    id: category.id,
+                    category,
+                  },
                 }}
               >
-                <Icon>edit</Icon>
-              </IconButton> */}
-
-              <IconButton>
-                <Icon>delete</Icon>
-              </IconButton>
+                <IconButton>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Link> */}
+                <IconButton>
+                  <Icon>delete</Icon>
+                </IconButton>
             </div>
           );
         },
@@ -125,13 +135,17 @@ const Features = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb routeSegments={[{ name: "Features", path: "/features" }]} />
+        <Breadcrumb
+          routeSegments={[
+            { name: "Product Categories", path: "/product-categories" },
+          ]}
+        />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"Features"}
-            data={features}
+            title={"Product Categories"}
+            data={categories}
             columns={columns}
             options={{
               filterType: "textField",
@@ -179,27 +193,16 @@ const Features = () => {
               },
               customToolbar: () => {
                 return (
-                  <>
-                    <IconButton>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          handleModal();
-                        }}
-                      >
-                        <Icon>add</Icon>Add New
-                      </Button>
-                    </IconButton>
-                    <CreateNew
-                      states={features}
-                      isOpen={open}
-                      handleClose={handleModal}
-                      name="Create Feature"
-                      fields={fields}
-                      onSubmit={submit}
-                    />
-                  </>
+                  <Link
+                    to={{
+                      pathname: "/product-category/new",
+                      state: {},
+                    }}
+                  >
+                    <Button variant="contained" color="primary">
+                      <Icon>add</Icon>Add New
+                    </Button>
+                  </Link>
                 );
               },
             }}
@@ -210,4 +213,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default CategoriesList;

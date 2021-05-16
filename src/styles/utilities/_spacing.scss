@@ -1,6 +1,7 @@
 $spaces: (
   0: 0px,
-  4: 4px,
+  2: 2px,
+  4: 1rem,
   8: 8px,
   10: 10px,
   12: 12px,
@@ -24,6 +25,7 @@ $spaces: (
   86: 86px,
   120: 120px,
 
+  -2: -2px,
   -4: -4px,
   -8: -8px,
   -10: -10px,
@@ -219,6 +221,9 @@ $spaces: (
   }
 }
 
+.w-80 {
+  width: 80px !important;
+}
 .w-100 {
   width: 100%;
 }
@@ -271,3 +276,31 @@ $spaces: (
   height: 24px !important;
   width: 24px !important;
 }
+
+.w-full { width: 100% }
+        .max-w-full{ max-width: 100% !important }
+        .min-w-full{ min-width: 100% !important }
+        .min-w-full-screen{ min-width: 100vw !important }
+        .w-full-screen{ width: 100vw }
+        .min-w-600{ min-width: 600px }
+        .min-w-750{ min-width: 750px }
+        .min-w-1050{ min-width: 1050px }
+        .max-w-450{ max-width: 450px }
+        .max-w-550{ max-width: 550px }
+        .max-h-400 {
+          max-height: 400px !important;
+      }
+        .max-h-500{ max-height: 500px }
+        .max-w-600{ max-width: 600px }
+        .max-w-770{ max-width: 770px }
+        .max-w-800{ max-width: 800px }
+        .max-w-850{ max-width: 850px }
+        .max-w-900{ max-width: 900px }
+        .max-w-1340{ max-width: 1340px }
+        .h-full{ height: 100% !important }
+        .min-h-full{ min-height: 100% !important }
+        .h-auto{ height: auto }
+        .h-full-screen{ height: 100vh }
+        .min-h-full-screen{ min-height: 100vh !important }
+        .h-150px{ height: 150px !important }
+

@@ -4,14 +4,11 @@ import {
   Card,
   TextField,
   Button,
+  MenuItem,
 } from "@material-ui/core";
-import { Breadcrumb, SimpleCard } from "matx";
+import { getUserById, addUser, updateUser, getAllRoles } from "./UserService";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-    getSellerById,
-    addSeller,
-    updateSeller,
-  } from "./SellerService";
+import Notification from "../../components/Notification";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,81 +20,90 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewVendor({isNewSeller, id, Seller}) {
-  const initialState = {
+function UserForm({ isNewUser, id, User }) {
+  const values = {
     email: "",
-    country: "",
-    password: "",
-    name: "",
-    mobileNo: "",
-    // storeSlug: "",
-    state: "",
-    // storeName: "",
-    zipCode: "",
-    address: "",
-    // storeEmail: "",
-    password: "password",
-    secretAnswer: "secret",
-    creditLimit: "",
-    creditSpent: "",
-    loyaltyNo: "",
-    loyaltyPoint: "",
-    picture: "",
-    referralCode: "",
-    walletBalance: "",
+    lastName: "",
+    firstName: "",
+    phoneNo: "",
+    role: {},
   };
-
-  const history = useHistory();
-
   const classes = useStyles();
-  const [state, setState] = useState(initialState);
-  const [seller, setSeller] = useState(Seller)
+  const [state, setState] = useState(values);
+  const [user, setUser] = useState(User);
+  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState("");
+  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
-    setSeller({...seller, [name]: value})
+    setUser({ ...user, [name]: value });
+    console.log(state);
   };
 
   const handleSubmit = (event) => {
     let tempState = { ...state };
-    if (isNewSeller)
-      addSeller(tempState).then(() => {
+    if (isNewUser)
+      addUser(tempState).then(() => {
         setState({ ...state });
-        history.push(`/vendors`);
+        history.push(`/users`);
       });
     else
-      updateSeller(seller).then(() => {
+      updateUser(user).then(() => {
         setState({ ...state });
       });
   };
 
   useEffect(() => {
-    if (!isNewSeller) {
-      getSellerById(id).then(({ data }) => {
-        console.log(data.object);
+    getRoles();
+    if (!isNewUser) {
+      getUserById(id).then(({ data }) => {
+        console.log(data.object.role);
         setState(data.object);
-        console.log(state);
+        console.log(state.role);
+        setRole(data.object.role.name);
+        console.log(role);
       });
     }
-  }, [id, isNewSeller]);
+  }, [id, isNewUser]);
+
+  const getRoles = () => {
+    getAllRoles().then(({ data }) => {
+      setRoles(data.object);
+      console.log(data);
+    });
+  };
 
   return (
+    
     <div className="w-100 overflow-auto">
       <Card>
         <FormControl className={classes.root}>
           <div>
             <TextField
               onChange={handleChange}
-              value={state.name}
-              name="name"
+              value={state.firstName}
+              name="firstName"
               margin="dense"
-              label="Name"
+              label="First Name"
               type="text"
               fullWidth
               variant="outlined"
             />
 
+            <TextField
+              onChange={handleChange}
+              value={state.lastName}
+              name="lastName"
+              margin="dense"
+              label="Last Name"
+              type="text"
+              fullWidth
+              variant="outlined"
+            />
+          </div>
+          <div>
             <TextField
               onChange={handleChange}
               value={state.email}
@@ -108,71 +114,42 @@ function NewVendor({isNewSeller, id, Seller}) {
               fullWidth
               variant="outlined"
             />
-          </div>
-          <div>
+
             <TextField
               onChange={handleChange}
-              value={state.mobileNo}
-              name="mobileNo"
+              value={state.phoneNo}
+              name="phoneNo"
               margin="dense"
               label="Phone Number"
               type="text"
               fullWidth
               variant="outlined"
             />
-
-            <TextField
-              onChange={handleChange}
-              value={state.address}
-              name="address"
-              margin="dense"
-              label="Address"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-          </div>
-
-          <div>
-            <TextField
-              onChange={handleChange}
-              value={state.city}
-              name="city"
-              margin="dense"
-              label="City/Town"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-
-            <TextField
-              onChange={handleChange}
-              value={state.state}
-              name="state"
-              margin="dense"
-              label="State"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
           </div>
           <div>
             <TextField
-              onChange={handleChange}
-              value={state.country}
-              name="country"
-              margin="dense"
-              label="Country"
-              type="text"
-              fullWidth
+              className="mb-4"
+              name="role"
+              label="Select User Role"
               variant="outlined"
-            />
+              fullWidth
+              select
+              margin="dense"
+              onChange={handleChange}
+              value={state.role.name}
+            >
+              {roles.sort().map((role) => (
+                <MenuItem value={role} key={role.id}>
+                  {role.name.substr(5)}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
               onChange={handleChange}
               value={state.zipCode}
               name="zipCode"
               margin="dense"
-              label="Postcode/Zip"
+              label="Postcode/ZipCode"
               type="text"
               fullWidth
               variant="outlined"
@@ -192,4 +169,4 @@ function NewVendor({isNewSeller, id, Seller}) {
   );
 }
 
-export default NewVendor;
+export default UserForm;

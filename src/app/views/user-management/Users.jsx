@@ -4,48 +4,33 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import CreateNew from "./CreateNew";
-import { makeStyles } from "@material-ui/core/styles";
 
-const fields = ["name", "featureType"];
-
-const Features = () => {
+const Users = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [features, setFeatures] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/features/`).then((response) => {
+    http.get(`/afrimash/users/search`).then((response) => {
       let { data } = response;
-      if (isAlive) setFeatures(data.object);
+      if (isAlive) setUserList(data.object.content);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
 
-  const handleModal = () => {
-    setOpen(!open);
-  };
-
-  const submit = (state) => {
-    let feature_type = state.featureType;
-    let featureType = feature_type.toUpperCase();
-    let tempState = { ...state, featureType: featureType };
-    return http.post("/afrimash/features", tempState);
-  };
-
   const columns = [
     {
-      name: "name", // field name in the row object
+      name: "firstname", // field name in the row object
       label: "Name", // column title that will be shown in table
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let user = userList[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${feature?.name}`}</h5>
+                <h5 className="my-0 text-15">{`${user?.firstName || "N/A"} ${user?.lastName || "N/A"}`}</h5>
+                <small className="text-muted">{user?.email}</small>
               </div>
             </div>
           );
@@ -53,19 +38,33 @@ const Features = () => {
       },
     },
     {
-      name: "description",
-      label: "Description",
+        name: "username",
+        label: "Username",
+        options: {
+          filter: true,
+          customBodyRenderLite: (dataIndex) => {
+            let user = userList[dataIndex];
+            return (
+              <div className="flex items-center">
+                <div className="ml-3">
+                  <h5 className="my-0 text-muted">{user?.username || "-----"}</h5>
+                </div>
+              </div>
+            );
+          },
+        },
+      },
+    {
+      name: "phoneNo",
+      label: "Phone Number",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let user = userList[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.description || "-----"}
-                </h5>
+                <h5 className="my-0 text-muted">{user.phoneNo || "-----"}</h5>
               </div>
             </div>
           );
@@ -73,18 +72,19 @@ const Features = () => {
       },
     },
     {
-      name: "featureType",
-      label: "Feature Type",
+      name: "role",
+      label: "Role",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let user = userList[dataIndex];
+          let role = user.role.name;
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">
+                <h5 className="my-0 text-muted">
                   {" "}
-                  {feature.featureType || "-----"}
+                  {role.substr(5) || "-----"}
                 </h5>
               </div>
             </div>
@@ -94,27 +94,39 @@ const Features = () => {
     },
     {
       name: "action",
-      label: "Actions ",
+      label: " ",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let user = userList[dataIndex];
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
-              {/* <IconButton
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  handleModal();
+              <Link
+                to={{
+                  pathname: "/user/edit",
+                  state: {
+                    id: user.id,
+                    user,
+                  },
                 }}
               >
-                <Icon>edit</Icon>
-              </IconButton> */}
-
-              <IconButton>
-                <Icon>delete</Icon>
-              </IconButton>
+                <IconButton>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Link>
+              <Link
+                to={{
+                  pathname: "/user/details",
+                  state: {
+                    id: user.id,
+                  },
+                }}
+              >
+                <IconButton>
+                  <Icon>arrow_right_alt</Icon>
+                </IconButton>
+              </Link>
             </div>
           );
         },
@@ -125,13 +137,15 @@ const Features = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb routeSegments={[{ name: "Features", path: "/features" }]} />
+        <Breadcrumb
+          routeSegments={[{ name: "Users", path: "/users" }, { name: "Users" }]}
+        />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"Features"}
-            data={features}
+            title={"All Users"}
+            data={userList}
             columns={columns}
             options={{
               filterType: "textField",
@@ -179,27 +193,18 @@ const Features = () => {
               },
               customToolbar: () => {
                 return (
-                  <>
+                  <Link
+                    to={{
+                      pathname: "/user/new",
+                      state: {},
+                    }}
+                  >
                     <IconButton>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          handleModal();
-                        }}
-                      >
+                      <Button variant="contained" color="primary">
                         <Icon>add</Icon>Add New
                       </Button>
                     </IconButton>
-                    <CreateNew
-                      states={features}
-                      isOpen={open}
-                      handleClose={handleModal}
-                      name="Create Feature"
-                      fields={fields}
-                      onSubmit={submit}
-                    />
-                  </>
+                  </Link>
                 );
               },
             }}
@@ -210,4 +215,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Users;

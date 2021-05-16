@@ -1,73 +1,73 @@
-import {MatxLoadable} from "matx";
+import { MatxLoadable } from "matx";
 
 const Products = MatxLoadable({
-  loader: () => import("./Products")
+  loader: () => import("./ProductsList"),
 });
 const ProductDetails = MatxLoadable({
-  loader: () => import("./ProductDetails")
+  loader: () => import("./ProductDetails"),
 });
-const NewProduct = MatxLoadable ({
-  loader: () => import("./NewProduct")
-})
-const EditProduct = MatxLoadable ({
-  loader: () => import("./EditProduct")
-})
+const NewProduct = MatxLoadable({
+  loader: () => import("./NewProduct"),
+});
+const EditProduct = MatxLoadable({
+  loader: () => import("./EditProduct"),
+});
 const Tag = MatxLoadable({
-  loader : () =>  import("./Tag")
-})
+  loader: () => import("./Tags"),
+});
 
 const Brand = MatxLoadable({
-  loader : () =>  import("./Brand")
-})
+  loader: () => import("./Brands"),
+});
 
 const Category = MatxLoadable({
-  loader: () => import("./Category")
-})
+  loader: () => import("./CategoriesList"),
+});
 
 const NewCategory = MatxLoadable({
-  loader: () =>  import("./NewCategory")
-})
+  loader: () => import("./CreateCategory"),
+});
 
 const Features = MatxLoadable({
-  loader: () => import("./Features")
-})
+  loader: () => import("./Features"),
+});
 const productRoutes = [
   {
     path: "/products",
-    component: Products
+    component: Products,
   },
   {
     path: "/product/details",
-    component: ProductDetails
+    component: ProductDetails,
   },
   {
     path: "/product/new",
-    component: NewProduct
+    component: NewProduct,
   },
   {
     path: "/product/edit",
-    component: EditProduct
+    component: EditProduct,
   },
   {
     path: "/tags",
-    component: Tag
+    component: Tag,
   },
   {
     path: "/brands",
-    component: Brand
+    component: Brand,
   },
   {
     path: "/product-categories",
-    component: Category
+    component: Category,
   },
   {
     path: "/product-category/new",
-    component: NewCategory
+    component: NewCategory,
   },
   {
     path: "/features",
-    component: Features
-  }
+    component: Features,
+  },
 ];
 
 export default productRoutes;

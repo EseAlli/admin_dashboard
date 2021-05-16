@@ -4,34 +4,18 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import CreateNew from "./CreateNew";
-import { makeStyles } from "@material-ui/core/styles";
 
-const fields = ["name", "featureType"];
-
-const Features = () => {
+const Products = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [features, setFeatures] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/features/`).then((response) => {
+    http.get(`/afrimash/products/`).then((response) => {
       let { data } = response;
-      if (isAlive) setFeatures(data.object);
+      if (isAlive) setProducts(data.object);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
-
-  const handleModal = () => {
-    setOpen(!open);
-  };
-
-  const submit = (state) => {
-    let feature_type = state.featureType;
-    let featureType = feature_type.toUpperCase();
-    let tempState = { ...state, featureType: featureType };
-    return http.post("/afrimash/features", tempState);
-  };
 
   const columns = [
     {
@@ -40,12 +24,12 @@ const Features = () => {
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let product = products[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${feature?.name}`}</h5>
+                <h5 className="my-0 text-15">{product?.name}</h5>
               </div>
             </div>
           );
@@ -53,19 +37,16 @@ const Features = () => {
       },
     },
     {
-      name: "description",
-      label: "Description",
+      name: "sku",
+      label: "Sku",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let product = products[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.description || "-----"}
-                </h5>
+                <h5 className="my-0 text-15"> {product?.sku || "-----"}</h5>
               </div>
             </div>
           );
@@ -73,18 +54,34 @@ const Features = () => {
       },
     },
     {
-      name: "featureType",
-      label: "Feature Type",
+      name: "price",
+      label: "Price",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let product = products[dataIndex];
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                <h5 className="my-0 text-15">{product.price || "-----"}</h5>
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "seller",
+      label: "Seller",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let product = products[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.featureType || "-----"}
+                  {product.storeId.sellerId.name || "-----"}
                 </h5>
               </div>
             </div>
@@ -94,27 +91,39 @@ const Features = () => {
     },
     {
       name: "action",
-      label: "Actions ",
+      label: " ",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let product = products[dataIndex];
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
-              {/* <IconButton
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  handleModal();
+              <Link
+                to={{
+                  pathname: "/product/edit",
+                  state: {
+                    id: product.id,
+                    product,
+                  },
                 }}
               >
-                <Icon>edit</Icon>
-              </IconButton> */}
-
-              <IconButton>
-                <Icon>delete</Icon>
-              </IconButton>
+                <IconButton>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Link>
+              <Link
+                to={{
+                  pathname: "/product/details",
+                  state: {
+                    id: product.id,
+                  },
+                }}
+              >
+                <IconButton>
+                  <Icon>arrow_right_alt</Icon>
+                </IconButton>
+              </Link>
             </div>
           );
         },
@@ -125,13 +134,13 @@ const Features = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb routeSegments={[{ name: "Features", path: "/features" }]} />
+        <Breadcrumb routeSegments={[{ name: "Products", path: "/products" }]} />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"Features"}
-            data={features}
+            title={"All Products"}
+            data={products}
             columns={columns}
             options={{
               filterType: "textField",
@@ -179,27 +188,16 @@ const Features = () => {
               },
               customToolbar: () => {
                 return (
-                  <>
-                    <IconButton>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          handleModal();
-                        }}
-                      >
-                        <Icon>add</Icon>Add New
-                      </Button>
-                    </IconButton>
-                    <CreateNew
-                      states={features}
-                      isOpen={open}
-                      handleClose={handleModal}
-                      name="Create Feature"
-                      fields={fields}
-                      onSubmit={submit}
-                    />
-                  </>
+                  <Link
+                    to={{
+                      pathname: "/product/new",
+                      state: {},
+                    }}
+                  >
+                    <Button variant="contained" color="primary">
+                      <Icon>add</Icon>Add New
+                    </Button>
+                  </Link>
                 );
               },
             }}
@@ -210,4 +208,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Products;

@@ -5,19 +5,20 @@ import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
 import CreateNew from "./CreateNew";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
-const fields = ["name", "featureType"];
 
-const Features = () => {
+const fields = ["name", "description"];
+
+const Tags = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [features, setFeatures] = useState([]);
+  const [tags, setTags] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    http.get(`/afrimash/features/`).then((response) => {
+    http.get(`/afrimash/tags/`).then((response) => {
       let { data } = response;
-      if (isAlive) setFeatures(data.object);
+      if (isAlive) setTags(data.object);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -27,10 +28,7 @@ const Features = () => {
   };
 
   const submit = (state) => {
-    let feature_type = state.featureType;
-    let featureType = feature_type.toUpperCase();
-    let tempState = { ...state, featureType: featureType };
-    return http.post("/afrimash/features", tempState);
+    return http.post("/afrimash/tags", state);
   };
 
   const columns = [
@@ -40,12 +38,12 @@ const Features = () => {
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let tag = tags[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${feature?.name}`}</h5>
+                <h5 className="my-0 text-15">{`${tag?.name}`}</h5>
               </div>
             </div>
           );
@@ -53,52 +51,32 @@ const Features = () => {
       },
     },
     {
-      name: "description",
-      label: "Description",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.description || "-----"}
-                </h5>
+        name: "description",
+        label: "Description",
+        options: {
+          filter: true,
+          customBodyRenderLite: (dataIndex) => {
+            let tag = tags[dataIndex];
+            return (
+              <div className="flex items-center">
+                <div className="ml-3">
+                  <h5 className="my-0 text-15">
+                    {" "}
+                    {tag.description || "-----"}
+                  </h5>
+                </div>
               </div>
-            </div>
-          );
+            );
+          },
         },
       },
-    },
-    {
-      name: "featureType",
-      label: "Feature Type",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.featureType || "-----"}
-                </h5>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
     {
       name: "action",
       label: "Actions ",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let tag = tags[dataIndex];
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
@@ -125,13 +103,13 @@ const Features = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb routeSegments={[{ name: "Features", path: "/features" }]} />
+        <Breadcrumb routeSegments={[{ name: "Tags", path: "/tags" }]} />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"Features"}
-            data={features}
+            title={"Tags"}
+            data={tags}
             columns={columns}
             options={{
               filterType: "textField",
@@ -192,10 +170,10 @@ const Features = () => {
                       </Button>
                     </IconButton>
                     <CreateNew
-                      states={features}
+                      states={tags}
                       isOpen={open}
                       handleClose={handleModal}
-                      name="Create Feature"
+                      name="Create Tag"
                       fields={fields}
                       onSubmit={submit}
                     />
@@ -210,4 +188,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Tags;

@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { Breadcrumb, SimpleCard } from "matx";
-import SellerForm from "./SellerForm";
+import UserForm from "./UserForm";
 
-function NewSeller() {
+function NewUser() {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "Seller", path: "/vendor" },
-            { name: "New Seller" },
+            { name: "User", path: "/users" },
+            { name: "New User" },
           ]}
         />
       </div>
-      <SimpleCard title="Create New Seller">
-        <SellerForm isNewSeller={true} />
+      <SimpleCard title="Create New User">
+        <UserForm isNewUser={true} />
       </SimpleCard>
     </div>
   );
 }
 
-export default NewSeller;
+export default NewUser;

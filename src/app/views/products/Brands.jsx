@@ -5,19 +5,18 @@ import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
 import CreateNew from "./CreateNew";
-import { makeStyles } from "@material-ui/core/styles";
 
-const fields = ["name", "featureType"];
+const fields = ["name", "description"];
 
-const Features = () => {
+const Brands = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [features, setFeatures] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    http.get(`/afrimash/features/`).then((response) => {
+    http.get(`/afrimash/brands/`).then((response) => {
       let { data } = response;
-      if (isAlive) setFeatures(data.object);
+      if (isAlive) setBrands(data);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -27,10 +26,7 @@ const Features = () => {
   };
 
   const submit = (state) => {
-    let feature_type = state.featureType;
-    let featureType = feature_type.toUpperCase();
-    let tempState = { ...state, featureType: featureType };
-    return http.post("/afrimash/features", tempState);
+    return http.post("/afrimash/brands", state);
   };
 
   const columns = [
@@ -40,12 +36,12 @@ const Features = () => {
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let brand = brands[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${feature?.name}`}</h5>
+                <h5 className="my-0 text-15">{`${brand?.name}`}</h5>
               </div>
             </div>
           );
@@ -58,33 +54,13 @@ const Features = () => {
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let brand = brands[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-15">
                   {" "}
-                  {feature.description || "-----"}
-                </h5>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
-    {
-      name: "featureType",
-      label: "Feature Type",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-15">
-                  {" "}
-                  {feature.featureType || "-----"}
+                  {brand.description || "-----"}
                 </h5>
               </div>
             </div>
@@ -98,7 +74,7 @@ const Features = () => {
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let feature = features[dataIndex];
+          let brand = brands[dataIndex];
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
@@ -125,13 +101,13 @@ const Features = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb routeSegments={[{ name: "Features", path: "/features" }]} />
+        <Breadcrumb routeSegments={[{ name: "Brands", path: "/brands" }]} />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"Features"}
-            data={features}
+            title={"All Brands"}
+            data={brands}
             columns={columns}
             options={{
               filterType: "textField",
@@ -192,10 +168,10 @@ const Features = () => {
                       </Button>
                     </IconButton>
                     <CreateNew
-                      states={features}
+                      states={brands}
                       isOpen={open}
                       handleClose={handleModal}
-                      name="Create Feature"
+                      name="Create Brand"
                       fields={fields}
                       onSubmit={submit}
                     />
@@ -210,4 +186,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Brands;

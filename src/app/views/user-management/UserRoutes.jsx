@@ -7,8 +7,8 @@ const Managers = MatxLoadable({
   loader: () => import("./Managers"),
 });
 
-const Staff = MatxLoadable({
-  loader: () => import("./Staff"),
+const User = MatxLoadable({
+  loader: () => import("./Users"),
 });
 
 const Groups = MatxLoadable({
@@ -17,6 +17,14 @@ const Groups = MatxLoadable({
 
 const Followers = MatxLoadable({
   loader: () => import("./Followers"),
+});
+
+const NewUser = MatxLoadable({
+  loader: () => import("./CreateUser"),
+});
+
+const EditUser = MatxLoadable({
+  loader: () => import("./EditUser"),
 });
 
 const userRoutes = [
@@ -29,8 +37,8 @@ const userRoutes = [
     component: Managers,
   },
   {
-    path: "/staff/",
-    component: Staff,
+    path: "/users/",
+    component: User,
   },
   {
     path: "/groups/",
@@ -40,6 +48,18 @@ const userRoutes = [
   {
     path: "/followers",
     component: Followers,
+  },
+  {
+    path: "/user/details",
+    component: Followers,
+  },
+  {
+    path: "/user/edit",
+    component: EditUser,
+  },
+  {
+    path: "/user/new",
+    component: NewUser,
   },
 ];
 

@@ -65,8 +65,8 @@ export const navigations = [
     icon: "group_add",
     children: [
       {
-        name: "Staff",
-        path: "/staff",
+        name: "Users",
+        path: "/users",
         iconText: "B"
       },
       // {

@@ -13,7 +13,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const ProductDetails = ({location}) => {
     const State = location.state
-    const {productId} = State
+    const {id} = State
     const [selectedImage, setSelectedImage] = useState('')
     const classes = usestyles()
     const [product, setProduct] = useState([])
@@ -24,7 +24,7 @@ const ProductDetails = ({location}) => {
 
     const getProduct = () => {
     http
-      .get(`/afrimash/products/${productId}`)
+      .get(`/afrimash/products/${id}`)
       .then((response) => {
           const {brandId, storeId} = response.data.object
         console.log(response.data.object.brandId.name)
@@ -73,11 +73,11 @@ const ProductDetails = ({location}) => {
                             <div className="flex justify-center items-center">
                                 {imageList.map((imgUrl) => (
                                     <img
-                                        className={clsx({
-                                            'w-80 mx-2 p-2 border-radius-4': true,
-                                            [classes.imageBorder]:
-                                                selectedImage === imgUrl,
-                                        })}
+                                    className={clsx({
+                                        'w-80 mx-2 p-2 border-radius-4': true,
+                                        [classes.imageBorder]:
+                                            selectedImage === imgUrl.imageUrl,
+                                    })}
                                         src={imgUrl.imageUrl}
                                         alt="Product Image"
                                         key={imgUrl.imageUrl}
