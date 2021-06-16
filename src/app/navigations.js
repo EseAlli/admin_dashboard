@@ -6,8 +6,19 @@ export const navigations = [
   },
   {
     name: "Orders",
-    path: "/orders/",
-    icon: "description"
+    icon: "description",
+    children : [
+        {
+          name: "Orders",
+          path: "/orders/",
+          iconText: "O"
+        },
+        {
+          name: "Abadoned Orders",
+          path: "/abadoned-orders/",
+          iconText: "A"
+        }
+    ]
   },
   {
     name: "Product",

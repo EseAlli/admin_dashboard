@@ -30,7 +30,7 @@ const CustomerInfo = ({ location }) => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "Pages", path: "/pages" },
+            { name: "Customers", path: "/customers" },
             { name: "View Customer" },
           ]}
         />

@@ -9,6 +9,9 @@ const OrderDetails = MatxLoadable({
 const NewOrder = MatxLoadable({
   loader: () => import("./NewOrder")
 })
+const AbadonedOrders = MatxLoadable({
+  loader: () => import("./AbadonedOrder")
+})
 
 const orderRoutes = [
   {
@@ -22,7 +25,15 @@ const orderRoutes = [
   {
     path: "/order/new",
     component: NewOrder,
-  }
+  },
+  {
+    path: "/abadoned-orders",
+    component: AbadonedOrders
+  },
+  {
+    path: "/abadoned-order/details",
+    component: OrderDetails
+  }, 
 ];
 
 export default orderRoutes;

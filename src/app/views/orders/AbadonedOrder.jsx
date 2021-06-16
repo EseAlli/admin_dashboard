@@ -4,15 +4,17 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import Moment from 'react-moment';
-const Orders = () => {
+import Moment from "react-moment";
+import { getCustomerById } from "../customers/CustomerService";
+const AbadonedOrder = () => {
   const [isAlive, setIsAlive] = useState(true);
   const [orders, setOrderList] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/orders`).then((response) => {
+    http.get(`/afrimash/abandoned-orders`).then((response) => {
+      console.log(response);
       let { data } = response;
-      if (isAlive) setOrderList(data.object);
+      if (isAlive) setOrderList(data.object.content);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -37,8 +39,8 @@ const Orders = () => {
       },
     },
     {
-      name: "orderItems",
-      label: "Purchased",
+      name: "customer",
+      label: "Customer",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
@@ -47,8 +49,7 @@ const Orders = () => {
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-muted">
-               
-                {order.orderItems.length} items
+                  {order.customerId.firstName}
                 </h5>
               </div>
             </div>
@@ -66,7 +67,9 @@ const Orders = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">{order.deliveryAddress || "-----" }</h5>
+                <h5 className="my-0 text-muted">
+                  {order.deliveryAddress || "-----"}
+                </h5>
               </div>
             </div>
           );
@@ -80,13 +83,11 @@ const Orders = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-          
+
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                ₦{ order.totalPrice }
-                </h5>
+                <h5 className="my-0 text-muted">₦{order.totalPrice}</h5>
               </div>
             </div>
           );
@@ -100,12 +101,12 @@ const Orders = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-          
+
           return (
             <div className="flex items-center">
               <div className="ml-3">
                 <h5 className="my-0 text-muted">
-                <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
+                  <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
                 </h5>
               </div>
             </div>
@@ -123,10 +124,10 @@ const Orders = () => {
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
-              
+
               <Link
                 to={{
-                  pathname: "/order/details",
+                  pathname: "/abadoned-order/details",
                   state: {
                     id: order.id,
                   },
@@ -148,15 +149,15 @@ const Orders = () => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "Orders", path: "/orders" },
-            { name: "Orders" },
+            { name: "Abadoned Orders", path: "/abandoned-orders" },
+            { name: "Abadoned Orders" },
           ]}
         />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"All Orders"}
+            title={"All Abadoned Orders"}
             data={orders}
             columns={columns}
             options={{
@@ -203,22 +204,6 @@ const Orders = () => {
                   </Grow>
                 );
               },
-              customToolbar: () => {
-                return (
-                  <Link
-                    to={{
-                      pathname: "/order/new",
-                      state: {},
-                    }}
-                  >
-                    <IconButton>
-                      <Button variant="contained" color="primary">
-                        <Icon>add</Icon>Add New
-                      </Button>
-                    </IconButton>
-                  </Link>
-                );
-              },
             }}
           />
         </div>
@@ -227,4 +212,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AbadonedOrder;

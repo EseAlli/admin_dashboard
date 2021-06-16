@@ -4,32 +4,33 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import Moment from 'react-moment';
-const Orders = () => {
+
+const Agents = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [orders, setOrderList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/orders`).then((response) => {
+    http.get(`/afrimash/customers`).then((response) => {
       let { data } = response;
-      if (isAlive) setOrderList(data.object);
+      if (isAlive) setUserList(data.object);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
 
   const columns = [
     {
-      name: "referenceNo", // field name in the row object
-      label: "Order", // column title that will be shown in table
+      name: "firstname", // field name in the row object
+      label: "Name", // column title that will be shown in table
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+          let user = userList[dataIndex];
 
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${order?.referenceNo}`}</h5>
+                <h5 className="my-0 text-15">{`${user?.firstName} ${user?.lastName}`}</h5>
+                <small className="text-muted">{user?.email}</small>
               </div>
             </div>
           );
@@ -37,19 +38,16 @@ const Orders = () => {
       },
     },
     {
-      name: "orderItems",
-      label: "Purchased",
+      name: "address",
+      label: "Address",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+          let user = userList[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">
-               
-                {order.orderItems.length} items
-                </h5>
+                <h5 className="my-0 text-muted">{user.address || "-----"}</h5>
               </div>
             </div>
           );
@@ -57,56 +55,16 @@ const Orders = () => {
       },
     },
     {
-      name: "deliveryAddress",
-      label: "Billing Address",
+      name: "mobileNo",
+      label: "Phone Number",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+          let user = userList[dataIndex];
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">{order.deliveryAddress || "-----" }</h5>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
-    {
-      name: "total",
-      label: "Gross Sales",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
-          
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                ₦{ order.totalPrice }
-                </h5>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
-    {
-      name: "date",
-      label: "Date",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
-          
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
-                </h5>
+                <h5 className="my-0 text-muted"> {user.mobileNo || "-----"}</h5>
               </div>
             </div>
           );
@@ -119,16 +77,28 @@ const Orders = () => {
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+          let user = userList[dataIndex];
           return (
             <div className="flex items-center">
               <div className="flex-grow"></div>
-              
               <Link
                 to={{
-                  pathname: "/order/details",
+                  pathname: "/agent/edit",
                   state: {
-                    id: order.id,
+                    id: user.id,
+                    user,
+                  },
+                }}
+              >
+                <IconButton>
+                  <Icon>edit</Icon>
+                </IconButton>
+              </Link>
+              <Link
+                to={{
+                  pathname: "/agent/details",
+                  state: {
+                    id: user.id,
                   },
                 }}
               >
@@ -148,16 +118,16 @@ const Orders = () => {
       <div className="mb-sm-30">
         <Breadcrumb
           routeSegments={[
-            { name: "Orders", path: "/orders" },
-            { name: "Orders" },
+            { name: "Agents", path: "/agents" },
+            { name: "Agent" },
           ]}
         />
       </div>
       <div className="overflow-auto">
         <div className="min-w-750">
           <MUIDataTable
-            title={"All Orders"}
-            data={orders}
+            title={"All Agents"}
+            data={userList}
             columns={columns}
             options={{
               filterType: "textField",
@@ -207,7 +177,7 @@ const Orders = () => {
                 return (
                   <Link
                     to={{
-                      pathname: "/order/new",
+                      pathname: "/agent/new",
                       state: {},
                     }}
                   >
@@ -227,4 +197,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Agents;
