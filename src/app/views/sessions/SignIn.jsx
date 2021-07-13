@@ -85,13 +85,13 @@ class SignIn extends Component {
                       validators={["required"]}
                       errorMessages={["this field is required"]}
                     />
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       className="mb-8"
                       name="agreement"
                       onChange={this.handleChange}
                       control={<Checkbox checked />}
                       label="I have read and agree to the terms of service."
-                    />
+                    /> */}
                     <div className="flex flex-middle mb-8">
                       <div className={classes.wrapper}>
                         <Button
@@ -109,7 +109,7 @@ class SignIn extends Component {
                           />
                         )}
                       </div>
-                      <span className="ml-16 mr-8">or</span>
+                      {/* <span className="ml-16 mr-8">or</span>
                       <Button
                         className="capitalize"
                         onClick={() =>
@@ -117,7 +117,7 @@ class SignIn extends Component {
                         }
                       >
                         Sign up
-                      </Button>
+                      </Button> */}
                     </div>
                     <Button
                       className="text-primary"

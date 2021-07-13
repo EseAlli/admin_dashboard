@@ -116,8 +116,8 @@ function NewOrder() {
     const values = [...fields];
     const { name, value } = event.target;
     values[i][name] = value;
-    // let totalPrice = values[i][name] * values[i].itemQuantity
-    // values[i] = {...values[i], totalPrice}
+    let totalPrice = values[i][name] * values[i].itemQuantity
+    values[i] = {...values[i], totalPrice}
     setFields(values);
     console.log(fields);
     setState({...state, orderItems: fields})
@@ -134,6 +134,10 @@ function NewOrder() {
         console.log(fields);
         setState({...state, orderItems: fields})
   }
+
+//   const handleCoupons = (i, event, newValues) =>{
+
+//   }
 
     const handleAddInput =() => {
         const values = [...fields];
@@ -347,15 +351,18 @@ function NewOrder() {
                                         id="categoried"
                                         options={coupons}
                                         onChange={(event, newValue) => {
-                                            let coupons = {
-                                                coupon: {}
-                                            }
+                                            let coupons = []
                                             newValue.forEach(element => {
-                                                return {
-                                                    coupon: element
+                                                let couponlist ={
+                                                    coupon:{
+                                                        code: ""
+                                                    }
                                                 }
+                                                couponlist.coupon.code=element.code
+                                                coupons.push(couponlist)
                                             });
-                                            setState({...state, appliedCoupons: newValue })
+                                            console.log(coupons)
+                                            setState({...state, appliedCoupons: coupons })
                                             console.log(state);
                                         }}
                                         getOptionLabel={(option) => option.code}

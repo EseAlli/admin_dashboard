@@ -196,7 +196,6 @@ const OrderEditor = ({ isNewInvoice, toggleOrderEditor, id }) => {
                 name="referenceNo"
                 value={referenceNo}
                 disabled
-                validators={["required"]}
                 errorMessages={["this field is required"]}
               />
             </div>
@@ -288,7 +287,7 @@ const OrderEditor = ({ isNewInvoice, toggleOrderEditor, id }) => {
                       ? `${customerId.firstName} ${customerId.lastName}`
                       : null
                   }
-                  validators={["required"]}
+
                   errorMessages={["this field is required"]}
                 />
                 <TextValidator
@@ -374,7 +373,7 @@ const OrderEditor = ({ isNewInvoice, toggleOrderEditor, id }) => {
                         name="unit"
                         fullWidth
                         value={item ? item.itemQuantity : null}
-                        validators={["required"]}
+      
                         errorMessages={["this field is required"]}
                       />
                     </TableCell>

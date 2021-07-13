@@ -29,30 +29,30 @@ const Products = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{product?.name}</h5>
+                <span className="my-0 text-15">{product?.name}</span>
               </div>
             </div>
           );
         },
       },
     },
-    {
-      name: "sku",
-      label: "Sku",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let product = products[dataIndex];
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <h5 className="my-0 text-15"> {product?.sku || "-----"}</h5>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
+    // {
+    //   name: "sku",
+    //   label: "Sku",
+    //   options: {
+    //     filter: true,
+    //     customBodyRenderLite: (dataIndex) => {
+    //       let product = products[dataIndex];
+    //       return (
+    //         <div className="flex items-center">
+    //           <div className="ml-3">
+    //             <span className="my-0 text-15"> {product?.sku || "-----"}</span>
+    //           </div>
+    //         </div>
+    //       );
+    //     },
+    //   },
+    // },
     {
       name: "price",
       label: "Price",
@@ -63,7 +63,58 @@ const Products = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{product.price || "-----"}</h5>
+                <span className="my-0 text-15"> {`₦${product.price}` || "-----"}</span>
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "categories",
+      label: "Categories",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let product = products[dataIndex];
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                {/* <span className="my-0 text-15">{products?.productCategories.name.join(",")}</span> */}
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "tags",
+      label: "Tags",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let product = products[dataIndex];
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                <span className="my-0 text-15"></span>
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "brand",
+      label: "Brand",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let product = products[dataIndex];
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                <span className="my-0 text-15">{product.brandId?.name}</span>
               </div>
             </div>
           );
@@ -80,9 +131,9 @@ const Products = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">
+                <span className="my-0 text-15">
                   {product.storeId.sellerId.name || "-----"}
-                </h5>
+                </span>
               </div>
             </div>
           );

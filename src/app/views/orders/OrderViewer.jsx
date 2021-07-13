@@ -63,7 +63,7 @@ const OrderViewer = ({ toggleOrderEditor, id }) => {
   useEffect(() => {
     if (id !== "add")
       getInvoiceById(id).then((res) => {
-        console.log(res);
+        console.log(res.data);
         setState({ ...res.data.object });
       });
   }, [id]);
@@ -152,8 +152,26 @@ const OrderViewer = ({ toggleOrderEditor, id }) => {
               "viewer__billing-info px-4 py-5 flex justify-between",
               classes.viewerAction
             )}
-          >
+          > 
             <div>
+            <h5 className="mb-2">Customer Details</h5>
+              <p className="mb-4">
+                {customerId
+                  ? `${customerId.firstName} ${customerId.lastName}`
+                  : null}
+              </p>
+              <p className="mb-0 whitespace-pre-wrap">
+                {customerId ? customerId.mobileNo : null}
+              </p>
+              <p className="mb-0 whitespace-pre-wrap">
+                {customerId ? customerId.email : null}
+              </p>
+              <p className="mb-0 whitespace-pre-wrap">
+                {deliveryAddress ? deliveryAddress : null}
+              </p>
+      
+            </div>
+            <div className="text-right w-full">
               <h5 className="mb-2">Shipping Details</h5>
               <p className="mb-4">
                 {customerId

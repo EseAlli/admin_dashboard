@@ -31,26 +31,46 @@ const AbadonedOrder = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-15">{`${order?.referenceNo}`}</h5>
+                <span className="my-0 text-15">{`${order?.referenceNo}`}</span>
               </div>
             </div>
           );
         },
       },
     },
+
+    // {
+    //   name: "orderItems",
+    //   label: "Purchased",
+    //   options: {
+    //     filter: true,
+    //     customBodyRenderLite: (dataIndex) => {
+    //       let order = orders[dataIndex];
+    //       return (
+    //         <div className="flex items-center">
+    //           <div className="ml-3">
+    //             <span className="my-0">
+    //             {order.orderItems.length ? `${order.orderItems.length} items` : "------"}
+    //             {/* { `${order.orderItems?.length} items` || "------"} */}
+    //             </span>
+    //           </div>
+    //         </div>
+    //       );
+    //     },
+    //   },
+    // },
     {
-      name: "customer",
-      label: "Customer",
+      name: "status", // field name in the row object
+      label: "Status", // column title that will be shown in table
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
+
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                  {order.customerId.firstName}
-                </h5>
+                <span className="my-0 text-15">{`${order?.status}`}</span>
               </div>
             </div>
           );
@@ -67,9 +87,7 @@ const AbadonedOrder = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                  {order.deliveryAddress || "-----"}
-                </h5>
+                <span className="my-0">{order.deliveryAddress || "-----" }</span>
               </div>
             </div>
           );
@@ -83,11 +101,13 @@ const AbadonedOrder = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-
+          
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">₦{order.totalPrice}</h5>
+                <span className="my-0">
+                ₦{ order.totalPrice }
+                </span>
               </div>
             </div>
           );
@@ -101,13 +121,33 @@ const AbadonedOrder = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-
+          
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <h5 className="my-0 text-muted">
-                  <Moment format="YYYY/MM/DD">{order.createDate}</Moment>
-                </h5>
+                <span className="my-0">
+                <Moment fromNow>{order.createDate}</Moment>
+                </span>
+              </div>
+            </div>
+          );
+        },
+      },
+    },
+    {
+      name: "seller",
+      label: "Seller",
+      options: {
+        filter: true,
+        customBodyRenderLite: (dataIndex) => {
+          let order = orders[dataIndex];
+          
+          return (
+            <div className="flex items-center">
+              <div className="ml-3">
+                <span className="my-0">
+                
+                </span>
               </div>
             </div>
           );
@@ -116,18 +156,18 @@ const AbadonedOrder = () => {
     },
     {
       name: "action",
-      label: " ",
+      label: "Actions",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
           return (
             <div className="flex items-center">
-              <div className="flex-grow"></div>
-
+              {/* <div className="flex-grow"></div> */}
+              
               <Link
                 to={{
-                  pathname: "/abadoned-order/details",
+                  pathname: "/order/details",
                   state: {
                     id: order.id,
                   },

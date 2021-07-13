@@ -18,6 +18,20 @@ import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
 import ShoppingCart from "../SharedCompoents/ShoppingCart";
 
+const IconButtonWhite = withStyles(theme => ({
+  root: {
+    // color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: "transparent",
+    padding: "5px"
+  }
+}))(IconButton);
+
+const IconSmall = withStyles(() => ({
+  root: {
+    fontSize: "1rem"
+  }
+}))(Icon);
+
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.primary.main
@@ -72,11 +86,11 @@ class Layout1Topbar extends Component {
           >
             <div className="flex flex-space-between flex-middle h-100">
               <div className="flex">
-                <IconButton onClick={this.handleSidebarToggle} className="hide-on-lg">
+                {/* <IconButton onClick={this.handleSidebarToggle} className="hide-on-lg">
                   <Icon>menu</Icon>
-                </IconButton>
+                </IconButton> */}
 
-                <div className="hide-on-mobile">
+                {/* <div className="hide-on-mobile">
                   <IconButton>
                     <Icon>mail_outline</Icon>
                   </IconButton>
@@ -88,22 +102,25 @@ class Layout1Topbar extends Component {
                   <IconButton>
                     <Icon>star_outline</Icon>
                   </IconButton>
-                </div>
+                </div> */}
               </div>
               <div className="flex flex-middle">
-                <MatxSearchBox />
+                {/* <MatxSearchBox /> */}
 
                 {/* <NotificationBar /> */}
 
-                <ShoppingCart></ShoppingCart>
+                {/* <ShoppingCart></ShoppingCart> */}
 
                 <MatxMenu
                   menuButton={
-                    <img
-                      className="mx-8 text-middle circular-image-small cursor-pointer"
-                      src="/assets/images/face-6.jpg"
-                      alt="user"
-                    />
+                    <IconButtonWhite aria-label="Delete" className="mx-8 text-middle circular-image-small cursor-pointer" size="small">
+                <IconSmall>person</IconSmall>
+              </IconButtonWhite>
+                    // <img
+                    //   className="mx-8 text-middle circular-image-small cursor-pointer"
+                    //   src=""
+                    //   alt="user"
+                    // />
                   }
                 >
                   <MenuItem style={{ minWidth: 185 }}>

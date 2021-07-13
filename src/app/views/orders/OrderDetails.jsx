@@ -10,6 +10,7 @@ const OrderDetails = ({location}) => {
     const [isNewOrder, setIsNewOrder] = useState(false)
 
     const { id } = location.state
+    console.log(id)
 
     const toggleOrderEditor = () => {
         setShowOrderEditor(!showOrderEditor)
