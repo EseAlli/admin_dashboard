@@ -10,10 +10,11 @@ const Orders = () => {
   const [orders, setOrderList] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/orders/search?`).then((response) => {
+    http.get(`/afrimash/orders/`).then((response) => {
       let { data } = response;
       console.log(data.object.content)
-      if (isAlive) setOrderList(data.object.content);
+      if(data.object.content) setOrderList(data.object.content);
+      // if (isAlive) setOrderList(data.object.content);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -26,11 +27,11 @@ const Orders = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-
+          console.log(order)
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0 text-15">{`${order?.referenceNo}`}</span>
+                <span className="my-0 text-15">{order?.referenceNo}</span>
               </div>
             </div>
           );
@@ -86,7 +87,7 @@ const Orders = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0">{order.deliveryAddress || "-----" }</span>
+                <span className="my-0">{order?.deliveryAddress?.address || "-----" }</span>
               </div>
             </div>
           );
@@ -105,7 +106,7 @@ const Orders = () => {
             <div className="flex items-center">
               <div className="ml-3">
                 <span className="my-0">
-                ₦{ order.totalPrice }
+                ₦{ order?.totalPrice }
                 </span>
               </div>
             </div>
@@ -125,7 +126,7 @@ const Orders = () => {
             <div className="flex items-center">
               <div className="ml-3">
                 <span className="my-0">
-                <Moment fromNow>{order.createDate}</Moment>
+                <Moment fromNow>{order?.createDate}</Moment>
                 </span>
               </div>
             </div>
@@ -133,26 +134,26 @@ const Orders = () => {
         },
       },
     },
-    {
-      name: "seller",
-      label: "Seller",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+    // {
+    //   name: "seller",
+    //   label: "Seller",
+    //   options: {
+    //     filter: true,
+    //     customBodyRenderLite: (dataIndex) => {
+    //       let order = orders[dataIndex];
           
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <span className="my-0">
+    //       return (
+    //         <div className="flex items-center">
+    //           <div className="ml-3">
+    //             <span className="my-0">
                 
-                </span>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
+    //             </span>
+    //           </div>
+    //         </div>
+    //       );
+    //     },
+    //   },
+    // },
     {
       name: "action",
       label: "Actions",
@@ -251,11 +252,11 @@ const Orders = () => {
                       state: {},
                     }}
                   >
-                    <IconButton>
+                    
                       <Button variant="contained" color="primary">
                         <Icon>add</Icon>Add New
                       </Button>
-                    </IconButton>
+                    
                   </Link>
                 );
               },

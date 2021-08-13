@@ -19,13 +19,13 @@ const CustomerList = () => {
 
   const columns = [
     {
-      name: "firstname", // field name in the row object
+      name: "firstName", // field name in the row object
       label: "Name", // column title that will be shown in table
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let user = userList[dataIndex];
-
+          
           return (
             <div className="flex items-center">
               <div className="ml-3">

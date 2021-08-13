@@ -12,6 +12,7 @@ const Products = () => {
   useEffect(() => {
     http.get(`/afrimash/products/`).then((response) => {
       let { data } = response;
+      console.log(typeof data.object)
       if (isAlive) setProducts(data.object);
     });
     return () => setIsAlive(false);
@@ -25,7 +26,7 @@ const Products = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let product = products[dataIndex];
-
+          console.log(typeof product)
           return (
             <div className="flex items-center">
               <div className="ml-3">

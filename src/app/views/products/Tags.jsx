@@ -76,10 +76,13 @@ const Tags = () => {
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
-          let tag = tags[dataIndex];
           return (
             <div className="flex items-center">
-              <div className="flex-grow"></div>
+              <div className="flex-grow">
+              <IconButton>
+                <Icon>delete</Icon>
+              </IconButton>
+              </div>
               {/* <IconButton
                 variant="contained"
                 color="primary"
@@ -90,9 +93,7 @@ const Tags = () => {
                 <Icon>edit</Icon>
               </IconButton> */}
 
-              <IconButton>
-                <Icon>delete</Icon>
-              </IconButton>
+              
             </div>
           );
         },

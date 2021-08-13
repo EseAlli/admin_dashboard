@@ -87,7 +87,7 @@ const AbadonedOrder = () => {
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0">{order.deliveryAddress || "-----" }</span>
+              <span className="my-0">{order?.deliveryAddress?.address || "-----" }</span>
               </div>
             </div>
           );
@@ -134,26 +134,26 @@ const AbadonedOrder = () => {
         },
       },
     },
-    {
-      name: "seller",
-      label: "Seller",
-      options: {
-        filter: true,
-        customBodyRenderLite: (dataIndex) => {
-          let order = orders[dataIndex];
+    // {
+    //   name: "seller",
+    //   label: "Seller",
+    //   options: {
+    //     filter: true,
+    //     customBodyRenderLite: (dataIndex) => {
+    //       let order = orders[dataIndex];
           
-          return (
-            <div className="flex items-center">
-              <div className="ml-3">
-                <span className="my-0">
+    //       return (
+    //         <div className="flex items-center">
+    //           <div className="ml-3">
+    //             <span className="my-0">
                 
-                </span>
-              </div>
-            </div>
-          );
-        },
-      },
-    },
+    //             </span>
+    //           </div>
+    //         </div>
+    //       );
+    //     },
+    //   },
+    // },
     {
       name: "action",
       label: "Actions",
