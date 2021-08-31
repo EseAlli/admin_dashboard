@@ -13,10 +13,11 @@ const Orders = () => {
     http.get(`/afrimash/orders/`).then((response) => {
       let { data } = response;
       console.log(data.object.content)
-      if(data.object.content) setOrderList(data.object.content);
+      // if(data.object.content) setOrderList(data.object.content);
+      setOrderList([])
       // if (isAlive) setOrderList(data.object.content);
     });
-    return () => setIsAlive(false);
+    // return () => setIsAlive(false);
   }, [isAlive]);
 
   const columns = [
