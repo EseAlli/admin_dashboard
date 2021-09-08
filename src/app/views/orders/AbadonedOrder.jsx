@@ -4,17 +4,15 @@ import MUIDataTable from "mui-datatables";
 import { Grow, Icon, IconButton, TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import http from "../../services/api";
-import Moment from "react-moment";
-import { getCustomerById } from "../customers/CustomerService";
-const AbadonedOrder = () => {
+
+const AbadonedOrders = () => {
   const [isAlive, setIsAlive] = useState(true);
-  const [orders, setOrderList] = useState([]);
+  const [orders, setAbadonedOrders] = useState([]);
 
   useEffect(() => {
-    http.get(`/afrimash/abandoned-orders`).then((response) => {
-      console.log(response);
+    http.get(`/afrimash/abadoned-orders/`).then((response) => {
       let { data } = response;
-      if (isAlive) setOrderList(data.object.content);
+      if (data) setAbadonedOrders(data.object.content);
     });
     return () => setIsAlive(false);
   }, [isAlive]);
@@ -27,18 +25,17 @@ const AbadonedOrder = () => {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-
+          console.log(typeof order)
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0 text-15">{`${order?.referenceNo}`}</span>
+                <span className="my-0 text-15">{order?.referenceNo}</span>
               </div>
             </div>
           );
         },
       },
     },
-
     // {
     //   name: "orderItems",
     //   label: "Purchased",
@@ -60,17 +57,16 @@ const AbadonedOrder = () => {
     //   },
     // },
     {
-      name: "status", // field name in the row object
-      label: "Status", // column title that will be shown in table
+      name: "status",
+      label: "Status",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0 text-15">{`${order?.status}`}</span>
+                <span className="my-0 text-15"> {`${order.status}` || "-----"}</span>
               </div>
             </div>
           );
@@ -95,18 +91,17 @@ const AbadonedOrder = () => {
       },
     },
     {
-      name: "total",
+      name: "totalPrice",
       label: "Gross Sales",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-          
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0">
-                ₦{ order.totalPrice }
+              <span className="my-0">
+                ₦{ order?.totalPrice }
                 </span>
               </div>
             </div>
@@ -115,19 +110,16 @@ const AbadonedOrder = () => {
       },
     },
     {
-      name: "date",
+      name: "createDate",
       label: "Date",
       options: {
         filter: true,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
-          
           return (
             <div className="flex items-center">
               <div className="ml-3">
-                <span className="my-0">
-                <Moment fromNow>{order.createDate}</Moment>
-                </span>
+                <span className="my-0 text-15">{order?.createDate}</span>
               </div>
             </div>
           );
@@ -141,12 +133,11 @@ const AbadonedOrder = () => {
     //     filter: true,
     //     customBodyRenderLite: (dataIndex) => {
     //       let order = orders[dataIndex];
-          
     //       return (
     //         <div className="flex items-center">
     //           <div className="ml-3">
-    //             <span className="my-0">
-                
+    //             <span className="my-0 text-15">
+    //               {order.storeId.sellerId.name || "-----"}
     //             </span>
     //           </div>
     //         </div>
@@ -156,20 +147,19 @@ const AbadonedOrder = () => {
     // },
     {
       name: "action",
-      label: "Actions",
+      label: " ",
       options: {
         filter: false,
         customBodyRenderLite: (dataIndex) => {
           let order = orders[dataIndex];
           return (
             <div className="flex items-center">
-              {/* <div className="flex-grow"></div> */}
-              
               <Link
                 to={{
                   pathname: "/order/details",
                   state: {
                     id: order.id,
+                    order,
                   },
                 }}
               >
@@ -187,7 +177,7 @@ const AbadonedOrder = () => {
   return (
     <div className="m-sm-30">
       <div className="mb-sm-30">
-        <Breadcrumb
+      <Breadcrumb
           routeSegments={[
             { name: "Abadoned Orders", path: "/abandoned-orders" },
             { name: "Abadoned Orders" },
@@ -244,6 +234,20 @@ const AbadonedOrder = () => {
                   </Grow>
                 );
               },
+              customToolbar: () => {
+                return (
+                  <Link
+                    to={{
+                      pathname: "/order/new",
+                      state: {},
+                    }}
+                  >
+                    <Button variant="contained" color="primary">
+                      <Icon>add</Icon>Add New
+                    </Button>
+                  </Link>
+                );
+              },
             }}
           />
         </div>
@@ -252,4 +256,4 @@ const AbadonedOrder = () => {
   );
 };
 
-export default AbadonedOrder;
+export default AbadonedOrders;

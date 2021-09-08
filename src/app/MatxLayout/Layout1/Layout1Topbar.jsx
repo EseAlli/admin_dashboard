@@ -86,9 +86,9 @@ class Layout1Topbar extends Component {
           >
             <div className="flex flex-space-between flex-middle h-100">
               <div className="flex">
-                {/* <IconButton onClick={this.handleSidebarToggle} className="hide-on-lg">
+                <IconButton onClick={this.handleSidebarToggle} className="hide-on-lg">
                   <Icon>menu</Icon>
-                </IconButton> */}
+                </IconButton>
 
                 {/* <div className="hide-on-mobile">
                   <IconButton>

@@ -301,7 +301,7 @@ const OrderEditor = ({ isNewInvoice, toggleOrderEditor, id }) => {
                   fullWidth
                   multiline={true}
                   rowsMax={4}
-                  value={deliveryAddress ? deliveryAddress : null}
+                  value={deliveryAddress ? deliveryAddress?.address : null}
                 />
               </div>
             </Grid>

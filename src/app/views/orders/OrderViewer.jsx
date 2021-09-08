@@ -167,7 +167,7 @@ const OrderViewer = ({ toggleOrderEditor, id }) => {
                 {customerId ? customerId.email : null}
               </p>
               <p className="mb-0 whitespace-pre-wrap">
-                {deliveryAddress ? deliveryAddress : null}
+                {deliveryAddress ? deliveryAddress?.address : null}
               </p>
       
             </div>
@@ -182,7 +182,7 @@ const OrderViewer = ({ toggleOrderEditor, id }) => {
                 {customerId ? customerId.email : null}
               </p>
               <p className="mb-0 whitespace-pre-wrap">
-                {deliveryAddress ? deliveryAddress : null}
+                {deliveryAddress ? deliveryAddress?.address : null}
               </p>
               <p className="mb-0 whitespace-pre-wrap">
                 Shipping Method: {shippingMethod ? shippingMethod : null}

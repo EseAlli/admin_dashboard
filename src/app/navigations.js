@@ -62,7 +62,7 @@ export const navigations = [
     path: "/coupons"
   },
   {
-    name: "Sellers",
+    name: "Vendors",
     icon: "wc",
     path: '/vendors'
   },
